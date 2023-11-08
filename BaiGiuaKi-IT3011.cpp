@@ -2,6 +2,7 @@
 #define ldb long double
 #define db double
 #define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
 using namespace std;
     string s;
 	ldb cal ( ldb a, ldb b, char c ){
@@ -78,7 +79,7 @@ using namespace std;
 				st1.pop();
 		
 	}
-	if ((st2.top() - (int)st2.top()) == 0) std::cout<<(int)st2.top();
+	if (!((st2.top() - (int)st2.top()))) std::cout<<(int)st2.top();
 	else std::cout<<fixed<<setprecision(1)<<st2.top();
 
 }
