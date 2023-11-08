@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+	int main(){
+		string s;
+		int ans = 0;
+		bool F[1001][1001];
+		std::cin>>s;
+		int n = s.length();
+		s = "a" + s;
+		memset(F,0,sizeof(F));
+		for ( int i = 1 ; i <= n ; i++ ) F[i][i] = true;
+		for ( int len = 2 ; len <= n ; len++ ) {
+			for ( int i = 1 ; i <= n - len + 1 ; i++  ){
+				int j = i + len - 1;
+				if ( len == 2 && (s[i] == s[j]) ) F[i][j] = true;
+				else {
+					F[i][j] = (F[i+1][j-1]) && (s[i] == s[j]);
+				}
+				if (F[i][j]) ans = max(ans,len);
+			}
+		}
+		std::cout<<ans;
+	}
