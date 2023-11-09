@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+using namespace std;
+    int n,m;
+    int X[1001];
+    ll res = 0;
+        void PrintSolution() {
+        res++;
+        for ( int i = 1 ; i <= n ; i++ ){
+            if (X[i] == 1) std::cout<<'A';
+            else std::cout<<'B';
+        }
+        std::cout<<endl;
+    }
+    bool check( int u, int v ){
+        return 1;
+    }
+    int test (int A[]){
+        int cnt = 0; vector<int>v;
+        for ( int i = 1 ; i <= n + 1 ; i++ ){
+            if (A[i] == 1) {
+                v.push_back(A[i]);
+            }
+            else if (A[i] == 0) {
+                int k = v.size();
+                cnt = max(cnt,k);
+                v.clear();
+            }
+        }
+        return cnt;
+    }
+    void Try( int i ){
+        for ( int j = 0 ; j <= 1 ; j++ ){
+            if (check(i,j)){
+                X[i] = j;
+                if ( i == n ){
+                    if(test(X) == m)
+                    PrintSolution();
+                }
+                else Try(i+1);
+            }
+        }
+    }
+    int main(){
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        std::cin>>n>>m;
+        Try(1);
+        cout<<res;
+        return 0;
+    }
+    
