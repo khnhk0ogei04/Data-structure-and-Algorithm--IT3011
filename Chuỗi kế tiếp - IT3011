@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+using namespace std;
+    void solve(){
+        ll t,m,i,p;
+        cin>>t;
+        while(t--) {
+        cin.ignore();
+        int X[81];
+        memset(X,-1,sizeof(X));
+            std::cin>>m;
+            string s;
+            std::cin>>s;
+            i = s.length() - 1;
+            
+            while (s[i-1] >= s[i]) i--;
+            if ( i == 0 ) {
+                std::cout<<"BIGGEST";
+                
+            }
+            else {
+                i--;
+                int maxbenhat = 100;
+                for ( int j = i ; j <= s.length() - 1 ; j++ ){
+                    X[j] = s[j] - '0';
+                    if ( X[j] > X[i] ) {
+                        if ( X[j] < maxbenhat){
+                            maxbenhat = X[j];
+                            p = j;
+                        }
+                }
+                }
+                X[p] = -1;
+                sort(X,X+81);
+                for ( int j = 0 ; j < i ; j++ ){
+                    std::cout<<s[j];
+                }
+                std::cout<<maxbenhat;
+                for ( int j = 0 ; j < 81 ; j++ ){
+                    if (X[j] >= 0)
+                    std::cout<<X[j];
+                }
+            }
+        }
+    }
+    int main(){
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        solve();
+        return 0;
+    }
