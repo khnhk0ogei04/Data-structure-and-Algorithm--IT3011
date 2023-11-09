@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = r ; i >= l ; i-- )
+using namespace std;
+		ll cal( int x ){
+			if ( x == 0 ) return 0;
+			else {
+				return ( x % 2 + 10*cal(x/2) );
+			}
+		}
+		int main(){
+			int t;
+			std::cin>>t;
+			while(t--){
+				int n;
+				std::cin>>n;
+				int i = 1;
+				while(1) {
+					if ( cal(i)*9 % n == 0 ){
+						std::cout<<cal(i)*9;
+						break;
+					}
+					i++;
+				}
+				cout<<endl;
+			}
+			return 0;
+		}
