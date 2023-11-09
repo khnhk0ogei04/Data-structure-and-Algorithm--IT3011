@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+#define ll long long
+const int inf = 1e9+7;
+using namespace std;
+	bool ch[101];
+	int X[1001],t[1001],n,res;
+	int cost[101][101];
+    vector<int>v;
+	void Try(int i){
+	
+		for ( int j = 2 ; j <= n ; j++ ){
+			if (!ch[j]) {
+				X[i] = j;
+				t[i] = t[i-1] + cost[X[i-1]][j];
+		if (t[i] < res ){
+		  
+			if ( i < n ){
+				ch[j] = 1;
+				Try(i+1);
+				ch[j] = 0;
+			}
+		
+		else {
+			if ( t[n] + cost[X[n]][1] < res ){
+				res = t[n] + cost[X[n]][1];
+
+			}
+		}
+			}
+	}
+		}
+
+	}
+		int main(){
+		std::cin>>n;
+		for ( int i = 1 ; i <= n ; i++ ){
+			for ( int j = 1; j <= n ; j++ ){
+				std::cin>>cost[i][j];
+			}
+		}
+		for ( int i = 1 ; i <= n ; i++ ) {
+		for ( int j = 1 ; j <= n ; j++ ) {
+		    if (cost[i][j] == 0) 
+		    cost[i][j] = inf;
+		}
+		}
+		memset(ch,0,sizeof(ch));
+		ch[1] = true;
+		X[1] = 1;
+		t[1] = 0;
+		res = inf;
+		Try(2);
+        std::cout<<n<<endl;
+        std::cout<<res;
+return 0;
+	}
