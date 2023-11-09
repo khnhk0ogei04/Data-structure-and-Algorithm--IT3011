@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = r ; i >= l ; i-- )
+using namespace std;        //001011 001100
+int main() {                            
+	int t; cin >> t;
+	while (t--) {
+		string s;
+		std::cin>>s;
+		int i = s.length() - 1;
+		while ( i >= 1 && s[i] == '1' ){
+		    i--;
+		}
+		if ( i == 0 ){
+		    if (s[i] == '0') {
+		        s[i] = '1';
+		        std::cout<<s[i];
+		        FOR(j,i+1,s.length()-1) {
+		            s[j] = '0';
+		            std::cout<<s[j];
+		        }
+		        return 0;
+		    }
+		   else if ( s[i] == '1') {
+		       FOR(j,0,s.length()-1) {
+		        s[j] = '0';
+		        std::cout<<s[j];
+		    }
+		   }
+		   
+		}
+		else{
+		    s[i] = '1';
+		    FOR(j,i+1,s.length()-1) {
+		        if (s[j] == '0') s[j] = '1';
+		        else if ( s[j] == '1') s[j] = '0';
+		    }
+		    FOR(j,0,s.length()-1)
+		    std::cout<<s[j];
+		}
+		std::cout<<endl;
+	}
+	return 0;
+}
