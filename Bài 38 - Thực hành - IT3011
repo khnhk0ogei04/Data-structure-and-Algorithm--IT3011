@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+#define ll long long
+
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    using namespace std;
+    int A[501][501],n,m,q;
+        void inp(){
+        std::cin>>n>>m;
+        FOR(i,1,n){
+            FOR(j,1,m) {
+                std::cin>>A[i][j];
+            }
+        }
+    }
+    ll dp[501][501];
+    void solve(){
+       
+        int sum, cnt = 0;
+        dp[1][1] = A[1][1];
+        for ( int i = 2 ; i <= n ; i++ ){
+            dp[i][1] = dp[i-1][1] + A[i][1];
+        }
+        FOR(i,2,m) dp[1][i] = dp[1][i-1] + A[1][i];
+        FOR(i,2,n) {
+            FOR(j,2,m) {
+                dp[i][j] = dp[i-1][j] + dp[i][j-1] - dp[i-1][j-1] + A[i][j];
+            }
+        }
+      
+        FOR(len,1,min(m,n)) {
+            for ( int i = 0 ; i + len <= n  ; i++ ) {
+                for ( int j = 0 ; j + len <= m  ; j++ ) {
+                     
+                    if (dp[i+len][j+len] - dp[i][j+len] - dp[i+len][j] + dp[i][j] == len*len)
+                        cnt = max(cnt,len);
+                        
+            }
+        }
+        
+        }
+        std::cout<<cnt<<endl;
+    }
+    int main(){
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        ll t; std::cin>>t;
+        while (t--) {
+        inp();
+        solve();
+        }
+        return 0;
+    }
+    /*
+1    
+10 8
+1 1 1 1 1 0 1 0
+1 1 1 1 1 0 1 2
+1 1 1 1 1 0 0 0
+0 1 1 1 1 1 0 1
+0 1 1 1 1 1 1 1
+1 1 1 1 1 0 0 0
+0 0 1 0 1 0 1 1
+0 0 0 0 0 0 0 0
+1 1 1 0 1 1 1 1
+1 1 1 1 1 1 1 1
+4 
+*/
