@@ -1,0 +1,92 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- ) 
+const int inf = 1e5 + 7;
+using namespace std;
+
+
+	int main(){
+	    map<int,vector<pair<int,int>>>mp;
+	    pair<int,int>p;
+		int n,u,v,w;
+		string s;
+		while (cin>>s){
+			if ( s == "AddTerm" ){
+				std::cin>>u>>v>>w;
+				int q = u;
+				p = make_pair(v,w);
+				if (mp[u].size()){
+				    int cnt = 0;
+				    for ( auto it: mp[u] ){
+				        if (it.second == p.second) {
+				        mp[u][cnt].first = it.first + p.first;
+				        break;
+				    }
+				    else cnt++;
+		    }
+		    if ( cnt == mp[u].size() ) mp[u].push_back(p);
+				}
+				if (!mp[u].size()) {
+				    mp[u].push_back(p);
+				}
+	}
+			
+			if ( s == "PrintPoly" ){
+			    std::cin>>u;
+			    int k= 0 ,n = 0, a[10001];
+			    for ( auto it: mp[u] ){
+			        a[k] = it.second;
+			        k++;
+			    }
+			    sort(a,a+k,greater());
+			while(1){
+            for ( auto it: mp[u] ){
+                if ( it.second == a[n] ){
+                    p = make_pair(it.first,it.second);
+                    mp[u+inf].push_back(p);
+                    n++;
+                }
+            }
+            if ( n == k  ) break;
+		}
+		for ( auto it: mp[u+inf] ){
+		    cout<<it.first<<" "<<it.second<<" ";
+		}
+		cout<<endl;
+	}
+			if ( s == "AddPoly" ){
+			    std::cin>>u>>v>>w;
+			    for ( auto it: mp[u] ){
+			        mp[w].push_back(it);
+			    }
+                for ( auto it: mp[v] ){
+                    if (mp[w].size()){
+                        int cnt = 0;
+                        for ( int i = 0 ; i < mp[w].size(); i++ ){
+                            if (mp[w][i].second == it.second){
+                                mp[w][i].first = mp[w][i].first + it.first;
+                            }
+                            else cnt++;
+                        }
+                        if ( cnt == mp[w].size() ) mp[w].push_back(it);
+                    }
+                    
+                }
+
+			}
+			if ( s == "EvaluatePoly" ){
+			    std::cin>>u>>v;
+			    ll res = 0;
+			    for ( auto it : mp[u] ){
+			        res += it.first*pow(v,it.second);
+			    }
+			    std::cout<<res<<endl;
+			}
+			if ( s == "Destroy" ){
+			    std::cin>>u;
+			    mp[u].clear();
+			}
+			if ( s == "*" ) break;
+			}
+	}
