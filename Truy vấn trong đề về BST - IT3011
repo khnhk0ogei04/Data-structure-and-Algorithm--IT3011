@@ -1,0 +1,122 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    using namespace std;
+    int q;
+    struct node{
+        int data;
+        node *left;
+        node *right;
+    };
+    node *insert ( node *t ,int x ){
+        if ( t == NULL ){
+            node *temp = new node;
+            temp->data = x;
+            temp->left = NULL;
+            temp->right = NULL;
+            return temp;
+        }
+        else {
+            if ( x < t->data ){
+                t->left = insert( t->left , x );
+            }
+            else {
+                t->right = insert( t->right , x );
+            }
+        }
+        return t;
+    }
+    bool leafnode(node *t){
+        return ( t->left == NULL && t->right == NULL );
+    }
+    int countleafnode ( node *t ){
+        if ( t == NULL ) return 0;
+        if (leafnode(t)) return 1;
+        return countleafnode(t->left) + countleafnode(t->right);
+    }
+    int heightoftree( node *t ){
+        if ( t == NULL ) return 0;
+        return 1 + max(heightoftree(t->left),heightoftree(t->right));
+    }
+    int sumofleafnode( node *t ){
+        if ( t == NULL ) return 0;
+        if ( t != NULL && leafnode(t) ) return t->data;
+        
+        return sumofleafnode(t->left) + sumofleafnode(t->right);
+    }
+    int sumofallnode( node *t ){
+        if ( t == NULL ) return 0;
+        return t->data + sumofallnode(t->left) + sumofallnode(t->right);
+    }
+    int FindMin( node *t ){
+        node *temp = t;
+        while ( temp != NULL && temp-> left != NULL ){
+            temp = temp->left; 
+        }
+        return temp->data;
+    }
+    
+    void DegreeOfNode( node *t, int x, int deep ){
+        if ( x == t->data ){
+            std::cout<<q - deep + 1<<endl;
+        }
+        if ( x < t->data ){
+            DegreeOfNode( t->left , x , deep + 1 );
+        }
+        if ( x > t->data) {
+            DegreeOfNode ( t->right, x, deep + 1 );
+        }
+    }
+    int cal ( int a, int b, node *t ){
+        if ( t == NULL ) return 0;
+        
+        if ( t->data >= a && t->data <= b ){
+            return t->data + cal(a,b,t->left) + cal(a,b,t->right);
+        }
+        else return cal(a,b,t->left) + cal(a,b,t->right);
+    }
+    int main(){
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        int n,x,y;
+        std::cin>>n;
+        node *t = NULL;
+        FOR(i,1,n) {
+            std::cin>>x;
+            t = insert(t,x);
+        }
+        std::cout<<countleafnode(t)<<endl;
+        std::cout<<heightoftree(t)<<endl;
+        std::cout<<sumofleafnode(t)<<endl;
+        std::cout<<sumofallnode(t)<<endl;
+        std::cout<<FindMin(t)<<endl;
+        q = heightoftree(t);
+         std::cin>>x;
+        DegreeOfNode(t,x,1);
+        std::cin>>x>>y;
+        std::cout<<cal(x,y,t);
+        return 0;
+    }
+    /* 12
+        5 2 3 7 6 0 9 4 2 3 5 7
+        5
+        
+        7
+        6 7 2 1 3 4 5
+        
+        7
+        6 7 2 1 3 4 5
+        3
+        5
+        13
+        28
+        1
+        1
+        3
+        2 6
+        20
+        
+        */
+        
