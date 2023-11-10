@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+using namespace std;
+    struct node{
+        int data;
+        node *left;
+        node *right;
+    };
+    node *insert( node *t , int x ){
+        if ( t == NULL ){
+            node *temp = new node;
+            temp->data = x;
+            temp->left = NULL;
+            temp->right = NULL;
+            return temp;
+        }
+        else {
+            if ( x < t->data ){
+                t->left = insert( t->left , x );
+            }
+            else t->right = insert( t->right, x );
+        }
+        return t;
+    }
+    bool Isleafnode( node *t ){
+        return ( t->left == NULL && t->right == NULL );
+    }
+    int Treelevel ( node *t ){
+        if ( t == NULL ) return 0;
+        return 1 + max(Treelevel(t->left),Treelevel(t->right));
+    }
+    bool checkAVL( node *t ){
+        if ( t == NULL ) return true;
+        if (abs(Treelevel(t->left)-Treelevel(t->right)) > 1) return false;
+        return (checkAVL(t->left) && checkAVL(t->right));
+    }
+    int main(){
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        int n,x;
+        std::cin>>n;
+        node *t = NULL;
+        FOR(i,1,n) {
+            std::cin>>x;
+            t = insert(t,x);
+        }
+        int q = checkAVL(t);
+        if ( q == 1 ) {
+            std::cout<<"true";
+        }
+        else cout<<"false";
+        return 0;
+    }
