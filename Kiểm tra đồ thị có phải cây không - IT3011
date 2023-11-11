@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+#define ll long long
+
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    using namespace std;
+    vector<int>adj[1001]; int parent[1001];
+    vector<int>res;
+    int n;
+    bool visited[1001];
+    void inp(){
+          std::cin>>n;
+        for ( int i = 1 ; i <= n - 1 ; i++ ){
+            int u,v;
+            std::cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+    }
+    void dfs(int u){
+        visited[u] = true;
+        res.push_back(u);
+        for ( int v : adj[u] ){
+            if (!visited[v]) {
+                dfs(v);
+                parent[v] = u;
+            }
+           
+        }
+    }
+    int main(){
+        inp();
+        int u = 1,k;
+        while(1){
+            if (adj[u].size()) {
+                k = u;
+                break;
+            }
+            else u++;
+        }
+        dfs(k);
+        if (res.size() == n) std::cout<<"True";
+        else cout<<"FALSE";
+    }
