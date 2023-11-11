@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+	using namespace std;
+		int n,k,X[21],ok = 0;
+		void inp(){
+			std::cin>>n>>k;
+		}
+		void PrintSolution(){
+			for ( int i = 1 ; i <= k ; i++ ){
+				std::cout<<X[i];
+			}
+			std::cout<<endl;
+		}
+		void ktao(){
+			for ( int i = 1 ; i <= k ; i++ ){
+				X[i] = i;
+			}
+		}
+		
+		void sinh(){
+			int i = k;
+			while ( i >= 1 && X[i] == n - k + i ) {
+				i--;
+			}
+			if ( i == 0 ) {
+				ok = 1;
+			}		
+			else {
+				X[i]++;
+				for ( int j = i + 1 ; j <= n ; j++ ){
+					X[j] = X[j-1] + 1;
+				}
+			}
+		}
+		int main(){
+      ios_base::sync_with_stdio(false);
+      cin.tie(NULL);
+      cout.tie(NULL);
+			inp();
+			ktao();
+			PrintSolution();
+			while (!ok) {
+				sinh();
+				if (!ok) {
+				PrintSolution();
+			}
+			}
+			return 0;
+		}
+			
+			
+		
