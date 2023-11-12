@@ -1,0 +1,189 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    using namespace std;
+    struct node{
+        int data;
+        node *next;
+    };
+    
+    node *CreateNode (int x){
+        node *temp = new node;
+        temp->data = x;
+        temp->next = NULL;
+        return temp;
+    }
+    node *AddLast( node *q , int x ){
+        node *p = q;
+        while ( p->next != NULL ) {
+            if ( p->data != x ) {
+                p = p->next;
+        }
+        else return q;
+    }
+        if ( p->data == x ) return q;
+        else {
+        node *temp = CreateNode(x);
+        p->next = temp;
+        }
+        return q;
+    }
+    void PrintList( node *q ){
+        node *p = q;
+        while ( p != NULL ){
+            std::cout<<p->data<<" ";
+            p = p->next;
+        }
+        std::cout<<endl;
+    }
+    node *AddHead ( node *q , int x ){
+    	node *p = q;
+    	while ( p->next != NULL ){
+    		if ( p->data != x ) {
+    			p = p->next;
+    		}
+    		else return q;
+    	}
+    	if ( p->data == x ) return q;
+    	else {
+        node *temp = CreateNode(x);
+        temp->next = q;
+        return temp;
+    	}
+    }
+    node *AddAfter ( node *q, int u, int v ){
+        node *p = q; node *r = q;
+        while ( p->next != NULL ){
+            if ( p->data == v ) {
+                break;
+            }
+            else p = p->next;
+        }
+        while ( r->next != NULL ){
+            if ( r->data == u ) return q;
+            else r = r->next;
+        }
+        if ( r->data == u ) return q;
+        if ( p->next == NULL ){
+            if ( p->data != v )
+            return q;
+            else {
+                node *temp = new node;
+                temp->data = u;
+                temp->next = NULL;
+                p->next = temp;
+                return q;
+            }
+        }
+        else {
+        node *temp = new node;
+        temp->data = u;
+        temp->next = p->next;
+        p->next = temp;
+        return q;
+        }
+    }
+    node *AddFront ( node *q, int u, int v ){
+        node *p = q; node *r = q;
+        while ( r->next != NULL ){
+            if ( r->data == u ) return q;
+            else {
+                r = r->next;
+            }
+        }
+        if (r->data == u) return q;
+        if (p->data == v) {
+            node *temp = new node;
+            temp->data = u;
+            temp->next = p;
+            return temp;
+        }
+        while ( p->next != NULL ){
+            if (p->next->data == v) {
+                break;
+            }
+            else p = p->next;
+        }
+        node *temp = new node;
+        temp->data = u;
+        temp->next = p->next;
+        p->next = temp;
+        return q;
+    }
+    
+    
+    node *DeleteHead ( node *q ) {
+        node *p = q->next;
+        delete(q);
+        return p;
+    }
+    node *DeleteLast ( node *q ){
+        node *p = q;
+        while ( p->next->next != NULL ){
+            p = p->next;
+        }
+        node *temp = p->next;
+        delete(temp);
+        p->next = NULL;
+        return q;
+    }
+    node *DeleteAt ( node *q , int k ){
+        node *p = q;
+        for ( int i = 0 ; i < k - 1 ; i++ ){
+            p = p->next;
+        }
+        node *temp = p->next;
+        p->next = p->next->next;
+        delete(temp);
+        return q;
+    }
+    void reverselinkedlist( node *q ){
+        vector<int>v;
+        node *p = q;
+        while ( p->next != NULL ){
+            v.push_back(p->data);
+            p = p->next;
+        }
+        v.push_back(p->data);
+        FOD(i,v.size()-1,0) std::cout<<v[i]<<" ";
+    }
+    int main(){
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        int n,x;
+        std::cin>>n;
+        std::cin>>x;
+        node *t = CreateNode(x);
+        for ( int i = 1 ; i < n ; i++ ){
+            std::cin>>x;
+            t = AddLast(t,x);
+        }
+        string s;
+        while(cin>>s){
+            if ( s == "addlast" ){
+                std::cin>>x;
+                t = AddLast(t,x);
+                PrintList(t);
+            }
+            if ( s == "addhead" ){
+                std::cin>>x;
+                t = AddHead(t,x);
+                PrintList(t);
+            }
+            if ( s == "addafter" ){
+                int u,v;
+                std::cin>>u>>v;
+                t = AddAfter(t,u,v);
+                PrintList(t);
+            }
+            if ( s == "addfront" ){
+                int u,v;
+                std::cin>>u>>v;
+                t = AddFront(t,u,v);
+                PrintList(t);
+            }
+        }
+        return 0;
+    }
