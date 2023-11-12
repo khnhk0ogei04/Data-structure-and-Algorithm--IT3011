@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    using namespace std;
+    struct node{
+        int data;
+        node *next;
+    };
+    
+    node *CreateNode (int x){
+        node *temp = new node;
+        temp->data = x;
+        temp->next = NULL;
+        return temp;
+    }
+    node *AddLast( node *q , int x ){
+        node *p = q;
+        while ( p->next != NULL ) {
+            p = p->next;
+        }
+        node *temp = CreateNode(x);
+        p->next = temp;
+        return q;
+    }
+    void PrintList( node *q ){
+        node *p = q;
+        while ( p != NULL ){
+            std::cout<<p->data<<" ";
+            p = p->next;
+        }
+    }
+    void init(){
+        int n,x;
+        std::cin>>n;
+        std::cin>>x;
+        node *t = CreateNode(x);
+        for ( int i = 1 ; i < n ; i++ ){
+            std::cin>>x;
+            t = AddLast(t,x);
+        }
+        PrintList(t);
+    }
+
+    int main(){
+        init();
+        return 0;
+    }
