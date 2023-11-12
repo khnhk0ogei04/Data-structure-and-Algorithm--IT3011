@@ -1,0 +1,118 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    using namespace std;
+    struct node{
+        int data;
+        node *left;
+        node *right;
+    };
+    
+    node *insert ( node *t , int x ){
+        if ( t == NULL ){
+            node *temp = new node;
+            temp->data = x;
+            temp->left = NULL;
+            temp->right = NULL;
+            return temp;
+        }
+        else {
+            if ( x < t->data ){
+                t->left = insert(t->left,x);
+            }
+            else t->right = insert(t->right,x);
+        }
+        return t;
+    }
+    
+    node *Findnode( node *t ){
+        node *q = t;
+        while ( q != NULL && q->left != NULL ){
+            q = q->left;
+        }
+        return q;
+    }
+    node *Deletenode ( node *t , int x ){
+          if ( t == NULL ) return t;
+        
+        
+            if ( x < t->data ){
+                t->left = Deletenode( t->left, x );
+            }
+            else if ( x > t->data ){
+                t->right = Deletenode( t->right, x );
+            }
+            else {
+                if ( t->left == NULL ){
+                    node *temp = t->right;
+                    delete t;
+                    return temp;
+                }
+                if ( t->right == NULL ){
+                    node *temp = t->left;
+                    delete t;
+                    return temp;
+                }
+                else if (t->left != NULL && t->right != NULL){
+                    node *temp = Findnode(t->right);
+                    t->data = temp->data;
+                    t->right = Deletenode( t->right, temp->data );
+                }
+            }
+        return t;   
+        
+        
+    }
+    void Inorder (node *t){
+    	if ( t != NULL ){
+    	Inorder(t->left);
+    	std::cout<<t->data<<" ";
+    	Inorder(t->right);
+    }
+    }
+    void Preorder( node *t ){
+        if ( t != NULL ){
+            std::cout<<t->data<<" ";
+            Preorder(t->left);
+            Preorder(t->right);
+        }
+    }
+    void Postorder( node *t ){
+        if ( t != NULL ){
+            Postorder(t->left);
+            Postorder(t->right);
+            std::cout<<t->data<<" ";
+        }
+    }
+        
+    int main(){
+        string s;
+        int x;
+        node *t = NULL;
+        while ( cin>>s ){
+        
+        if ( s == "1" ){
+            std::cin>>x;
+            t = insert(t,x);
+        }
+        if ( s == "2" ){
+            std::cin>>x;
+            t = Deletenode(t,x);
+        }
+        if ( s == "3" ){
+            Preorder(t);
+        }
+        if ( s == "4" ){
+            Inorder(t);
+        }
+        if ( s == "5" ){
+            Postorder(t);
+        }
+    }
+        return 0;
+    
+    }
+    
+    
+    
