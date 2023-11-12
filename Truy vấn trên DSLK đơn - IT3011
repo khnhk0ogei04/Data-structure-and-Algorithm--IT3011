@@ -138,16 +138,51 @@
         delete(temp);
         return q;
     }
-    void reverselinkedlist( node *q ){
-        vector<int>v;
+    node *reverselinkedlist( node *q ){
+        stack<int>st;
         node *p = q;
         while ( p->next != NULL ){
-            v.push_back(p->data);
+            st.push(p->data);
             p = p->next;
         }
-        v.push_back(p->data);
-        FOD(i,v.size()-1,0) std::cout<<v[i]<<" ";
+        st.push(p->data);
+        node *r = q;
+        while (r->next != NULL){
+            r->data = st.top();
+            st.pop();
+            r = r->next;
+        }
+        r->data = st.top(); st.pop();
+        return q;
     }
+        node *DeleteNode( node *q, int x ){
+            node *p = q;
+            if (p->data == x){
+                node *temp = p->next;
+                delete(p);
+                return temp;
+            }
+            else {
+            while ( p->next != NULL ){
+                if (p->next->data != x) p = p->next;
+                else break;
+            }
+            if (p->next != NULL && p->next->next == NULL){
+                node *temp = p->next;
+                p->next = NULL;
+                delete(temp);
+                return q;
+            }
+            if (p->next == NULL){
+                return q;
+            }
+            node *temp = p->next;
+            p->next = p->next->next;
+            delete(temp);
+            return q;
+        }
+    }
+        
     int main(){
         ios_base::sync_with_stdio(false);
         cin.tie(NULL);
@@ -165,24 +200,31 @@
             if ( s == "addlast" ){
                 std::cin>>x;
                 t = AddLast(t,x);
-                PrintList(t);
             }
-            if ( s == "addhead" ){
+            if ( s == "addfirst" ){
                 std::cin>>x;
                 t = AddHead(t,x);
-                PrintList(t);
             }
             if ( s == "addafter" ){
                 int u,v;
                 std::cin>>u>>v;
                 t = AddAfter(t,u,v);
-                PrintList(t);
             }
-            if ( s == "addfront" ){
+            if ( s == "addbefore" ){
                 int u,v;
                 std::cin>>u>>v;
                 t = AddFront(t,u,v);
+            }
+            if ( s == "remove" ){
+                std::cin>>x;
+                t = DeleteNode(t,x);
+            }
+            if ( s == "reverse" ){
+                t = reverselinkedlist(t);
+            }
+            if ( s == "#" ){
                 PrintList(t);
+                break;
             }
         }
         return 0;
