@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+    int main(){
+        int t;
+        std::cin>>t;
+        while(t--){
+        int dp[101][10001],n,A[101],S = 0;
+        std::cin>>n;
+        memset(dp,0,sizeof(dp));
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+            S += A[i];
+            dp[i][0] = 1;
+        }
+        if (S%2) std::cout<<"NO"<<endl;
+        else {
+        for ( int i = 1 ; i <= n ; i++ ){
+            for ( int j = 1 ; j <= S ; j++ ){
+                if (j >= A[i]) {
+                    dp[i][j] = dp[i-1][j-A[i]] || dp[i-1][j]; 
+                }
+                else dp[i][j] = dp[i-1][j];
+            }
+        }
+        if (dp[n][S/2]) std::cout<<"YES"<<endl;
+        else std::cout<<"NO"<<endl;
+        }
+    }
+        return 0;
+    }
