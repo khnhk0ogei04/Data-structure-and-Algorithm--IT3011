@@ -1,0 +1,82 @@
+#include<bits/stdc++.h>
+    using namespace std;
+    int n, A[9][9],X[1001], visited[9][9], cnt = 0, k = 1;
+    void inp(){
+        
+        std::cin>>n;
+        for ( int i = 1 ; i <= n ; i++ ){
+            for ( int j = 1 ; j <= n ; j++ ){
+                std::cin>>A[i][j];
+            }
+        }
+        if ( (A[1][1] == 0) && (A[n][n] == 0) ) {
+            std::cout<<"-1";
+            return;
+        }
+    }
+    void Try(int i, int j, int k){
+        if ( i == n && j == n ){
+            cnt++;
+            std::vector<std::string>v;
+            for ( int q = 1 ; q < k ; q++ ) {
+                if ( X[q] == 1 ) v.push_back(std::string(1,'U'));
+                if ( X[q] == 2 ) v.push_back(std::string(1,'R'));
+                if ( X[q] == 3 ) v.push_back(std::string(1,'D'));
+                if ( X[q] == 4 ) v.push_back(std::string(1,'L'));
+            }
+            for ( int i = 0 ; i < v.size() ; i++ ){
+                std::cout<<v[i];
+            }
+            std::cout<<endl;
+            v.clear();
+            return;
+        }
+        else {
+            if (A[i+1][j] == 1 && !visited[i+1][j]){
+                X[k] = 3;
+                visited[i+1][j] = 1;
+                Try(i+1,j,k+1);
+                visited[i+1][j] = 0;
+                X[k] = 0;
+            }
+            if (A[i][j+1] == 1 && !visited[i][j+1] ){
+                X[k] = 2;
+                visited[i][j+1] = 1;
+                Try(i,j+1,k+1);
+                visited[i][j+1] = 0;
+                X[k] = 0;
+            }
+            if (A[i-1][j] == 1 && !visited[i-1][j]){
+                X[k] = 1;
+                visited[i-1][j] = 1;
+                Try(i-1,j,k+1);
+                visited[i-1][j] = 0;
+                X[k] = 0;
+            }
+            if (A[i][j-1] == 1 && !visited[i][j-1]){
+                X[k] = 4;
+                visited[i][j-1] = 1;
+                Try(i,j-1,k+1);
+                visited[i][j-1] = 0;
+                X[k] = 0;
+            }
+            
+        }
+    }
+    int main(){
+        ios_base::sync_with_stdio(false);
+        std::cin.tie(NULL);
+        std::cout.tie(NULL);
+        int t;
+        std::cin>>t;
+        while (t--) {
+            cnt = 0;
+        std::memset(A,0,sizeof(A));
+        std::memset(visited,0,sizeof(visited));
+        inp();
+        Try(1,1,k);
+        std::cout<<cnt<<endl;
+    }
+    return 0;
+    }
+    
