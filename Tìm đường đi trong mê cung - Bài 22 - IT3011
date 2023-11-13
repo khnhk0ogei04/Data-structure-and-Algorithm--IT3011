@@ -1,0 +1,92 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    using namespace std;
+    int n,A[11][11],dp[11][11];
+    string s;
+    int X[101], k = 1;
+    void inp(){
+        std::cin>>n;
+        for ( int i = 1 ; i <= n ; i++ ){
+            for ( int j = 1 ; j <= n ; j++ ){
+                std::cin>>A[i][j];
+               
+            }
+        }
+        s = "s"+s;
+    }
+    void cal(){
+        for ( int i = 1 ; i <= n ; i++ ){
+            for ( int j = 1 ; j <= n ; j++ ){
+                if ( i == 1 ) {
+                    int q = 1;
+                    while (A[1][q] == 1){
+                        dp[1][q] = 1;
+                        q++;
+                    }
+                    FOR(k,q,n) dp[1][k] = 0;
+                }
+                if ( j == 1 ){
+                    int q = 1;
+                    while (A[q][1] == 1){
+                        dp[q][1] = 1;
+                        q++;
+                    }
+                    FOR(k,q,n) dp[k][1] = 0;
+                }
+                else {
+                    if (!A[i][j]) dp[i][j] = 0;
+                    if (A[i][j] == 1) {
+                        dp[i][j] = dp[i-1][j] + dp[i][j-1];
+                    }
+                }
+            }
+        }
+        std::cout<<dp[n][n]<<endl;
+    }
+        void Try( int i, int j, int k ){
+            if ( i == n && j == n ){
+                vector<string>v;
+                for ( int q = 1 ; q < k ; q++ ){
+                    if ( X[q] == 1 ) {
+                        v.push_back(string(1,'D'));
+                    }
+                    if ( X[q] == 2 ) v.push_back(string(1,'R'));
+                }
+                for ( int q = 0; q < v.size() ; q++ ){
+                    std::cout<<v[q];
+                }
+                std::cout<<endl;
+                v.empty();
+                return;
+            }
+            else {
+            if ( A[i+1][j] == 1 ){
+                X[k] = 1;
+                Try( i+1,j,k+1 );
+                X[k] = 0;
+            }
+            if ( A[i][j+1] == 1 ){
+                X[k] = 2;
+                Try( i,j+1,k+1 );
+                X[k] = 0;
+            }
+        }
+        }
+    int main(){
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        int t;
+        std::cin>>t;
+        while(t--){
+        inp();
+        cal();
+        Try(1,1,k);
+        }
+        return 0;
+    }
+    
+    
+    
