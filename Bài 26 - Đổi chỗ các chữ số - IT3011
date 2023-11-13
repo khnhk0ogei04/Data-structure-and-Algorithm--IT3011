@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+using namespace std;
+    int main(){
+        int t;
+        std::cin>>t;
+        while(t--){
+            int k,max1,index,i = 0;
+            string s;
+            std::cin>>k;
+            std::cin.ignore();
+            std::cin>>s;
+
+            while (k--) {
+                max1 = -1;
+            for ( int j = i ; j < s.length() ; j++ ){
+                if ( max1 < (s[j] - '0') ) {
+                max1 = s[j] - '0';
+                index = j;
+            }
+        }
+            swap(s[i],s[index]);
+            i++;
+        }
+        cout<<s<<endl;
+    }
+    return 0;
+    }
