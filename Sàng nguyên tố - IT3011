@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+const int N = 1001;
+using namespace std;
+    bool check[1001];
+    int X[1001],res = 0,x,y;
+    void sangnt(){
+        for ( int i = 2 ; i <= N ; i++ ){
+            if(check[i]) {
+                for ( int j = 2*i ; j <= N ; j += i ) {
+                    check[j] = false;
+                }
+            }
+        }
+    }
+    void ktao(){
+        int k = 1;
+        for ( int i = 2 ; i <= N ; i++ ){
+            if (check[i]) {
+            X[k] = i;
+            k++;
+            }
+        }
+        k--;
+        res = k;
+    }
+
+    int main(){
+        for ( int i = 1 ; i <= N ; i++ ){
+            check[i] = true;
+        }
+        sangnt();
+        ktao();
+        int t;
+        std::cin>>t;
+        while(t--){
+            int p,s;
+            std::cin>>p>>s;
+                
+                x = lower_bound(X, X+res, p)-X;
+                y = lower_bound(X, X+res, s)-X;
+               
+                cout<<x<<" "<<y;
+            
+            
+        }
+        return 0;
+    }
