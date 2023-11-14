@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    using namespace std;
+    int dp[101][101];
+    int main(){
+        string x;
+        cin>>x;
+        string y = "";
+        for (int i = x.length() - 1; i >= 0; i --) {
+            y = y + x[i];
+        }
+        int m = x.length(), n = y.length();
+        x = ' ' + x;
+        y = ' ' + y;
+        for ( int i = 0 ; i <= m ; i++ ) {
+            for ( int j = 0 ; j <= n ; j++ ){
+                if ( i == 0 || j == 0 )
+                dp[i][j] = 0;
+            }
+        }
+         for ( int i = 1 ; i <= m ; i++ ) {
+            for ( int j = 1 ; j <= n ; j++ ) {
+                if (x[i] == y[j]) {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                }
+                else {
+                    dp[i][j] = max(dp[i][j-1],dp[i-1][j]);
+                }
+            }
+         }
+         string p;
+         while ( dp[m][n] > 0 && m > 0 && n > 0 ){
+             while ( dp[m-1][n] == dp[m][n] ) {
+                 m--;
+             }
+             while ( dp[m][n-1] == dp[m][n] ){
+                 n--;
+             }
+             p = x[m] + p;
+             m--;
+             n--;
+         }
+         std::cout<<p;
+         return 0;
+    }
+    
