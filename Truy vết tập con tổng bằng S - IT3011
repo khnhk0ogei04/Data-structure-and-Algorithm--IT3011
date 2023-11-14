@@ -25,9 +25,13 @@ using namespace std;
             }
             v1.clear();
     }
+    int check( int i, int j ){
+        return 1;
+    }
     void Try(int i){
         for ( int j = 0 ; j <= 1 ; j++ ){
-            X[i] = j;
+            if (check(i,j)) {
+                X[i] = j;
                 if ( i == n  ){
                 int res = 0;
                 for ( int l = 1 ; l <= n ; l++ ) {
@@ -43,6 +47,7 @@ using namespace std;
             }
             else Try(i+1);
         }
+        }   
     }
     
     int main(){
