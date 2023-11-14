@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+const int N = 1001;
+using namespace std;
+    int n, sum, A[11],X[11];
+    vector<vector<int>>v1;
+    void inp(){
+        std::cin>>n>>sum;
+        FOR(i,1,n) {
+            std::cin>>A[i];
+        }
+    }
+    void PrintSolution(){
+            if (!v1.size()) std::cout<<"-1";
+            else {
+                FOR(i,0,v1.size()-1) {
+                sort(v1[i].begin(),v1[i].end());
+                for ( auto x: v1[i] ){
+                    std::cout<<x<<" ";
+                }
+                std::cout<<endl;
+            }
+            }
+            v1.clear();
+    }
+    void Try(int i){
+        for ( int j = 0 ; j <= 1 ; j++ ){
+            X[i] = j;
+                if ( i == n  ){
+                int res = 0;
+                for ( int l = 1 ; l <= n ; l++ ) {
+                    if (X[l]) res += A[l];
+                }
+                if ( sum == res ){
+                    vector<int>v;
+                    for ( int l = 1 ; l <= n ; l++ ){
+                        if (X[l]) v.push_back(A[l]);
+                    }
+                    v1.push_back(v);
+                }
+            }
+            else Try(i+1);
+        }
+    }
+    
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--) {
+        inp();
+        Try(1);
+        PrintSolution();
+        }
+        return 0;
+    }
+        
+    
