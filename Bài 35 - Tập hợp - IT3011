@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+   
+    int sum,X[11],k,n,cnt = 0;
+    bool choose[155];
+    int giaithua (int n){
+        if ( n == 0 ) return 1;
+        else return n*giaithua(n-1);
+    }
+    
+    void Try( int i ){
+        for ( int j = 1 ; j <= n ; j++ ){
+            if (!choose[j]) {
+            X[i] = j;
+            choose[j] = 1;
+            if ( i == k ){
+                int res = 0;
+                for ( int l = 1 ; l <= k ; l++ ){
+                    res += X[l];
+                }
+                if ( res == sum ){
+                    cnt++;
+                }
+            }
+            else {
+                Try(i+1);
+            }
+            choose[j] = 0;
+        }
+    }
+    }
+       int main(){
+           std::ios_base::sync_with_stdio(false);
+           std::cin.tie(NULL);
+           std::cout.tie(NULL);
+           std::cin>>n>>k>>sum;
+           memset(choose,0,sizeof(choose));
+           Try(1);
+           std::cout<<cnt/giaithua(k);
+           return 0;
+       } 
+    
