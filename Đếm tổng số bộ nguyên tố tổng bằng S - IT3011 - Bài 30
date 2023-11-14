@@ -1,0 +1,104 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+const int N = 201;
+
+    bool check[201];
+    int X[201],res,x,y,S[201],ok = 0;
+    std::vector<std::vector<int>>v1;
+    void sangnt(){
+        for ( int i = 2 ; i <= N ; i++ ){
+            if(check[i]) {
+                for ( int j = 2*i ; j <= N ; j += i ) {
+                    check[j] = false;
+                }
+            }
+        }
+    }
+    void ktao(){
+        int k = 1;
+        for ( int i = 2 ; i <= N ; i++ ){
+            if (check[i]) {
+            X[k] = i;
+            k++;
+            }
+        }
+        k--;
+        res = k;
+    }
+    void sinhtapcon( int a, int b, int c ){
+        std::vector<int>v;
+        int n = b - a + 1;
+        int m = a - 1;
+        for ( int i = 1 ; i <= c ; i++ ){
+            S[i] = i;
+            v.push_back(S[i] + m );
+        }
+        v1.push_back(v);
+        v.clear();
+        while (!ok) {
+        int i = c;
+        while ( i >= 1 && S[i] == n - c + i  ){
+            i--;
+        }
+        if ( i == 0 ) {
+            ok = 1;
+        }
+        else {
+            S[i]++;
+            for ( int j = i + 1 ; j <= n ; j++ ){
+                S[j] = S[j-1] + 1;
+            }
+        }
+        for ( int i = 1 ; i <= c ; i++ ){
+            v.push_back(S[i] + m);
+        }
+        v1.push_back(v);
+        v.clear();
+        }
+    }
+        void locketqua( int sum ){
+            int cnt = 0;
+            std::vector<int>v2;
+            for ( int i = 0 ; i < v1.size() ; i++ ){
+                res = 0;
+                for ( auto it : v1[i] ) {
+                    res += X[it];
+                }
+                if ( res == sum ) {
+                    cnt++;
+            }
+            }
+            std::cout<<cnt;
+        }
+
+    int main(){
+        std::ios_base::sync_with_stdio(false);
+        std::cin.tie(NULL);
+        std::cout.tie(NULL);
+        for ( int i = 1 ; i <= N ; i++ ){
+            check[i] = true;
+        }
+        sangnt();
+        ktao();
+            int c,p,s;
+            std::cin>>c>>p>>s;
+                if ( c == 1 ){
+                    if (check[s]) std::cout<<"1";
+                    else std::cout<<"0";
+                }
+                else {
+                x = std::lower_bound(X, X+res, p)-X;
+                y = std::lower_bound(X, X+res, s)-X;
+                y--;
+                sinhtapcon(x,y,c);
+               
+                locketqua(s);
+                }
+            v1.clear();
+            
+            return 0;
+        }
+       
+    
