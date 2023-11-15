@@ -1,0 +1,96 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+   using namespace std;
+   vector<int>disc;
+   pair<int,int>p;
+   vector<pair<int,int>>v;
+   int X[21],ok = 0,n,m,A[21][21],res = 0;
+   bool visited[1001];
+   void inp(){
+       std::cin>>n>>m;
+       FOR(i,1,m){
+           int x,y;
+           std::cin>>x>>y;
+            A[x][y] = 1;
+            A[y][x] = 1;
+       }
+   }
+   void sinh( int u ){
+       for ( int i = 1 ; i <= 2 ; i++ ){
+           X[i] = i - 1;
+       }
+       p = make_pair(X[1],X[2]);
+       v.push_back(p);
+       
+       while (!ok) {
+        int i = 2;
+       while ( i >= 1 && X[i] == u - 3 + i ){
+           i--;
+       }
+       if ( i == 0 ){
+           ok = 1;
+       }
+       else {
+           X[i]++;
+           for ( int j = i + 1 ; j <= 2 ; j++ ){
+               X[j] = X[i] + 1;
+           }
+       }
+       p = make_pair(X[1],X[2]);
+       v.push_back(p);
+       }
+       v.pop_back();
+   }
+   vector<int>v1;
+   vector<int>v2;
+   void FindMaxPath( int a, int b ){
+       visited[a] = 1;
+       if ( a == b ){
+           if ( v1.size() > v2.size() ){
+               v2.clear();
+               for ( int i = 0 ; i < v1.size() ; i++ ){
+                   v2.push_back(v1[i]);
+               }
+           }
+       }
+       else {
+           for ( int j = 0 ; j < n ; j++ ){
+               if (A[a][j] == 1 && (!visited[j])) {
+                   v1.push_back(j);
+                   FindMaxPath(j,b);
+                   v1.pop_back();
+                   visited[j] = 0;
+               }
+           }
+           
+       }
+       
+   }
+        int main(){
+            memset(A,0,sizeof(A));
+            inp();
+            sinh(n);
+            vector<int>v3;
+        for ( int i = 0 ; i < v.size() ; i++ ){
+            v1.push_back(v[i].first);
+            FindMaxPath(v[i].first,v[i].second);
+            if ( v2.size() > res ){
+                v3.clear();
+                res = v2.size() - 1;
+                for ( int i = 0 ; i < v2.size() ; i++ ) {
+                    v3.push_back(v2[i]);
+                }
+                
+            }
+            v1.clear(); v2.clear();
+    }    
+        cout<<res<<endl;
+        FOR(i,0,v3.size()-1) cout<<v3[i]<<" ";
+        return 0;
+    }
+    
+   
+       
+   
