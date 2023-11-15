@@ -34,7 +34,7 @@ using namespace std;
 				if ( t->data == x ) {
 					DeleteNode(t->left);
 					DeleteNode(t->right);
-                    delete(t);
+    t = NULL;
 				}
 				else {
 					if ( t->data > x ){
