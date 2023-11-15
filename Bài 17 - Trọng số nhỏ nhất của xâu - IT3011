@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    int main(){
+        std::ios_base::sync_with_stdio(false);
+        std::cin.tie(NULL);
+        std::cout.tie(NULL);
+        int t;
+        std::cin>>t;
+        while (t--) {
+            int n,sum = 0,k = 0; 
+            std::string s;
+            std::priority_queue<int>pq;
+            int X[27],cnt;
+            std::cin>>n;
+            std::cin>>s;
+            std::map<char,int>mp;
+            for ( int i = 0 ; i < s.length() ; i++ ){
+                mp[s[i]]++;
+            }
+
+            for ( char i = 'A' ; i <= 'Z' ; i++ ){
+				pq.push(mp[i]);
+            }
+            int p = pq.size();
+            while (!pq.empty()){
+                int u = pq.top();
+                pq.pop();
+                X[k] = u;
+                k++;
+            }
+
+           while ( n > 0 ) {
+                X[0]--;
+                sort(X,X+p,std::greater<int>());
+                n--;
+            }
+
+            for ( int i = 0 ; i < p ; i++ ){
+                sum = sum + X[i]*X[i];
+            }
+            std::cout<<sum;
+        	std::cout<<std::endl;
+        }
+        return 0;
+    }
