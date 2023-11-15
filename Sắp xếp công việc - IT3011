@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+
+    struct data1{
+        int fi;
+        int se;
+    };
+    data1 h[1001];
+    bool cmp( data1 a, data1 b ){
+        return a.se < b.se;
+    }
+    int main(){
+        std::ios_base::sync_with_stdio(false);
+        std::cin.tie(NULL);
+        std::cout.tie(NULL);
+        int t;
+        std::cin>>t;
+        while (t--) {
+            int n;
+            std::cin>>n;
+            int A[101], B[101];
+            FOR(i,1,n) std::cin>>h[i].fi;
+            FOR(i,1,n) std::cin>>h[i].se;
+            std::sort(h+1,h+n+1,cmp);
+            int i = 1, cnt = 1;
+            FOR(j,2,n){
+                if (h[j].fi >= h[i].se ){
+                    cnt++;
+                    i = j;
+                }
+            }
+            std::cout<<cnt<<std::endl;
+    }
+    return 0;
+    }
