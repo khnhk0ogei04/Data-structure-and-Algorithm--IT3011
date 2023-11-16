@@ -1,0 +1,18 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    int main(){
+        int n;
+        std::cin>>n;
+        int A[100001],dp[100001];
+        FOR(i,1,n) std::cin>>A[i];
+        dp[1] = A[1]; dp[2] = A[2];
+        FOR(i,3,n){
+            dp[i] = std::max(dp[i-2]+A[i],dp[i-1]);
+        }
+        std::cout<<dp[n];
+        return 0;
+    }
+
+    
