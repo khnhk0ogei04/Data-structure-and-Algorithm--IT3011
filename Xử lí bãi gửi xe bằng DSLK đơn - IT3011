@@ -1,0 +1,166 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define db double
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+
+    struct node{
+        std::string id;
+        std::string bienso;
+        std::string ngaygui;
+        int type;
+        node *next;
+    };
+    node *CreateNode ( std::string s1, std::string s2, std::string s3 , int x ){
+        node *temp = new node;
+        temp->id = s1;
+        temp->bienso = s2;
+        temp->ngaygui = s3;
+        temp->type = x;
+        return temp;
+    }
+    node *AddCars( node *p, std::string s1, std::string s2, std::string s3, int x){
+        if ( p == NULL ){
+            node *temp = CreateNode(s1,s2,s3,x);
+            return temp;
+        }
+        else {
+            node *q = p;
+            while ( q-> next != NULL ) {
+                q = q->next;
+            }
+            node *temp = CreateNode(s1,s2,s3,x);
+            q->next = temp;
+            return p;
+    }
+    }
+    int FindCarsById ( node *p, std::string s ){
+        node *q = p;
+        int cnt = 0;
+        while ( q != NULL ){
+            if ( q->id == s ) return cnt;
+            else {
+                q = q->next;
+                cnt++;
+        }
+    }
+    }
+    node *RemoveCars( node *p , int k ){
+        node *q = p;
+        for ( int i = 0 ; i < k - 1 ; i++ ){
+            q = q->next;
+        }
+        node *temp = q->next;
+        q->next = q->next->next;
+        delete(temp);
+        return p;
+    }
+    
+    node *FindCarsByBienSo ( node *p , std::string s ){
+        node *l = p;
+        while ( l != NULL ){
+            if ( l->bienso == s ) return l;
+            else l = l->next;
+        }
+        return NULL;
+    }
+    void PrintList( node *p ){
+        node *q = p;
+        while ( q != NULL ){
+            std::cout<<q->id<<std::endl;
+            q = q->next;
+        }
+    }
+    
+    int countcars( node *p ){
+        int cnt = 0;
+        node *l = p;
+        while ( l != NULL ){
+            cnt++;
+            l = l->next;
+        }
+        return cnt;
+    }
+    int main(){
+    	std::ios_base::sync_with_stdio(false);
+    	std::cin.tie(NULL);
+    	std::cout.tie(NULL);
+        int x;
+        std::string s,s1,s2,s3,s4;
+        node *p = NULL;
+        while ( std::getline(std::cin,s) ){
+        while ( s == "? readCarList"){
+            std::cin>>s1;
+            if ( s1 == "-1" ) {
+                std::cout<<"Total: "<<countcars(p)<<std::endl;
+                break;
+            }
+            else {
+            std::cin.ignore();
+            std::getline(std::cin,s2);
+        	std::getline(std::cin,s3);
+        	std::cin>>x;
+        	p = AddCars(p,s1,s2,s3,x);
+            }
+        }
+            if ( s == "*" ) break;
+            if ( s == "? countCars") {
+                std::cout<<"Total cars: "<<countcars(p)<<std::endl;
+            }
+            if ( s == "-1" ) continue;
+            if ( s == "? findCarByLicensePlates" ){
+                std::getline(std::cin,s4);
+                node *l = FindCarsByBienSo(p,s4);
+                if ( l == NULL ) std::cout<<"Plate NOT FOUND"<<std::endl;
+                else {
+                s1 = l->ngaygui;
+                s2 = s1.substr(s1.length()-8,8);
+                s3 = s1.substr(0,s1.length()-8);
+                std::cout<<"Found a car parked at "<<s3<<s2<<std::endl;
+            }
+            }
+            if ( s == "? returnCarByIDs" ){
+                std::cin>>s1;
+                x = FindCarsById(p,s1);
+                p = RemoveCars(p,x);
+                std::cout<<"DONE Remove"<<std::endl;
+            }
+            
+        }
+        return 0;
+    }
+        /*
+?readCarList
+12234523456
+30G 12345
+2023-07-11 12:05:12
+1
+12234523456
+30G53345
+2023-07-1112:07:12
+1
+12234553456
+30G45645
+2023-07-1112:05:12
+1
+12234523656
+28H23544
+2023-07-1112:15:12
+1
+15234583456
+30K22345
+2023-07-1112:35:12
+2
+15734583456
+29K25345
+2023-07-1113:25:12
+2
+25764583456
+29K25666
+2023-07-1113:29:12
+1
+29764583456
+19K26466
+2023-07-1203:29:12
+1
+*/
