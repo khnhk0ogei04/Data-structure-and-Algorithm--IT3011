@@ -1,0 +1,21 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+
+    int main(){
+        int n,sum = 0;
+        std::cin>>n;
+        int A[2000001];
+        FOR(i,1,n) std::cin>>A[i];
+        std::priority_queue<int,std::vector<int>, std::greater<int> >pq;
+        FOR(i,1,n) pq.push(A[i]);
+        while (pq.size() > 1){
+            int a = pq.top(); pq.pop();
+            int b = pq.top(); pq.pop();
+            pq.push(a+b);
+            sum += a + b;
+        }
+        std::cout<<sum;
+        return 0;
+    }
