@@ -1,0 +1,176 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define db double
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+
+    struct node{
+        std::string id;
+        int soluong;
+        std::string time;
+        double gia;
+        node *next;
+    };
+    node *CreateNode ( std::string s1, int x, std::string s2 , double y ){
+        node *temp = new node;
+        temp->id = s1;
+        temp->soluong = x;
+        temp->time = s2;
+        temp->gia = y;
+        temp->next = NULL;
+        return temp;
+    }
+    node *AddItem( node *p, std::string s1, int x, std::string s2, double y){
+        if ( p == NULL ){
+            node *temp = CreateNode(s1,x,s2,y);
+            return temp;
+        }
+        else {
+            node *q = p;
+            while ( q-> next != NULL ) {
+                q = q->next;
+            }
+            node *temp = CreateNode(s1,x,s2,y);
+            q->next = temp;
+            return p;
+    }
+    }
+    int FindItemById ( node *p, std::string s ){
+        node *q = p;
+        int cnt = 0;
+        while ( q != NULL ){
+            if ( q->id == s ) return cnt;
+            else {
+                q = q->next;
+                cnt++;
+        }
+    }
+    }
+    
+    node *RemoveItem( node *p , int k ){
+        node *q = p;
+        for ( int i = 0 ; i < k - 1 ; i++ ){
+            q = q->next;
+        }
+        node *temp = q->next;
+        q->next = q->next->next;
+        delete(temp);
+        return p;
+    }
+    
+    node *FindItemByMaSo ( node *p , std::string s ){
+        node *l = p;
+        while ( l != NULL ){
+            if ( l->id == s ) return l;
+            else l = l->next;
+        }
+        return NULL;
+    }
+    void PrintList( node *p ){
+        node *q = p;
+        while ( q != NULL ){
+            std::cout<<q->id<<std::endl;
+            q = q->next;
+        }
+    }
+    
+    int countcart( node *p ){
+        int cnt = 0;
+        node *l = p;
+        while ( l != NULL ){
+            cnt++;
+            l = l->next;
+        }
+        return cnt;
+    }
+    double TotalPrice( node *p ){
+    	node *q = p;
+    	double sum = 0,temp;
+    	while ( q != NULL ){
+    	    temp = q->soluong*q->gia;
+    		sum = sum + temp;
+    		q = q->next;
+		}
+		return sum;
+	}
+    int main(){
+    	std::ios_base::sync_with_stdio(false);
+    	std::cin.tie(NULL);
+    	std::cout.tie(NULL);
+        int x,z;
+        double y;
+        std::string s,s1,s2,s3,s4;
+        node *p = NULL;
+        while ( std::getline(std::cin,s) ){
+        while ( s == "? readCart"){
+            std::cin>>s1;
+            if ( s1 == "-1" ) {
+                std::cout<<"Total: "<<countcart(p)<<std::endl;
+                break;
+            }
+            else {
+            std::cin>>x;
+            std::cin.ignore();
+        	std::getline(std::cin,s2);
+        	std::cin>>y;
+        	p = AddItem(p,s1,x,s2,y);
+            }
+        }
+            if ( s == "*" ) break;
+            if ( s == "? checkCartTotalPrice") {
+                std::cout<<"Total price: "<<std::fixed<<std::setprecision(2)<<TotalPrice(p)<<std::endl;
+            }
+            if ( s == "-1" ) continue;
+     	     	while ( s == "? findItemsByID" ){
+                std::cin>>s1;
+                if ( s1 == "-1" ){
+                	break;
+                }
+                node *l = FindItemByMaSo(p,s1);
+                if ( l == NULL ) std::cout<<"Item NOT FOUND"<<std::endl;
+                else {
+                s2 = l->time;
+                s4 = s2.substr(s2.length()-8,8);
+                s3 = s2.substr(0,10);
+                std::cout<<"Item's already added at "<<s3<<" "<<s4<<std::endl;
+            }
+            }
+                while ( s == "? addNewItems" ){
+                    std::cin>>s1;
+                    if ( s1 == "-1" ){
+                        break;
+                    }
+                    else {
+                        std::cin>>x;
+                        std::cin.ignore();
+        	            std::getline(std::cin,s2);
+        	            std::cin>>y;
+        	            p = AddItem(p,s1,x,s2,y);
+                    }
+                }
+            while ( s == "? reduceItemQuantityByIDs" ){
+                std::cin>>s1;
+                if ( s1 == "-1" ){
+                    break;
+                }
+                else {
+                    std::cin>>x;
+                    node *l = FindItemByMaSo(p,s1);
+                    if ( l == NULL ) {
+                        std::cout<<"ID NOT FOUND"<<std::endl;
+                    }
+                    else {
+                    if ( l->soluong > x ){
+                        l->soluong -= x;
+                    }
+                    else {
+                        int k = FindItemById(p,s1);
+                        p = RemoveItem(p,k);
+                    }
+                    std::cout<<"DONE Remove"<<std::endl;
+                }
+            }
+            }
+        }
+        return 0;
+    }
