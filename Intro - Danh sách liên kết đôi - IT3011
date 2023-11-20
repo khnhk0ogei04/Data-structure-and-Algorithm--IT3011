@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define ldb long double
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    using namespace std;
+    struct node{
+        int data;
+        node *prev;
+        node *next;
+    };
+    struct doulist{
+        node *head;
+        node *tail;
+    };
+    doulist *CreateList( int x ){
+        doulist *l = new doulist;
+        l->head = new node;
+        l->head->data = x;
+        l->head->prev = NULL;
+        l->head->next = NULL;
+        l->tail = l ->head;
+        return l;
+    }
+    doulist *AddHead ( doulist *l , int x ){
+        node *temp = new node;
+        temp->data = x;
+        temp->prev = NULL;
+        temp->next = l->head;
+        l->head->prev = temp;
+        l->head = temp;
+        return l;
+    }
+    doulist *AddTail ( doulist *l , int x ){
+        node *temp = new node;
+        temp->data = x;
+        temp->next = NULL;
+        temp->prev = l->tail;
+        l->tail->next = temp;
+        l->tail = temp;
+        return l;
+    }
+    void PrintList( doulist *p ){
+        node *q = p->head;
+        while ( q != NULL ){
+            std::cout<<q->data<<" ";
+            q = q->next;
+        }
+    }
+    int main(){
+        int n,x;
+        std::cin>>n;
+        doulist *l = CreateList(1);
+        for ( int i = 2 ; i <= n ; i++ ){
+            l = AddHead(l,i);
+            l = AddTail(l,i);
+        }
+        PrintList(l);
+        return 0;
+    }
