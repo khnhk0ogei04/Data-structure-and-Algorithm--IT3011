@@ -17,6 +17,7 @@
         temp->bienso = s2;
         temp->ngaygui = s3;
         temp->type = x;
+        temp->next = NULL;
         return temp;
     }
     node *AddCars( node *p, std::string s1, std::string s2, std::string s3, int x){
