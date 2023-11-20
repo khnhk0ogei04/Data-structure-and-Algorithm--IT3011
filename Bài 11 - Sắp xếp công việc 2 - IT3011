@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+
+    struct Job{
+        int stt;
+        int first, second;
+    };
+    bool cmp( Job a, Job b ){
+        return a.second > b.second;
+    }
+    int main(){
+        int n,d = 0,res = 0;
+        std::cin>>n;
+        Job a[1001];
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>a[i].stt>>a[i].first>>a[i].second;
+        }
+        std::sort(a+1,a+n+1,cmp);
+        int F[1001];
+        std::memset(F,0,sizeof(F));
+        for ( int i = 1 ; i <= n ; i++ ){
+            while ( F[a[i].first] && a[i].first > 0) {
+                a[i].first--;
+            }
+            if ( F[a[i].first] == 0 && a[i].first > 0 ){
+                F[a[i].first] = 1;
+                d++;
+                res += a[i].second;
+            }
+        }
+        std::cout<<d<<" "<<res;
+        return 0;
+    }
