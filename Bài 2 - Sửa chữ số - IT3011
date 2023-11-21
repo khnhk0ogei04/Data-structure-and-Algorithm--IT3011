@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+int a,b;
+    int min1 ( int a ){
+        int res = 0, cnt = 0;
+        while (a){
+            int temp = a % 10;
+            a /= 10;
+            if ( temp == 6 ) temp = 5;
+            res += temp*pow(10,cnt);
+            cnt++;
+        }
+        return res;
+    }
+    int max1 ( int a ){
+        int res = 0, cnt = 0;
+        while (a){
+            int temp = a % 10;
+            a /= 10;
+            if ( temp == 5 ) temp = 6;
+            res += temp*pow(10,cnt);
+            cnt++;
+        }
+        return res;
+    }
+ void solve(){
+     std::cin>>a>>b;
+     cout<<min1(a)+min1(b)<<" "<<max1(a)+max1(b);
+ }
+ int main(){
+     solve();
+     return 0;
+ }
