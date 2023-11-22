@@ -140,8 +140,8 @@
             }
             if ( q->heso == 1 ) {
             	if ( q->somu != 1 )
-                cout<<"x^"<<q->somu<<" ";
-                else cout<<" x ";
+                std::cout<<"x^"<<q->somu<<" ";
+                else std::cout<<" x ";
             }
             if ( q->next != NULL ){
             if ( q->next->heso > 0) {
@@ -154,6 +154,9 @@
         }
     }
     int main(){
+        std::ios_base::sync_with_stdio(false);
+        std::cin.tie(NULL);
+        std::cout.tie(NULL);
         std::string s;
         double x;
         int y,z;
@@ -182,18 +185,18 @@
                 if ( y == 1 ) {
                     std::cout<<"Content: ";
                     PrintList(p);
-                    std::cout<<endl;
+                    std::cout<<"\n";
                 }
                 else {
                     std::cout<<"Content: ";
                     PrintList(q);
-                    std::cout<<endl;
+                    std::cout<<"\n";
                 }
             }
             if ( s == "? addTwoPolynomial"){
             	t = AddPolynomial(p,q);
                 node *r = NULL;
-                priority_queue<int, vector<int>, less<int> >pq;
+                std::priority_queue<int, std::vector<int>, std::less<int> >pq;
                 node *q = t;
                 while ( q != NULL ){
                 	int u = q->somu;
@@ -209,12 +212,12 @@
                 }
                 std::cout<<"Content: ";
                 PrintList(r);
-                std::cout<<endl;
+                std::cout<<std::endl;
 			}
 			if ( s == "? subtractTwoPolynomial" ){
 				h = SubtractPolynomial(p,q);
 				node *r = NULL;
-				priority_queue<int, vector<int>, less<int> >pq;
+				std::priority_queue<int, std::vector<int>, std::less<int> >pq;
                 node *q = h;
                 while ( q != NULL ){
                 	int u = q->somu;
@@ -230,23 +233,27 @@
                 }
                 std::cout<<"Content: ";
                 PrintList(r);
-                std::cout<<endl;
+                std::cout<<std::endl;
 			}
 			if ( s == "? calculatePolynomialValue" ){
 				std::cin>>y>>x;
 				if ( y == 1 ){
-					std::cout<<"Value of Polynomial at x= "<<setprecision(2)<<x<<" is "<<CalculatePoly(p,x)<<std::endl;
+					std::cout<<"Value of Polynomial at x= ";
+					std::cout<<std::fixed<<std::setprecision(2)<<x;
+					std::cout<<" is "<<CalculatePoly(p,x)<<std::endl;
 				}
 				if ( y == 2 ){
-					std::cout<<"Value of Polynomial at x= "<<setprecision(2)<<x<<" is "<<CalculatePoly(q,x)<<std::endl;
+					std::cout<<"Value of Polynomial at x= ";
+					std::cout<<std::fixed<<std::setprecision(2)<<x;
+					std::cout<<" is "<<CalculatePoly(q,x)<<std::endl;
 				}
 			}
 			if ( s == "? multiplyPolynomialWithOperand" ){
 				std::cin>>x>>y;
 				node *t = MultiMonomial(p,x,y);
-				cout<<"Content: ";
+				std::cout<<"Content: ";
 				PrintList(t);
-				cout<<endl;
+				std::cout<<std::endl;
 			}
 			if ( s == "? multiplyTwoPolynomial" ){
 				node *a = p;
