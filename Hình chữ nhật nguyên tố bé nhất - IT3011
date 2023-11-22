@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define db double
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+const int MAXN = 1e6 + 1;
+
+    bool checknt[MAXN];
+    void sangnguyento(){
+    for ( int i = 2 ; i <= MAXN ; i++ ){
+        checknt[i] = true;
+    }
+    for ( int i = 2 ; i * i <= MAXN ; i++ ){
+        if (checknt[i]){
+            for ( int j = i * i ; j <= MAXN ; j += i ){
+                checknt[j] = false;
+            }
+        }
+    }
+    }
+    bool cmp( std::pair<int,int>a, std::pair<int,int>b ){
+        if (a.first == b.first) return a.second < b.second;
+        return a.first < b.first;
+    }
+    int main(){
+        std::ios_base::sync_with_stdio(false);
+        std::cin.tie(NULL);
+        std::cout.tie(NULL);
+        int t;
+        std::cin>>t;
+        while (t--) {
+        memset(checknt,0,sizeof(checknt));
+        sangnguyento();
+        int n,m,A[1001][1001];
+        std::vector<std::pair<int,int> >v;
+        std::pair<int,int>p;
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= n ; i++ ){
+            for ( int j = 1 ; j <= m ; j++ ){
+                std::cin>>A[i][j];
+                if (checknt[A[i][j]]) {
+                    p = std::make_pair(i,j);
+                    v.push_back(p);
+                }
+            }
+        }
+        std::sort(v.begin(),v.end(),cmp);
+        int x1 = v[0].first;
+        int res1 = 1e9; int res2 = 0;
+        for ( int i = 0 ; i < v.size() ; i++ ){
+            res1 = std::min(res1,v[i].second);
+            res2 = std::max(res2,v[i].second);
+        }
+        int x3 = v[v.size()-1].first;
+        std::cout<<x1<<" "<<res1<<" "<<x3<<" "<<res2<<std::endl;
+        }
+        return 0;
+    }
+    
