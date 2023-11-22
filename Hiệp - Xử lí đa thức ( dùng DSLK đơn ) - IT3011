@@ -1,0 +1,295 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define db double
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    using namespace std;
+    struct node{
+        double heso;
+        int somu;
+        node *next;
+    };
+    node *CreateNode ( double x, int y ){
+        node *temp = new node;
+        temp->heso = x;
+        temp->somu = y;
+        temp->next = NULL;
+    }
+    node *AddOperand( node *p, double x, int y ){
+        if ( p == NULL ){
+            node *temp = CreateNode(x,y);
+            return temp;
+        }
+        else {
+            node *q = p;
+            while ( q->next != NULL ){
+                q = q->next;
+            }
+            node *temp = new node;
+            temp->heso = x;
+            temp->somu = y;
+            temp->next = NULL;
+            q->next = temp;
+            return p;
+        }
+    }
+    node *AddOperand2 ( node *p, node *k , double x ){
+        node *q = p;
+        while ( q != k ){
+            q = q->next;
+        }
+        q->heso = q->heso + x;
+        return p;
+    }
+    node *FindSoMu( node *t, int x ){
+        node *q = t;
+        while ( q != NULL ){
+            if ( q->somu == x ) return q;
+            else q = q->next;
+        }
+        return NULL;
+    }
+    
+    node *Findnode ( node *t, node *x ){
+        node *q = t;
+        while ( q != x ){
+            q = q->next;
+        }
+        return q;
+    }
+    node *AddPolynomial( node *p, node *q ){
+        node *t = NULL;
+        node *a = p; node *b = q;
+        while ( a != NULL ){
+        	double x = a->heso;
+        	int y = a->somu;
+        	t = AddOperand(t,x,y);
+        	a = a->next;
+		}
+		while ( b != NULL ){
+		    double x = b->heso;
+		    int y = b->somu;
+		    node *k = FindSoMu(t,y);
+		    if ( k != NULL ){
+		      t = AddOperand2(t,k,x);
+		    } 
+		    if ( k == NULL ){
+		      t = AddOperand(t,x,y);
+		    }
+		    b = b->next;
+		} 
+		return t;
+    }
+    node *SubtractPolynomial( node *p, node *q ){
+    	node *t = NULL;
+        node *a = p; node *b = q;
+        while ( a != NULL ){
+        	double x = a->heso;
+        	int y = a->somu;
+        	t = AddOperand(t,x,y);
+        	a = a->next;
+		}
+		while ( b != NULL ){
+		    double x = b->heso;
+		    int y = b->somu;
+		    node *k = FindSoMu(t,y);
+		    if ( k != NULL ){
+		      t = AddOperand2(t,k,-x);
+		    } 
+		    if ( k == NULL ){
+		      t = AddOperand(t,-x,y);
+		    }
+		    b = b->next;
+		} 
+		return t;
+	}
+    double CalculatePoly( node *p, double x){
+    	db res = 0;
+    	node *q = p;
+    	while ( q != NULL ){
+    		res += q->heso*pow(x,q->somu);
+    		q = q->next;
+		}
+		return res;
+	}
+	node *MultiMonomial( node *p, double m, int n ){
+		node *q = p;
+		node *r = NULL;
+		while ( q != NULL ){
+			int u = q->heso *m;
+			int v = q->somu + n;
+			r = AddOperand(r,u,v);
+			q = q->next;
+		}
+		return r;
+	}
+
+    void PrintList( node *p ){
+        node *q = p;
+        if ( q->heso < 0 ) {
+            std::cout<<"-";
+        }
+        while ( q != NULL ){
+            if ( q->heso != 1 && (q->heso) ) {
+                if (q->somu >= 2)
+            std::cout<<std::fixed<<std::setprecision(2)<<abs(q->heso)<<" x^"<<q->somu<<" ";
+                if (q->somu == 1)
+            std::cout<<std::fixed<<std::setprecision(2)<<abs(q->heso)<<" x ";
+                if (q->somu == 0)
+            std::cout<<std::fixed<<std::setprecision(2)<<abs(q->heso)<<" ";
+            }
+            if ( q->heso == 1 ) {
+            	if ( q->somu != 1 )
+                cout<<"x^"<<q->somu<<" ";
+                else cout<<" x ";
+            }
+            if ( q->next != NULL ){
+            if ( q->next->heso > 0) {
+                std::cout<<"+";
+            }
+            if ( q->next->heso < 0 ) std::cout<<"-";
+            
+        }
+        q = q->next;
+        }
+    }
+    int main(){
+        std::string s;
+        double x;
+        int y,z;
+        node *p = NULL; 
+        node *q = NULL;
+        node *t = NULL; node*h = NULL;
+        while ( std::getline(std::cin,s) ){
+            if ( s == "? readPolynomialExpression" ){
+                std::cin>>y>>z;
+                int a,b;
+                if ( y == 1 ){
+                    while (z--) {
+                        std::cin>>a>>b;
+                        p = AddOperand(p,a,b);
+                }
+            }
+                if ( y == 2 ){
+                    while (z--) {
+                        std::cin>>a>>b;
+                        q = AddOperand(q,a,b);
+                    }
+                }
+        }
+            if ( s == "? printPolynomial" ){
+                std::cin>>y;
+                if ( y == 1 ) {
+                    std::cout<<"Content: ";
+                    PrintList(p);
+                    std::cout<<endl;
+                }
+                else {
+                    std::cout<<"Content: ";
+                    PrintList(q);
+                    std::cout<<endl;
+                }
+            }
+            if ( s == "? addTwoPolynomial"){
+            	t = AddPolynomial(p,q);
+                node *r = NULL;
+                priority_queue<int, vector<int>, less<int> >pq;
+                node *q = t;
+                while ( q != NULL ){
+                	int u = q->somu;
+                	pq.push(u);
+                	q = q->next;
+                }
+                while (!pq.empty()){
+                int u = pq.top(); pq.pop();
+                node *k = FindSoMu(t,u);
+                double x = k->heso;
+                int y = k->somu;
+                r = AddOperand(r,x,y);
+                }
+                std::cout<<"Content: ";
+                PrintList(r);
+                std::cout<<endl;
+			}
+			if ( s == "? subtractTwoPolynomial" ){
+				h = SubtractPolynomial(p,q);
+				node *r = NULL;
+				priority_queue<int, vector<int>, less<int> >pq;
+                node *q = h;
+                while ( q != NULL ){
+                	int u = q->somu;
+                	pq.push(u);
+                	q = q->next;
+                }
+                while (!pq.empty()){
+                int u = pq.top(); pq.pop();
+                node *k = FindSoMu(h,u);
+                double x = k->heso;
+                int y = k->somu;
+                r = AddOperand(r,x,y);
+                }
+                std::cout<<"Content: ";
+                PrintList(r);
+                std::cout<<endl;
+			}
+			if ( s == "? calculatePolynomialValue" ){
+				std::cin>>y>>x;
+				if ( y == 1 ){
+					std::cout<<"Value of Polynomial at x= "<<setprecision(2)<<x<<" is "<<CalculatePoly(p,x)<<std::endl;
+				}
+				if ( y == 2 ){
+					std::cout<<"Value of Polynomial at x= "<<setprecision(2)<<x<<" is "<<CalculatePoly(q,x)<<std::endl;
+				}
+			}
+			if ( s == "? multiplyPolynomialWithOperand" ){
+				std::cin>>x>>y;
+				node *t = MultiMonomial(p,x,y);
+				cout<<"Content: ";
+				PrintList(t);
+				cout<<endl;
+			}
+			if ( s == "? multiplyTwoPolynomial" ){
+				node *a = p;
+				node *b = q;
+				node *t = NULL;
+				while ( a != NULL ){
+					node *b = q;
+					while ( b != NULL ){
+						double u = a->heso; double v = b->heso; 
+						int s = a->somu; int w = b->somu;
+						double x = u*v;
+						int y = s+w;
+					node *k = FindSoMu(t, y);
+					if ( k == NULL ){
+					    t = AddOperand(t,x,y);
+					}
+					else t = AddOperand2(t,k,x);
+					b = b->next;
+				}
+				a = a->next;
+			}
+			std::vector<int>v1; std::vector<int>v2;
+			node *temp = t;
+			while ( temp != NULL ){
+				int u = temp->somu;
+				v1.push_back(u);
+				temp = temp->next;
+			}
+			std::sort(v1.rbegin(),v1.rend());
+			v2.push_back(v1[0]);
+			for ( int i = 1; i < v1.size() ; i++ ){
+			    if (v1[i] != v1[i-1]) v2.push_back(v1[i]);
+			}
+                node *r = NULL;
+            for ( int i = 0 ; i < v2.size() ; i++ ){
+                node *k = FindSoMu(t,v2[i]);
+                double u = k->heso;
+                int v = k->somu;
+                r = AddOperand(r,u,v);
+            }
+            std::cout<<"Content: ";
+			PrintList(r);
+			
+    }
+    }
+    }
