@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define db double
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+const int MAXN = 30001;
+    bool checknt[MAXN];
+    bool checksnt[MAXN];
+    void solve(){
+    for ( int i = 2 ; i <= MAXN ; i++ ){
+        checknt[i] = true;
+    }
+    for ( int i = 2 ; i <= MAXN ; i++ ){
+        if (checknt[i]) {
+            for ( int j = 2*i ; j <= MAXN ; j += i )
+            checknt[j]= false;
+        }
+    }
+    for ( int i = 2 ; i <= MAXN ; i++ ){
+        if ( i == 2 || i == 3 || i == 5 || i == 7 ) {
+            checksnt[i] = true;
+        }
+        else {
+            if (checknt[i]){
+                    int j = i;
+                    while (j > 9){
+                        j = j/10;
+                        if (!checknt[j]) break;
+                        else {
+                        if ( j <= 9 ){
+                            if (checknt[j]) checksnt[i] = true;
+                            else checksnt[i] = false;
+                            break;
+                        }
+                            else continue;
+                        }
+                    }
+            }
+        }
+    }
+    }
+    int main(){
+        int n;
+        std::cin>>n;
+        solve();
+        if ( n == 1 ) std::cout<<"-1";
+        else {
+        for ( int i = 2 ; i <= n ; i++ ){
+            if ( checksnt[i] ) std::cout<<i<<" ";
+        }
+    }
+    return 0;
+    }
