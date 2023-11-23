@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define db double
+#define FOR(i,l,r) for ( int i = l ; i <= r ; i++ )
+#define FOD(i,l,r) for ( int i = l ; i >= r ; i-- )
+    using namespace std;
+    bool check( string a, string b ){
+        int i = 0, j = 0;
+        while ( i < a.length() && j < b.length() ) {
+        if ( a[i] == b[j] ){
+            i++;
+            j++;
+        }
+        else i++;
+    }
+    return (j == b.length());
+    }
+    
+    
+    
+    int main(){
+        string s;
+        std::cin>>s;
+        int res = 0,ok = 0;
+        for ( int i = 1 ; i <= 100 ; i++ ){
+            int x = i * i * i;
+            if (check(s, to_string(x))) {
+                ok = 1;
+                res = x;
+            }
+        }
+        if (!ok) std::cout<<"-1";
+        else std::cout<<res;
+        return 0;
+    }
