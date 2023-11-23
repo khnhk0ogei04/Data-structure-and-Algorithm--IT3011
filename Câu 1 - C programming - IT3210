@@ -1,0 +1,127 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define db double
+#define FOR(i, l, r) for (int i = l; i <= r; i++)
+#define FOD(i, l, r) for (int i = l; i >= r; i++)
+using namespace std;
+
+struct node {
+    string from;
+    string to;
+    int data;
+    string time;
+    string atm;
+    node* next;
+};
+
+node* CreateNode(string s1, string s2, int x, string s3, string s4) {
+    node* temp = new node;
+    temp->from = s1;
+    temp->to = s2;
+    temp->data = x;
+    temp->time = s3;
+    temp->atm = s4;
+    temp->next = NULL;
+    return temp;
+}
+
+node* AddTail(node* t, string s1, string s2, int x, string s3, string s4) {
+    if (t == NULL) {
+        node* temp = CreateNode(s1, s2, x, s3, s4);
+        return temp;
+    } else {
+        node* q = t;
+        while (q->next != NULL) {
+            q = q->next;
+        }
+        node* temp = CreateNode(s1, s2, x, s3, s4);
+        temp->next = NULL;
+        q->next = temp;
+        return t;
+    }
+}
+
+int cnt(node* t) {
+    if (t == NULL)
+        return 0;
+    else {
+        int cnt = 0;
+        node* q = t;
+        while (q != NULL) {
+            cnt++;
+            q = q->next;
+        }
+        return cnt;
+    }
+}
+
+int TotalMoney(node* t) {
+    node* q = t;
+    int sum = 0;
+    while (q != NULL) {
+        int u = q->data;
+        sum += u;
+        q = q->next;
+    }
+    return sum;
+}
+
+int TotalMoneyFrom(node* t, string s) {
+    node* q = t;
+    int sum = 0;
+    while (q != NULL) {
+        if (q->from == s)
+            sum += q->data;
+        q = q->next;
+    }
+    return sum;
+}
+
+int main() {
+    string s, s1, s2, s3, s4;
+    int x;
+    node* t = NULL;
+    map<string, int> mp;
+    vector<pair<string, string>> transactions;
+
+    while (1) {
+        cin >> s1;
+        if (s1 == "#")
+            break;
+        else {
+            cin >> s2;
+            cin >> x;
+            cin >> s3 >> s4;
+            t = AddTail(t, s1, s2, x, s3, s4);
+          
+        }
+    }
+
+    while (cin >> s) {
+        if (s == "?number_transactions") {
+            cout << cnt(t) << endl;
+        }
+        if (s == "?total_money_transaction") {
+            cout << TotalMoney(t) << endl;
+        }
+        if (s == "?list_sorted_accounts") {
+            node* q = t;
+            while (q != NULL) {
+                string a = q->from;
+                string b = q->to;
+                mp[a]++;
+                mp[b]++;
+                q = q->next;
+            }
+            for (auto it : mp) {
+                cout << it.first << " ";
+            }
+            cout << endl;
+        }
+        if (s == "?total_money_transaction_from") {
+            cin >> s1;
+            cout << TotalMoneyFrom(t, s1) << endl;
+        }
+    }
+    return 0;
+}
