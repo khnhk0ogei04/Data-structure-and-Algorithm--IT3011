@@ -1,0 +1,63 @@
+#include<iostream>
+#include<string>
+#include<stack>
+using namespace std;
+
+int xxx(char x) {
+    if (x == '+' || x == '-') return 1;
+    if (x == '/' || x == '*') return 2;
+    if (x == '^') return 3;
+    return 0;
+}
+
+int main() {
+    string s;
+    cin >> s;
+    cout << s << " sang Hauto: ";
+    stack<char> x;
+    stack<char> x2;
+
+    for (int i = 0; i < s.length(); i++) {
+        if ((s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'z'))
+            cout << s[i];
+        else if (s[i] == '(')
+            x.push(s[i]);
+        else if (s[i] == ')') {
+            while (x2.size()) {
+                cout << x2.top();
+                x2.pop();
+            }
+
+            while (x.size() && x.top() != '(') {
+                cout << x.top();
+                x.pop();
+            }
+            x.pop(); 
+        } else {
+            if (x.size() && xxx(s[i]) == 3 && xxx(x.top()) == 3) {
+                x.push(s[i]);
+                continue;
+            }
+
+            while (x.size() && ((xxx(x.top()) > xxx(s[i])) || (xxx(x.top()) == xxx(s[i]) && xxx(s[i]) != 3))) {
+                cout << x.top();
+                x.pop();
+            }
+
+            x.push(s[i]);
+        }
+    }
+
+    while (x2.size()) {
+        cout << x2.top();
+        x2.pop();
+    }
+
+    while (!x.empty()) {
+        cout << x.top();
+        x.pop();
+    }
+
+    cout << endl;
+    return 0;
+}
