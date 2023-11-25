@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e4 + 1;
+
+    bool visited[MAXN];
+    std::vector<int>adj[MAXN];
+    int X[MAXN];
+    int n,m,k,res,key = 0;
+
+    void inp(){
+        
+        for ( int i = 1 ; i <= n - 1 ; i++ ){
+            int u,v;
+            std::cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        for ( int i = 1 ; i <= m ; i++ ){
+            std::cin>>X[i];
+        }
+    }
+    int dfs( int s, int t , int cnt ){
+        visited[s] = true;
+        if ( s == t ){
+            if ( cnt <= k ) return 1;
+            else return 0;
+        }
+        else {
+        for ( int v : adj[s] ){
+            if (!visited[v])
+                return dfs(v,t,cnt+1);
+        	}
+    	}
+    	
+    }
+    int main(){
+        std::cin>>n>>m>>k;
+    	inp();
+    	for ( int i = 1 ; i <= n ; i++ ){
+    		for ( int j = 1 ; j <= m ; j++ ){
+    		    if (dfs(i,X[j],0)) {
+    		        if ( j == m ) key++;
+    		        else {
+    		        std::memset(visited,0,sizeof(visited));
+    		        continue;
+    		    }
+    		    }
+    		    else {
+    		        std::memset(visited,0,sizeof(visited));
+    		        break;
+    		}
+    	    	std::memset(visited,0,sizeof(visited));
+			}
+		}  
+        std::cout<<key;
+    	return 0;
+    	
+	}
+    
