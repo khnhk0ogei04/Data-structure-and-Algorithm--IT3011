@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e1+3;
+using namespace std;
+    bool visited[MAXN];
+    vector<int>adj[MAXN];
+    int n,m,k;
+    void inp(){
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= m ; i++ ){
+            int u,v;
+            std::cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+    }
+    void dfs( int u ){
+        visited[u] = true;
+        for ( int v : adj[u] ){
+            if (!visited[v]) dfs(v);
+        }
+    }
+    int main(){
+        inp();
+        int tplt = 0;
+        for ( int i = 1 ; i <= n ; i++ ){
+            if (!visited[i]) {
+                tplt++;
+                dfs(i);
+            }
+        }
+        std::cout<<tplt;
+        return 0;
+    }
