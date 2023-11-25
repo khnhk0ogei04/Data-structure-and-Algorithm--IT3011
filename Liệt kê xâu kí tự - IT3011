@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+
+const int MAXN = 1e5+3;
+int n,X[101];
+    void PrintSolution(){
+        for ( int i = 1 ; i <= n ; i++ ){
+            if (!X[i]) std::cout<<'A';
+            else std::cout<<'B';
+        }
+        std::cout<<std::endl;
+    }
+    bool check( int u, int v, int A[] ){
+        if ( v == 1 ) {
+        if ( A[u - 1] == 1 ) return false;
+        return true;
+        }
+        else return true;
+    }
+    void Try( int i ){
+        for ( int j = 0 ; j <= 1 ; j++ ){
+            if(check(i,j,X)){
+                X[i] = j;
+                if ( i == n ){
+                    PrintSolution();
+                }
+                else {
+                    Try(i+1);
+                }
+            }
+        }
+    }
+    int main(){
+        std::cin>>n;
+        Try(1);
+        return 0;
+    }
+        
