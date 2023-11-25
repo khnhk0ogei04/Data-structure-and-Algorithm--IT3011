@@ -1,0 +1,50 @@
+// De kiem tra do thi co phai 2 phia k, dung pp to mau: Neu do thi duoc to bang k qua 2 mau
+#include<bits/stdc++.h>
+using namespace std;
+bool visited[1001];
+int colored[1001];
+    vector<int>adj[1001];
+    int n,m;
+    queue<int>q;
+    void inp(){
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= m ; i++ ){
+            int u,v;
+            std::cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        memset(colored,-1,sizeof(colored));
+    }
+    bool bfs( int u ){
+ 
+        q.push(u);
+        colored[u] = 0;
+        while (!q.empty()){
+            int v = q.front();
+            q.pop();
+            for ( int x : adj[v] ){
+                if (colored[x] == -1) {
+                    colored[x] = 1 - colored[v];
+                    q.push(x);
+                }
+                else if (colored[x] == colored[v]) return false;
+            }
+        }
+        return true;
+    }
+    int main(){
+    	inp();
+    	int check = 1;
+    	for ( int i = 1 ; i <= n ; i++ ){
+    		if (colored[i] == -1) {
+    			if (!bfs(i)) {
+    				check = 0;
+					break;	
+				}
+			}
+		}
+		if (check) cout<<"YES";
+		else cout<<"NO";
+		return 0;
+	}
