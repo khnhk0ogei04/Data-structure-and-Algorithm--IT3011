@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+
+    int n,m,A[1001];
+    bool check(int x){
+        int s = 0;
+        for ( int i = 1 ; i <= m ; i++ ){
+            s += A[i]/x;
+            if ( A[i] % x != 0 ) s++;
+        }
+        return (s <= n);
+    }
+    void solve(){
+        int res = 0;
+        int fi = 0, la = 1e9;
+        while (fi <= la){
+            int temp = (fi+la)/2;
+            if (check(temp)){
+                res = temp;
+                la = temp - 1;
+            }
+            else fi = temp + 1;
+        }
+    std::cout<<res;
+    }
+    int main(){
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= m ; i++ ){
+            std::cin>>A[i];
+        }
+        solve();
+        return 0;
+    }
