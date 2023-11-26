@@ -1,0 +1,37 @@
+#include<stdio.h>
+#include<string.h>
+#include<math.h>
+const int MAXN = 1e5 + 3;
+    long long n,m,A[MAXN];
+    bool check( int x ){
+        int s = 0;
+        for ( int i = 1 ; i <= n ; i++ ){
+            s += x/A[i];
+        }
+        return ( s >= m );
+    }
+    void BinarySearch(){
+        long long res;
+        long long fi = 0, la = 1e9;
+        while ( fi <= la ){
+            int temp = (fi+la)/2;
+            if (check(temp)){
+                res = temp;
+                la = temp - 1;
+            }
+            else fi = temp + 1;
+        }
+        printf("%d",res);
+    }
+    int main(){
+        scanf("%d %d", &n, &m);
+        for ( int i = 1 ; i <= n ; i++ ){
+            scanf("%d",&A[i]);
+        }
+        BinarySearch();
+        return 0;
+    }
+    
+    
+    
+    
