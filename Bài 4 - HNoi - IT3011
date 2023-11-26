@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+const int MAXN = 201;
+    int m,n,A[MAXN][MAXN],dp[MAXN][MAXN],res;
+    int BiToDec( int x ){
+        int temp = x,res = 0,cnt = 0;
+        while (temp) {
+            int temp1 = temp % 10;
+            temp /= 10;
+            res += temp1 * pow(2,cnt);
+            cnt++;
+        }
+        return res;
+    }
+        std::string DecToBi( int x ){
+        std::string v;
+        while (x){
+            int temp = x % 2;
+            x /= 2;
+            v = std::to_string(temp) + v;
+        }
+        return v;
+    } 
+    
+    void inp(){
+        std::cin>>m>>n;
+        for ( int i = 1 ; i <= m ; i++ ) {
+        for ( int j = 1 ; j <= n ; j++ ){
+            std::cin>>A[i][j];
+            A[i][j] = BiToDec(A[i][j]);
+        }
+    }
+    } 
+    int main(){
+        inp();
+        memset(dp,0,sizeof(dp));
+        for ( int j = 1; j <= n ; j++ ){
+            dp[1][j] = A[1][j];
+        }
+        for ( int i = 2 ; i <= m ; i++ ) {
+            for ( int j = 1 ; j <= n ; j++ ){
+                dp[i][j] = std::max(std::max(dp[i-1][j-1],dp[i-1][j]),dp[i-1][j+1])*A[i][j];
+            }
+        }
+        for ( int i = 1 ; i <= n ; i++ ){
+            res = std::max(res,dp[m][i]);
+        }
+            std::cout<<DecToBi(res);    
+            return 0;
+    }
