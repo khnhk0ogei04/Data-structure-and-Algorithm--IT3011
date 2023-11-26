@@ -1,0 +1,13 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e6 + 1;
+    int main(){
+        int n, pos = 0;
+        int A[MAXN];
+        std::cin>>n;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+        }
+        std::sort(A+1,A+n+1);
+        std::cout<<A[n];
+        return 0;
+    }
