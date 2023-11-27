@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e6 + 1;
+
+    bool check[MAXN];
+    int n;
+    void Era(){
+    for ( int i = 2 ; i * i <= MAXN ; i++ ){
+        if (check[i]) {
+            for ( int j = i * i ; j <= MAXN ; j += i )
+            check[j] = false;
+        }
+    }
+    }
+    int main(){
+    //    freopen("SONTMAX.INP","r",stdin);
+      //  freopen("SONTMAX.OUT","w",stdout);
+        std::cin>>n;
+        memset(check,1,sizeof(check));
+        Era();
+        int temp = n;
+        while(1){
+            if (check[temp]) {
+                std::cout<<temp;
+                break;
+        }
+        else temp--;
+    }
+    return 0;
+    }
