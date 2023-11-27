@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e5 + 1;
+    bool visited[MAXN];
+    std::vector<int>adj[MAXN];
+    int n,A[MAXN];
+    void inp(){
+        std::cin>>n;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+            adj[i].push_back(A[i]);
+        }
+        
+    }
+    int dem( int x, int cnt ){
+        visited[x] = true;
+        for ( int v : adj[x] ){
+            if (!visited[v])
+            return dem(v,cnt+1);
+        }
+        return cnt;
+    }
+    int main(){
+        std::ios_base::sync_with_stdio(false);
+        std::cin.tie(NULL);
+        std::cout.tie(NULL);
+        inp();
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::memset(visited,false,sizeof(visited));
+            std::cout<<dem(i,1)<<std::endl;
+
+        }
+        return 0;
+    }
