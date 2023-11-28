@@ -1,0 +1,21 @@
+void ktao(){
+	for ( int i = 1 ; i <= n ; i++ ){
+		parent[i] = i;
+		sz[i] = 1;
+	}
+}
+	int Find ( int u ){
+		if ( u == parent[u] ) return u;
+		else return parent[u] = Find(parent[u]);
+	}
+	bool Union( int u, int v ){
+		 u = Find(u);
+		 v = Find(v);
+		 if ( u == v ) return false;
+		 else {
+		 	if (sz[a] < sz[b]) swap(a,b);
+		 	parent[b] = a;
+		 	sz[a] += sz[b];
+		 	return 1;
+	}
+	}
