@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+#define ll long long
+const int MAXN = 1e5 + 1;
+using namespace std;
+    std::vector<int>adj[MAXN];
+    bool visited[MAXN];
+    int n,m;
+    void inp(){
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= m ; i++ ){
+            int u,v;
+            std::cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+    }
+    void dfs( int u ){
+        visited[u] = true;
+        for ( int v : adj[u] ){
+            if (!visited[v]) 
+            dfs(v);
+        }
+    }
+  
+    int main(){
+        inp();
+        int tplt = 0 ,tplt2 = 0;
+        int cnt1 = 0;
+        std::memset(visited,false,sizeof(visited));
+        for ( int i = 1 ; i <= n ; i++ ){
+            if (!visited[i]) {
+                tplt++;
+                dfs(i);
+            }
+        }
+        memset(visited,false,sizeof(visited));
+        for ( int i = 1 ; i <= n ; i++ ){
+            visited[i] = true;
+            for ( int j = 1 ; j <= n ; j++ ){
+                if (!visited[j]) {
+                    tplt2++;
+                    dfs(j);
+                }
+            }
+            if (tplt2 > tplt) {
+              cnt1++;
+              std::cout<<i<<" ";
+            }
+            memset(visited,false,sizeof(visited));
+            tplt2 = 0;
+        }
+        std::cout<<"\n";
+        std::cout<<cnt1;
+    }    
+        
+        
+        
+    
