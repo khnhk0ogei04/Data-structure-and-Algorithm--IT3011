@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e6 + 1;
+
+    long long n,m;
+    long long A[MAXN];
+    bool check( long long x ){
+        long long sum = 0;
+        int k = std::lower_bound(A+1,A+n+1,x) - A;
+        for ( int i = k ; i <= n ; i++ ){
+            sum = sum + A[i] - x;
+        }
+        return sum >= m;
+    }
+    long long BinarySearch(){
+        long long fi = 0, la = 1e9;
+        long long res;
+            while ( fi <= la ){
+                long long temp = ( fi + la )/2;
+                if (check(temp)){
+                    res = temp;
+                    fi = temp + 1;
+                }
+                else la = temp - 1;
+            }
+        return res;    
+   }
+    int main(){
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+        }
+        std::sort(A+1,A+n+1);
+        
+        std::cout<<BinarySearch();
+        return 0;
+    }
+            
+            
+            
+            
+    
