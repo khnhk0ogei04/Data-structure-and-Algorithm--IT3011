@@ -1,0 +1,102 @@
+#include<bits/stdc++.h>
+const int inf = 1e9 + 7;
+using namespace std;
+    bool ch[101];
+	int X[1001],t[1001],n,res;
+	int cost[101][101];
+    int A[1001];
+	void Try(int i){
+	    
+		for ( int j = 2 ; j <= n ; j++ ){
+			if (!ch[j]) {
+			    
+			 	X[i] = j;
+				t[i] = t[i-1] + cost[X[i-1]][j];
+		if (t[i] < res ){
+
+			if ( i < n ){
+				ch[j] = 1;
+				Try(i+1);
+			
+				ch[j] = 0;
+			}
+		
+		else {
+			if ( t[n] + cost[X[n]][1] <= res ){
+			    for ( int i = 1; i <= n ; i++ ){
+			        A[i] = X[i];
+			    }
+				res = t[n] + cost[X[n]][1];
+			}
+		}
+			}
+		
+	}
+		}
+
+	}
+    int main() {
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(NULL);
+    std::cout.tie(NULL);
+    cin >> n;
+    if ( n <= 15) {
+        for ( int i = 1 ; i <= n ; i++ ){
+			for ( int j = 1; j <= n ; j++ ){
+				std::cin>>cost[i][j];
+				if ( !cost[i][j] ) cost[i][j] = inf; 
+			}
+		}
+
+		memset(ch,0,sizeof(ch));
+		ch[1] = true;
+		X[1] = 1;
+		t[1] = 0;
+		res = inf;
+
+		Try(2);
+        cout<<n<<endl;
+         for ( int i = 1 ; i <= n ; i++){
+         std::cout<<A[i]<<" ";
+        }
+    }
+    
+    if ( n > 15 ){
+    vector<vector<int>> dist(n, vector<int>(n));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> dist[i][j];
+        }
+    }
+    vector<int>v;
+    vector<bool>visited(n, false);
+
+    int currentCity = 0;
+    v.push_back(currentCity + 1);
+    visited[currentCity] = true;
+
+    for (int i = 1; i < n; ++i) {
+        int nextCity = -1;
+        int minDist = inf;
+
+        for (int j = 0; j < n; ++j) {
+            if (!visited[j] && dist[currentCity][j] < minDist) {
+                nextCity = j;
+                minDist = dist[currentCity][j];
+            }
+        }
+
+        v.push_back(nextCity + 1);
+        visited[nextCity] = true;
+        currentCity = nextCity;
+    }
+    cout << n << "\n";
+    for ( auto x : v)
+        cout << x << " ";
+    cout << "\n";
+    }
+    return 0;
+}
+
+
+
