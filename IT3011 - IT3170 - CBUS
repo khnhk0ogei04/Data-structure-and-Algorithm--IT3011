@@ -1,0 +1,70 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N = 101;
+    int n, m, numpas = 0, A[N][N];
+    int X[N],sum[N], res, min1 = 1e6 + 1;
+    bool check[N];
+    void init(){
+    X[0] = 0;
+    sum[0] = 0;
+    res = 1e6 + 1;
+    }
+void TRY (int k) {
+    for(int v = 1; v <= 2*n; v++){
+      //  if((k == 2*n) && (A[v][0] == 0)) continue;
+        if(!A[X[k-1]][v]) continue;
+
+        if(!check[v]) {
+            if (v <= n){
+                if (numpas < m){
+                    X[k] = v;
+                    check[v] = true;
+                    numpas++;
+                    sum[k]  = sum[k-1] + A[X[k-1]][v];
+
+                    if (sum[k] + min1*(2*n + 1 - k) < res ) TRY(k+1);
+
+                    check[v] = false;
+                    numpas--;
+                 
+                }
+            }
+            else {
+                if (check[v - n]) {
+                    X[k] = v;
+                    check[v] = true;
+                    numpas--;
+                    sum[k] =  sum[k-1] + A[X[k-1]][v];
+                    if (k == 2*n) {
+                        if (sum[k] + A[X[k]][0] < res ){
+                            res = sum[k] + A[X[k]][0];
+                    }
+                    }
+                    if (sum[k] + min1*(2*n + 1 - k)  < res ) TRY(k+1);
+
+                    check[v] = false;
+                    numpas++;
+                  
+                }
+            }
+        }
+    }
+}
+
+int main() {
+    cin >> n >> m;
+    memset(check,false,sizeof(check));
+    
+    for (int i = 0; i <= 2*n; i++) {
+        for ( int j = 0; j <= 2*n; j++) {
+            cin >> A[i][j];
+            if (A[i][j]) {
+                if (min1 > A[i][j] ) min1 = A[i][j];
+            }
+        }
+    }
+    init();
+    TRY(1);
+    cout<<res;
+    return 0;
+}
