@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+const int maxn = 1e6 + 1;
+
+	using namespace std;
+	struct edge{
+		int u,v,w;
+	};
+	int parent[maxn],sz[maxn];
+	int n,m;
+		vector<edge>canh;
+		void ktao(){
+			for ( int i = 1 ; i <= n ; i++ ){
+				parent[i] = i;
+				sz[i] = 1;
+			}
+			
+		}
+		int find(int u){
+			if ( u == parent[u] ) return u;
+			return parent[u] = find(parent[u]);
+			
+		}
+		bool Union(int a, int b){
+			a = find(a);
+			b = find(b);
+			if ( a == b ) return 0;
+			if ( sz[a] < sz[b] ) swap(a,b);
+			parent[b] = a;
+			sz[a] += sz[b];
+			return 1;
+			
+		}
+		void inp(){
+	        std::cin>>n>>m;
+	        for ( int i = 1 ; i <= m ; i++ ){
+	            int x,y,z;
+	            std::cin>>x>>y>>z;
+	            edge e;
+	            e.u = x; e.v = y; e.w = z;
+	            canh.push_back(e);
+	        }
+			
+		}
+	    bool cmp( edge a, edge b ){
+	        return a.w < b.w;
+	    }
+		void Kruskal(){
+		vector<edge>mst;
+		int res = 0;
+		sort(canh.begin(),canh.end(),cmp);
+		for ( int i = 0 ; i < canh.size(); i++ ){
+		    if (mst.size() == n - 1) break;
+		    edge e = canh[i];
+		    if (Union(e.u,e.v)) {
+		        mst.push_back(e);
+		        res += e.w;
+		    }
+		}
+		if (mst.size() != n - 1) cout<<"-1";
+		else cout<<res;
+		}
+		int main(){
+			ios_base::sync_with_stdio(false);
+			cin.tie(0);
+			inp();
+			ktao();
+			Kruskal();
+			return 0;
+		}
