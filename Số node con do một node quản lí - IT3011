@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+const int MAXN = 2e5 + 1;
+using namespace std;
+    int n,q, res = 0,key = 0,dem;
+    int A[MAXN],B[MAXN],X[MAXN];
+    int rank1[MAXN];
+     vector<int>adj[MAXN]; vector<int>allnode[MAXN]; vector<vector<int>>tong;
+    vector<int>t;
+    vector<int>temp;
+    bool visited[MAXN];
+    void inp(){
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+        }
+        for ( int i = 2 ; i <= n ; i++ ){
+            std::cin>>B[i];
+            adj[B[i]].push_back(i);
+            
+        }
+    }
+    void dfs( int u, int p ){
+        visited[p] = true;
+        allnode[u].push_back(p);
+        t.push_back(p);
+        for ( int v: adj[p] ){
+            if (!visited[v])
+            dfs(u,v);
+        }
+    }
+    void findallnode( int u, int p ){
+        visited[p] = true;
+        allnode[u].push_back(p);
+        for ( int v : adj[p] ){
+            if (!visited[v])
+            dfs(u,v);
+        }
+    }
+    void Try( int i ){
+        for ( int j = 0 ; j <= 1 ; j++ ){
+            X[i] = j;
+            if ( i == t.size() - 1 ){
+                for ( int r = 0 ; r < t.size() ; r++ ){
+                    if (X[r]) temp.push_back(t[r]);
+                    
+                }
+                tong.push_back(temp);
+                temp.clear();
+            }
+            else Try(i+1);
+        }
+    }
+     
+       int main(){
+        std::cin>>n>>q;
+        inp();
+        while (q--){
+            int u;
+            std::cin>>u;
+            dfs(u,u);
+            Try(0);
+            memset(visited,false,sizeof(visited));
+            for ( int i = 1 ; i <= n ; i++ ){
+                if ( i == u ) continue;
+                else findallnode(i,i);
+            }
+        for ( auto x : allnode[2] ){
+            cout<<x<<" ";
+        }
+   
+        }
+        return 0;
+    }
+    
+    
