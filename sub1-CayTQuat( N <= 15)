@@ -1,0 +1,104 @@
+#include<bits/stdc++.h>
+const int MAXN = 2e5 + 1;
+using namespace std;
+    long long n, res = 0,key = 0,dem;
+    long long A[MAXN],B[MAXN],X[MAXN];
+    int rank1[MAXN];
+     vector<int>adj[MAXN]; vector<int>allnode[MAXN]; vector<vector<int>>tong;
+    vector<int>t;
+    vector<int>temp;
+    vector<int>sub2;
+    bool visited[MAXN];
+    void inp(){
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+        }
+        for ( int i = 2 ; i <= n ; i++ ){
+            std::cin>>B[i];
+            adj[B[i]].push_back(i);
+            
+        }
+    }
+    void dfs( int u, int p ){
+        visited[p] = true;
+        allnode[u].push_back(p);
+        t.push_back(p);
+        for ( int v: adj[p] ){
+            if (!visited[v])
+            dfs(u,v);
+        }
+    }
+    void findallnode( int u, int p ){
+        visited[p] = true;
+        allnode[u].push_back(p);
+        for ( int v : adj[p] ){
+            if (!visited[v])
+            findallnode(u,v);
+        }
+    }
+    void Try( int i ){
+        for ( int j = 0 ; j <= 1 ; j++ ){
+            X[i] = j;
+            if ( i == t.size() - 1 ){
+                for ( int r = 0 ; r < t.size() ; r++ ){
+                    if (X[r]) temp.push_back(t[r]);
+                    
+                }
+                tong.push_back(temp);
+                temp.clear();
+            }
+            else Try(i+1);
+        }
+    }
+     vector<int> findIntersection(vector<int>v1, vector<int>v2) {
+    unordered_set<int> set1(v1.begin(), v1.end());
+    unordered_set<int> intersection;
+
+    for (int value : v2) {
+        if (set1.count(value)) {
+            intersection.insert(value);
+        }
+    }
+
+    vector<int> result(intersection.begin(), intersection.end());
+
+    return result;
+}
+       int main(){
+          ios_base::sync_with_stdio(false);
+          cin.tie(NULL);
+          cout.tie(NULL);
+        std::cin>>n;
+        inp();
+        
+            int u;
+            std::cin>>u;
+            dfs(u,u);
+            Try(0);
+            memset(visited,false,sizeof(visited));
+            for ( int i = 1 ; i <= n ; i++ ){
+                if ( i == u ) continue;
+                else findallnode(i,i);
+            }
+
+        for ( auto v: tong ){
+            dem = 0;
+            for ( int i = 0 ; i < v.size() ; i++ ){
+                vector<int>v1 = findIntersection(v,allnode[v[i]]);
+                for ( int j = 0 ; j < v1.size() ;j++ ){
+                    if (A[v[i]] >= A[v1[j]]) key++;
+                    
+                }
+                if ( key == v1.size() ) dem++;
+                key = 0;
+            }
+            if ( dem == v.size() ) res = max(res,dem);
+            dem = 0;
+        }
+        cout<<res<<endl;
+ 
+        
+        return 0;
+    }
+    
+    
