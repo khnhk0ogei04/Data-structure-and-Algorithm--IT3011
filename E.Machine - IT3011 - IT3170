@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e5 + 1;
+using namespace std;
+    int n,S[MAXN],T[MAXN],maxs[MAXN] = {0};
+    void inp(){
+        std::cin>>n;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>S[i]>>T[i];
+        }
+    }
+    int main(){
+        inp();
+        for ( int i = 1 ; i <= n ; i++ ){
+            maxs[T[i]] = std::max(maxs[T[i]],T[i] - S[i]);
+        }
+        for ( int i = 1 ; i < MAXN ; i++ ){
+            maxs[i] = std::max(maxs[i-1],maxs[i]);
+        }
+        int ans = -1;
+        for ( int i = 1 ; i <= n ; i++ ){
+            if (maxs[S[i]-1]) 
+            ans = std::max(ans,maxs[S[i]-1] + T[i] - S[i]);
+        }
+        std::cout<<ans;
+        return 0;
+    }
