@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+const int MAXN = 101;
+
+    std::vector<int>adj[MAXN];
+    int CharToInt ( char u ){
+        return u - 'A' + 1;
+    }
+
+   void PostOrder( int u ){
+       if (adj[u].size()) {
+        for ( int v : adj[u])
+            PostOrder(v);
+        }
+        std::cout<<char(u+'A'-1)<<" ";
+   }
+
+    int main(){
+             std::string s;
+        while (std::getline(std::cin,s)){
+            int ok = 0;
+            char u;
+                while ( s == "? readTree" ){
+                    if (ok == 0){
+                	std::string s1;
+                	while (std::getline(std::cin,s1)) {
+                		if ( s1.size() != 1 && s1[0] == '$' ) {
+                		continue;
+                	}
+                		if ( s1[0] >= 'A' && s1[0] <= 'Z' ){
+                			for ( int i = 1 ; i < s1.length() ; i++ )
+                			if ( s1[i] >= 'A' && s1[i] <= 'Z' )
+                			adj[CharToInt(s1[0])].push_back(CharToInt(s1[i]));
+                	}
+                	if ( s1.size() == 1 && s1[0] == '$' ){
+                	    ok = 1;
+                	    break;
+                	}
+                	}
+                	if (ok) break;
+                }
+					}
+					if ( s == "? postOrderTraversal") {
+					    std::cout<<"Duyet theo thu tu sau: ";
+					    PostOrder(CharToInt('A'));
+					}
+                    if ( s == "-1" ) break;
+             }
+             return 0;
+        }
