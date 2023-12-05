@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e5 + 1;
+
+    int main(){
+        int n,t,d;
+        int res = 0;
+        int A[MAXN],B[MAXN],dp[1001][1001];
+        std::cin>>n>>t>>d;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+        }
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>B[i];
+        }
+        std::memset(dp,0,sizeof(dp));
+        for ( int i = 1 ; i <= n ; i++ ){
+            for ( int k = B[i]; k <= t ; k++ ){
+                for ( int j = i - 1 ; j >= std::max(0,i-d) ; j-- ) {
+                    dp[i][k] = std::max(dp[i][k],dp[j][k-B[i]] + A[i] );
+                    res = std::max(res,dp[i][k]);
+                }
+            }
+        }
+        std::cout<<res;
+        return 0;
+    }
+/* 6 6 2
+6 8 5 10 11 6
+1 2 2 3 3 2
+24 */
