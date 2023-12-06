@@ -1,0 +1,38 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+double epsilon = 1e-6;
+long long l, r;
+
+int check(ll x) {
+    long double k1 = logl(l) / logl(x);
+    long double k2 = logl(r) / logl(x);
+    for (int k = (int)k1; k <= (int)k2; k++) {
+        if (k >= k1 && k <= k2) return 1;
+        
+    }
+   return 0;
+}
+
+void BinarySearch(ll x, ll y) {
+    int temp = 2;
+    while (1){
+        if (check(temp)) {
+            cout<<(int)(logl(y)/logl(temp))<<endl;
+            break;
+    }
+    else temp++;
+}
+}
+
+int main() {
+    int t, i = 1;
+    cin >> t;
+    while (t--) {
+        cin >> l >> r;
+        cout<<"case #"<<i<<": ";
+        BinarySearch(l,r);
+        i++;
+    }
+    return 0;
+}
