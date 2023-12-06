@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+    int main(){
+        int n, dp[501][50001],A[501],s,sum = 0;
+        std::cin>>n;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+        }
+        std::cin>>s;
+        int dmax = 25001;
+        for ( int i = 1 ; i <= n ; i++ ) {
+            sum += A[i];
+        }
+        std::memset(dp,0,sizeof(dp));
+        dp[1][A[1]+dmax] = 1;
+        for ( int i = 2 ; i <= n ; i++ ){
+            for ( int j = -sum ; j <= sum ; j++ ){
+                if ( j + A[i] <= sum ){
+                    if (dp[i-1][j+A[i]+dmax])
+                    dp[i][j+dmax] = 1;
+                }
+                if ( j - A[i] >= - sum ){
+                    if (dp[i-1][j-A[i]+dmax])
+                    dp[i][j+dmax] = 1;
+            }
+        }
+    }
+    if (dp[n][s+dmax]) cout<<"YES";
+    else cout<<"NO";
+    return 0;
+    }
