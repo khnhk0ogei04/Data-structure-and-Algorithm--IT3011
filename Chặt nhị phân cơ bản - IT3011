@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+#define ll long long
+const int MAXN = 1e5 + 1;
+using namespace std;
+    ll n,A[MAXN],B[MAXN],k;
+    bool check ( ll x ){
+        ll sum = 0, res = 0;
+        for ( int i = 1 ; i <= n ; i++ ){
+            sum += A[i];
+        }
+        for ( int i = 1 ; i <= n ; i++ ){
+            res += std::min(A[i],x/B[i]);
+        }
+        return res >= (sum-k);
+    }
+    void BinarySearch(){
+        ll res;
+        ll fi = 0, la = 1e9;
+        while ( fi <= la ){
+            ll temp = ( fi + la )/2;
+            if (check(temp)){
+                res = temp;
+                la = temp - 1;
+            }
+            else fi = temp + 1;
+        }
+        std::cout<<res;
+        
+    }
+    int main(){
+        std::cin>>n>>k;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+        }
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>B[i];
+        }
+        BinarySearch();
+        return 0;
+    }
