@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    int n, ok = 1,colored[MAXN];
+    vector<int>adj[MAXN];
+    set<int>se;
+    vector<int>dinh;
+    void inp(){
+        std::cin>>n;
+        for ( int i = 1 ; i <= n ; i++ ){
+            int u,v;
+            std::cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+            se.insert(u);
+            se.insert(v);
+        }
+    }
+    void solve(){
+        for ( auto x: se ){
+            dinh.push_back(x);
+        }
+        queue<int>q;
+        for ( int i = 1 ; i <= dinh.size() ; i++ ){
+            if (colored[i] == -1) {
+                q.push(i);
+            while (!q.empty()){
+                int u = q.front();
+                if (colored[u] == -1) colored[u] = 0;
+                q.pop();
+                for ( int v : adj[u] ){
+                    if (colored[v] == -1) {
+                        colored[v] = 1 - colored[u];
+                        q.push(v);
+                    }
+                    else if (colored[v] == colored[u]) {
+                        ok = 0;
+                    }
+                }
+            }
+        }
+    }
+    for ( int i = 1 ; i <= dinh.size() ; i++ ) cout<<colored[i]<<" ";
+    }
+    int main(){
+        inp();
+        memset(colored,-1,sizeof(colored));
+        solve();
+        cout<<endl;
+        if ( ok == 0 ) cout<<"Suspicious Bugs Found";
+        else cout<<"No suspicious Bugs Found";
+        return 0;
+    }
