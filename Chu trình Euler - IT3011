@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    int n,m;
+    set<int>adj[MAXN];
+    int deg[MAXN];
+    void inp(){
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= m ; i++ ){
+            int u,v;
+            std::cin>>u>>v;
+            adj[u].insert(v);
+            adj[v].insert(u);
+            deg[u]++;
+            deg[v]++;
+        }
+    }
+    void solve( int u ){
+        stack<int>st;
+        vector<int>v;
+        st.push(u);
+        while (st.empty()) {
+            int x = st.top();
+            if (adj[x].size()) {
+                int y = *adj[x].begin();
+                st.push(y);
+                adj[x].erase(y);
+                adj[y].erase(x);
+            }
+             else {
+                 v.push_back(x);
+                 st.pop();
+                 
+             }  
+            }
+            reverse(v.begin(), v.end());
+            for ( auto x: v ) cout<<x<<" ";
+        }
+        
+    int main(){
+        inp();
+        solve(1);
+        return 0;
+    }
