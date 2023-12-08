@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+    string x;
+    int k;
+    string remove1( string s ){
+        string res;
+        stack<pair<char,int>>st;
+        for ( int i = 0 ; i < s.length(); i++ ){
+            if (!st.empty() && s[i] == st.top().first && st.top().second == k - 1 ){
+                st.pop();
+            }
+            else {
+                if (st.empty() || s[i] != st.top().first){
+                    pair<char,int>p = make_pair(s[i],1);
+                    st.push(p);
+                }
+                else if ( s[i] == st.top().first ){
+                    st.top().second += 1;
+                }
+                
+            }
+        }
+        while (!st.empty()){
+            auto u = st.top().first;
+            auto v = st.top().second;
+            for ( int i = 0 ; i < v ; i++ ){
+                res += u;
+            }
+            st.pop();
+        }
+        std::reverse(res.begin(),res.end());
+        return res;
+    }
+    int main(){
+        std::cin>>x;
+        std::cin>>k;
+        std::string key;
+        key = remove1(x);
+        if ( key == "" ) std::cout<<"EMPTY";
+        else std::cout<<key;
+    }
