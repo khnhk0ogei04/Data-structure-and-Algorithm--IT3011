@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+// using namespace std;
+	int n,k;
+	int dp[101][101],A[101][101],sum[101];
+	int res = -100000;
+	int main(){
+		std::cin>>k>>n;
+		for ( int i = 1 ; i <= k ; i++ ){
+			for ( int j = 1 ; j <= n ; j++ ){
+				std::cin>>A[i][j];
+			}
+		}
+		for ( int j = 0 ; j <= n ; j++ ) dp[0][j] = 0;
+		for ( int i = 1 ; i <= k ; i++ ){
+			for ( int j = 0 ; j <= n ; j++ ){
+				dp[i][j] = -1e9;
+			}
+		}
+		sum[0] = 0;
+		for ( int i = 1 ; i <= n ; i++ ) {
+			sum[i] = sum[i-1] + A[i][i];
+		}
+		for ( int i = 1 ; i <= n ; i++ ){
+			for ( int j = i ; j <= n ; j++ ){
+				if ( i == j ) dp[i][j] = sum[i];
+				else if ( i < j ) {
+					dp[i][j] = std::max(dp[i][j-1],dp[i-1][j-1] + A[i][j]);
+				}
+			}
+		}
+		for ( int j = 1 ; j <= n ; j++ ){
+			res = std::max(res,dp[k][j]);
+		}
+		std::cout<<res;
+		return 0;
+	}
+	/* 3 5
+7 23 -5 -24 16
+5 21 -4 10 23
+-21 5 -4 -20 20
+53 */
