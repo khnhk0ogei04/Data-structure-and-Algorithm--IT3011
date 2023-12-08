@@ -1,0 +1,17 @@
+#include<bits/stdc++.h>
+using namespace std;
+	int n,A[1001],dp[1001],S;
+	int main(){
+		std::cin>>n>>S;
+		memset(dp,0,sizeof(dp));
+		for ( int i = 1 ; i <= n ; i++ ){
+			std::cin>>A[i];
+		}
+		dp[0] = 1;
+		for ( int i = 1 ; i <= n ; i++ ){
+			for ( int j = S; j >= A[i] ; j-- )
+			dp[j] = dp[j-A[i]] || dp[j];
+		}
+		std::cout<<dp[S];
+		return 0;
+	}
