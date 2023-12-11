@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    void smaller_left( int A[], int n, int L[] ){
+        stack<int>st;
+        for ( int i = n - 1 ; i >= 0 ; i-- ){
+            while (!st.empty() && A[i] < A[st.top()]) {
+                L[st.top()] = i;
+                st.pop();
+            }
+            st.push(i);
+        }
+        while (!st.empty()){
+            L[st.top()] = -1;
+            st.pop();
+        }
+    }
+    void smaller_right ( int A[], int n, int R[] ){
+        stack<int>st;
+        for ( int i = 0 ; i < n ; i++ ){
+            while (!st.empty() && A[i] < A[st.top()] ){
+                R[st.top()] = i;
+                st.pop();
+                
+            }
+            st.push(i);
+        }
+        while(!st.empty()){
+            R[st.top()] = n;
+            st.pop();
+        }
+    }
+    int main(){
+        int n,A[MAXN],L[MAXN],R[MAXN];
+        std::cin>>n;
+        for ( int i = 0 ; i < n ; i++ ){
+            std::cin>>A[i];
+        }
+        smaller_left(A,n,L);
+        smaller_right(A,n,R);
+     /*   for ( int i = 0 ; i < n ; i++ ) cout<<L[i]<<" ";
+        cout<<endl;
+        for ( int i = 0 ; i < n ; i++ ) cout<<R[i]<<" "; */
+        int res = 0; 
+        for ( int i = 0 ; i < n ; i++ ){
+            int dt = (R[i]-L[i]-1)*A[i];
+            res = std::max(res,dt);
+        }
+        std::cout<<res;
+        return 0;
+    }
