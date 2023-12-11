@@ -1,0 +1,29 @@
+
+#include<bits/stdc++.h>
+using namespace std;
+    void solve(){
+        std::string s;
+        std::cin>>s;
+        int cnt = 0;
+        std::stack<char>st;
+        for ( int i = 0 ; i < s.length() ; i++ ){
+            if ( s[i] == '(' ) {
+                st.push(s[i]);
+            }
+            else {
+                if (!st.empty()){
+                    st.pop();
+                }
+                else {
+                    cnt++;
+                    st.push('(');
+                }
+            }
+        }
+        cnt += st.size()/2;
+        std::cout<<cnt;
+    }
+    int main(){
+        solve();
+        return 0;
+    }
