@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    int n,m;
+    vector<int>adj[MAXN];
+    bool visited[MAXN];
+    int check[MAXN];
+    void inp(){
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= m ; i++ ){
+            int u,v;
+            std::cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+    }
+    void dfs( int u ){
+        visited[u] = true;
+        check[u] = 1;
+        for ( int v : adj[u] ){
+            if (!visited[v])
+            dfs(v);
+        }
+    }
+    int main(){
+        inp();
+        dfs(1);
+        for ( int i = 1 ; i <= n ; i++ ){
+            if (!check[i]) std::cout<<i<<endl;
+        }
+        return 0;
+    }
