@@ -1,0 +1,68 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    int n,m,D[MAXN][MAXN],ga = 0,cao = 0;
+    int k1 = 0, k2 = 0;
+    char A[MAXN][MAXN];
+    int dx[] = {-1,0,0,1};
+    int dy[] = {0,-1,1,0};
+    void inp(){
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= n ; i++ ){
+            for ( int j = 1 ; j <= m ; j++ ){
+                std::cin>>A[i][j];
+                if (A[i][j] == '.') A[i][j] = '1';
+                if (A[i][j] == '#') A[i][j] = '0';
+                if (A[i][j] == 'c') A[i][j] = '2';
+                if (A[i][j] == 'f') A[i][j] = '3';
+            }
+        }
+    }
+    void loang( int i, int j ){
+        if (A[i][j] == '2') ga++;
+        if (A[i][j] == '3') cao++;
+        A[i][j] = '0';
+        for ( int k = 0 ; k <= 3 ; k++ ){
+            int i1 = i + dy[k], j1 = j + dx[k];
+            if (i1 >= 1 && i1 <= n && j1 >= 1 && j1 <= m && (A[i1][j1] != '0')){
+                loang(i1,j1);
+            }
+        }
+    }
+    int main(){
+        inp();
+        int cnt = 0;
+   /*   for ( int i = 1 ; i <= n ; i++ ){
+            for ( int j = 1 ; j <= m ; j++ ){
+                cout<<A[i][j]<<" ";
+            }
+            cout<<endl;
+        }  */
+        for ( int i = 1 ; i <= n ; i++ ){
+            for ( int j = 1 ; j <= m ; j++ ){
+                if (A[i][j] != '0'){
+                    cnt++;
+                    loang(i,j);
+                 //   std::cout<<ga<<" "<<cao<<" ";
+                    if (ga > cao) k1 += ga;
+                    else k2 += cao;
+                    
+                }
+                ga = 0; cao = 0;
+            }
+        }
+     //   std::cout<<cnt<<std::endl;
+        std::cout<<k2<<" "<<k1; 
+        return 0;
+    }
+    /*
+    8 8
+.#######
+#..c...#
+#.####.#
+#.#f.#.#
+#.#.c#c#
+#c.##..#
+#.f..f.#
+.######.
+*/ 
