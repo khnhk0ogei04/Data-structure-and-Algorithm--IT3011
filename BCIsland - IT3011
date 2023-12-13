@@ -1,0 +1,114 @@
+#include <iostream>
+using namespace std;
+
+int n, m;
+int seawater[102][102];
+int Hmax=0;
+void inp()
+{
+	for (int i=1; i<=n; i++)
+	{
+		for (int j=1; j<=m; j++)
+		{
+			cin>>seawater[i][j];
+			if (seawater[i][j]>Hmax) Hmax=seawater[i][j];
+		}
+	}
+}
+
+int check[102][102];
+
+void init ()
+{
+	for (int i=1; i<=n; i++)
+	{
+		for (int j=1; j<=m; j++)
+		{
+			check[i][j]=0;
+		//	check2[i][j]=0;
+		}
+	}
+}
+
+int extra;
+int dx[]={-1, 0, 0, 1};
+int dy[]={0, -1, 1, 0};
+void loang (int i, int j)
+{
+	check[i][j]=1;
+	for (int k = 0; k < 4; k++)
+	{
+		int i1 = i + dy[k];
+		int j1 = j + dx[k];
+		if (i1 >= 1 && i1 <= n && j1 >= 1 && j1 <= m)
+		{
+			if (check[i1][j1] == 0 && seawater[i1][j1]<=extra) loang (i1,j1);
+		}
+	}
+}
+
+void loang2 (int i, int j)
+{
+	check[i][j]=1;
+	for (int k=0; k<4; k++)
+	{
+		int i1 = i +dy[k];
+		int j1 = j +dx[k];
+		if (i1>=1 && i1<=n && j1>=1 && j1<=m && check[i1][j1] == 0)
+		{
+			loang2(i1,j1);
+		}
+	}
+}
+
+int main ()
+{
+	int t=0;
+	while (1)
+	{
+		cin>>n>>m;
+		if (n==0 && m==0) break;
+		t++;
+		inp();
+		int kt=0;
+		for (int k=0; k<=Hmax; k++)
+		{
+			extra=k;
+			init ();
+			for (int i=1; i<=n; i++)
+			{
+				for (int j=1; j<=m; j++)
+				{
+					if ((i==1 || i==n || j==1 || j==m) && seawater[i][j]<=k && check[i][j]==0) loang (i, j);
+				}
+			}
+
+			int count_connect=0;
+	/*		for ( int i = 1 ; i <= n ; i++ ){
+			    for ( int j = 1 ; j <= m ; j++ ){
+			        cout<<check[i][j]<<" ";
+			    }
+			    cout<<endl;
+			} */
+		for (int i=1; i<=n; i++)
+			{
+				for (int j=1; j<=m; j++)
+				{
+					if (check[i][j]==0)
+					{
+						count_connect++;
+						loang2(i, j);
+					}
+				}
+			} 
+			if (count_connect>1)
+			{
+				kt=1;
+				break;
+			}
+		}
+		if (kt==1) cout<<"Case "<<t<<": Island splits when ocean rises "<<extra<<" feet."<<endl;
+		else cout<<"Case "<<t<<": Island never splits."<<endl;
+	}
+	return 0;
+}
