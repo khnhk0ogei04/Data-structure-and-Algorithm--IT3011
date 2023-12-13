@@ -1,0 +1,94 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+struct node
+{
+    char data;
+    node *left;
+    node *right;
+};
+    int cnt = 0;
+    vector<int>v;
+    node *insert ( node *t , string s, char x ){
+        if ( s == "0" ) {
+            node *temp = new node;
+            temp->data = x;
+            temp->left = NULL;
+            temp->right = NULL;
+            return temp;
+        }
+        else {
+            node *q = t;
+            for ( int i = 0 ; i < s.length() - 1 ; i++ ){
+                if ( s[i] == 'L' ) q = q->left;
+                else q = q->right;
+            }
+            node *temp = new node;
+            temp->data = x;
+            temp->left = NULL;
+            temp->right = NULL;
+            if ( s[s.length()-1] == 'L' ) q->left = temp;
+            if ( s[s.length() - 1] == 'R' ) q->right = temp;
+            return t;
+        }
+    }
+    bool checkFullNode ( node *t ){
+        return ( t->left != NULL && t->right != NULL );
+    }
+    void InOrder( node *t ){
+        if ( t != NULL ){
+            InOrder(t->left);
+            if (checkFullNode(t)) cnt++;
+            v.push_back(t->data - 'A');
+            std::cout<<t->data<<" ";
+            InOrder(t->right);
+        }
+    }
+
+    int countFullNode ( node *t ){
+        return cnt;
+    }
+    bool checkBSTTree ( node *t ){
+        for ( int i = 1 ; i < v.size() ; i++ ){
+            if (v[i] < v[i-1]) return 0;
+        }
+        return 1;
+    }
+
+    int main(){
+        node *t = NULL;
+        string s;
+        int levelTree = 0;
+        while (getline(cin,s)) {
+            if ( s == "-1" ) break;
+            while ( s == "? buildTree" ){
+                int x;
+                std::cin>>x;
+                if ( x != -1 ){
+                string s1;
+                char y;
+                std::cin>>s1;
+                std::cin>>y;
+                t = insert(t,s1,y);
+                levelTree = std::max(levelTree,x);
+            }
+            else break;
+        }
+        if ( s == "? printInOrderTravel" ){
+            InOrder(t);
+            std::cout<<"\n";
+        }
+        if ( s == "? countFullNodes" ){
+            cout<<"Total full nodes: "<<countFullNode(t);
+            std::cout<<"\n";
+        }
+        if ( s == "? countLevel" ){
+            std::cout<<"Total levels: "<<levelTree<<std::endl;
+        }
+        if ( s == "? checkIsaBST" ){
+            if (checkBSTTree(t)) std::cout<<"is a BST"<<std::endl;
+            else std::cout<<"is not a BST"<<std::endl;
+        }
+    }
+    return 0;
+    }
