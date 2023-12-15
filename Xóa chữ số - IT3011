@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using namespace std;
+    int main(){
+        int n,k,u;
+        std::cin>>n>>k;
+        vector<int>v;
+        while (n){
+            int temp = n % 10;
+            n /= 10;
+            v.push_back(temp);
+        }
+        reverse(v.begin(),v.end());
+    //    for ( auto x: v ) cout<<x<<" ";
+        stack<int>st;
+        string s;
+        st.push(v[0]);
+        for ( int i = 1 ; i < v.size() ; i++ ){
+             if (v[i] > st.top()){
+                k--;
+                st.pop();
+                st.push(v[i]);
+            }
+            else {
+                st.push(v[i]);
+            }
+            if ( k == 0 ){
+                u = i;
+                break;
+            }
+        }
+
+       if ( k == 0 ){
+            for ( int i = u + 1 ; i < v.size() ; i++ ){
+            st.push(v[i]);
+            }
+            while (!st.empty()){
+                string p = to_string(st.top());
+                st.pop();
+                s = p + s;
+            }
+            std::cout<<s; 
+        }
+        else {
+             while (k){
+                st.pop();
+                k--;
+            }
+            while (!st.empty()){
+                string p = to_string(st.top());
+                st.pop();
+                s = p + s;
+            }
+            std::cout<<s;
+        }
+        return 0;
+    }
