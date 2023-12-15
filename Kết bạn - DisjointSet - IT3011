@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+    // SD DisjointSet
+    struct edge{
+        int u,v,w;
+    };
+    int n,m;
+    int parent[MAXN],sz[MAXN];
+    std::vector<int>adj[MAXN];
+        void inp(){
+
+            std::cin>>n>>m;
+            for ( int i = 1 ; i <= n ; i++ ){
+                parent[i] = i;
+                sz[i] = 1;
+            }
+        }
+        int Find ( int u ){
+            if ( u == parent[u] ) return u;
+            else return parent[u] = Find(parent[u]);
+        }
+        void Union ( int u, int v ){
+            u = Find(u);
+            v = Find(v);
+            if ( u != v ){
+                if ( sz[u] < sz[v] ) std::swap(u,v);
+                sz[u] += sz[v];
+                parent[v] = u;
+            }
+        }
+        void solve(){
+            inp();
+            for ( int i = 1 ; i <= m ; i++ ){
+                int u,v;
+                std::cin>>u>>v;
+                Union(u,v);
+            }
+            int ans = 0;
+            for ( int i = 1 ; i <= n ; i++ ){
+                ans = std::max(ans,sz[i]);
+            }
+            std::cout<<ans<<std::endl;
+        }
+        int main(){
+            int t;
+            std::cin>>t;
+            while (t--) {
+                solve();
+
+            }
+             return 0;
+        }
