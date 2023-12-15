@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+//using namespace std;
+    std::vector<int>v;
+    struct node{
+        int data;
+        node *left;
+        node *right;    
+        
+    };
+    node *insert ( node *t, int x ){
+        if ( t == NULL ){
+            node *temp = new node;
+            temp->left = NULL;
+            temp->right = NULL;
+            temp->data = x;
+            return temp;
+        }
+        else {
+            if ( x < t->data ){
+                t->left = insert(t->left,x);
+            }
+            else t->right = insert(t->right,x); 
+        }
+        return t;
+    }
+    bool IsLeafNode ( node *t ){
+        return ( t->left == NULL && t->right == NULL );
+    }
+    void PreOrder ( node *t ){
+        if ( t != NULL ){
+            if (IsLeafNode(t)) v.push_back(t->data);
+            PreOrder(t->left);
+            PreOrder(t->right);
+        }
+    }
+    void solve(){
+        int n;
+        std::cin>>n;
+        node *t = NULL;
+        for ( int i = 1 ; i <= n ; i++ ){
+            int x;
+            std::cin>>x;
+            t = insert(t,x);
+        }
+        PreOrder(t);
+        for ( auto x : v ) std::cout<<x<<" ";
+        std::cout<<std::endl;
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--) {
+            v.clear();
+            solve();
+        }
+        return 0;
+    }
+    /* 
+    2
+    6
+    10 5 1 7 40 50
+    11 
+    30 20 15 25 23 28 40 35 33 38 45
+    1 7 50 
+    15 23 28 33 38 45 
+*/
