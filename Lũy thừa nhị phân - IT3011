@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    long long find( char a[] , long long b ){
+        long long res = 0;
+        for ( int i = 0 ; i < strlen(a) ; i++ ){
+            res = res * 10 + (a[i] - '0');
+            res %= b;
+        }
+        return res;
+    }
+    long long du( long long a, long long b, long long m ){
+        long long res = 1;
+        while (b){
+            if (b % 2 == 1){
+                res *= a;
+                res %= m;
+            }
+            a *= a;
+            a %= m;
+            b /= 2;
+        }
+            return res;
+        }
+
+    
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--) {
+            char s[MAXN];
+            long long k,m;
+            std::cin>>s>>k>>m;
+            long long remain = find(s,m);
+            long long res = du(remain,k,m);
+            std::cout<<res<<std::endl;
+        }
+        return 0;
+    }
