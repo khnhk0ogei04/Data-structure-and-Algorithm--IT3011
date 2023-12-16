@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    int parent[MAXN],sz[MAXN];
+    
+    int Find ( int u ){
+        if ( u == parent[u] ) return u;
+        else return parent[u] = Find(parent[u]);    
+        
+    }
+    bool Union ( int u, int v ){
+        u = Find(u);
+        v = Find(v);
+        if ( u == v ) return false;
+        else {
+            if (sz[u] < sz[v]) swap(u,v);
+            sz[u] += sz[v];
+            parent[v] = u;
+            return true;
+        } 
+    }
+    int main(){
+        int n,m;
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= n ; i++ ){
+            parent[i] = i;
+            sz[i] = 1;
+        }
+        int ok = 0;
+        for (int i = 1 ; i <= m ; i++ ){
+            int u,v;
+            std::cin>>u>>v;
+            if (Union(u,v) == 0) {
+                ok = 1;
+                break;
+            }
+        }
+        if (ok) std::cout<<"YES";
+        else std::cout<<"NO";
+        return 0;
+    }
