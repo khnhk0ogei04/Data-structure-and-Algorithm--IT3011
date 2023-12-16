@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+// using namespace std;
+    int dx[] = {0,1};
+    int dy[] = {1,0};
+    int n,m,A[MAXN][MAXN],dem;
+    int X[MAXN];
+    bool check[MAXN][MAXN];
+        void backtrack( int i, int j, int cnt ){
+            check[i][j] = true;
+            X[cnt] = A[i][j];
+            if ( i == n && j == m ){
+                for ( int k = 1 ; k <= cnt ; k++ ){
+                    std::cout<<X[k]<<" ";
+                }
+                std::cout<<std::endl;
+                dem++;
+            }
+            else {
+                for ( int u = 0 ; u < 2 ; u++ ){
+                    int i1 = i + dy[u];
+                    int j1 = j + dx[u];
+                    if ( i1 >= 1 && i1 <= n && j1>=1 && j1<=m && check[i1][j1] == 0) {
+                        backtrack(i1,j1,cnt+1);
+                        check[i1][j1] = 0;
+                    }
+                }
+                
+            }
+        }
+        void solve(){
+            std::cin>>n>>m;
+            for ( int i = 1 ; i <= n ; i++ ){
+                for ( int j = 1 ; j <= m ; j++ ){
+                    std::cin>>A[i][j];
+                }
+            }
+            backtrack(1,1,1);
+        }
+        int main(){
+            int t;
+            std::cin>>t;
+            while (t--){
+                solve();
+                memset(check,0,sizeof(check));
+                std::cout<<dem<<std::endl;
+                dem = 0;
+            }
+            return 0;
+        }
