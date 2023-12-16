@@ -1,0 +1,38 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    int parent[MAXN],n,m,k, ok = 0;
+    vector<int>adj[MAXN];
+    int visited[MAXN];
+    int res = -1;
+    void inp(){
+        std::cin>>n>>m>>k;
+        for (int i = 1 ; i <= m ; i++){
+            int u,v;
+            std::cin>>u>>v;
+            adj[u].push_back(v);
+        }
+    }
+    void dfs ( int u, int v, int cnt ){
+    	visited[u]++;
+    	std::cout<<u<<" "<<v<<" "<<cnt<<std::endl;
+        if ( (u == v) && visited[u] == 2 ){
+            res = cnt;
+            if ( res == k ) ok = 1;
+            return;
+        }
+        
+        for ( int x: adj[u] ){
+            if ((visited[x] == 0 && x != v) || (visited[x] == 1 && x == v))
+            dfs(x,v,cnt+1);
+        }
+        visited[u]--;
+    }
+    int main(){
+        inp();
+        memset(visited,0,sizeof(visited));
+        dfs(1,1,0);
+        if (ok) std::cout<<"YES";
+        else std::cout<<"NO";
+        return 0;
+    }
