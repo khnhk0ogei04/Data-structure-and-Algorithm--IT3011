@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+
+    int n,k,A[MAXN];
+    int X[MAXN];
+    void backtrack ( int pos, int cnt, int sum ){
+        if ( sum == k ){
+            for ( int i = 0 ; i < cnt ; i++ ){
+                std::cout<<X[i]<<" ";
+                
+            }
+            std::cout<<std::endl;
+            return;
+        }
+        else {
+            for ( int i = pos; i <= n ; i++ ){
+                if ( sum + A[i] <= k ){
+                    X[cnt] = A[i];
+                    backtrack(i, cnt + 1, sum + A[i]);
+                }
+            }
+            
+        }
+        
+    }
+    
+    void solve(){
+        std::cin>>n>>k;
+        for (int i = 1 ; i <= n ; i++){
+            std::cin>>A[i];
+        }
+    sort(A+1,A+n+1);
+    backtrack(1,0,0);
+    
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+        }
+    return 0;
+    }
