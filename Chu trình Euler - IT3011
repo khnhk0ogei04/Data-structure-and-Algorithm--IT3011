@@ -19,7 +19,7 @@ using namespace std;
         stack<int>st;
         vector<int>v;
         st.push(u);
-        while (st.empty()) {
+        while (!st.empty()) {
             int x = st.top();
             if (adj[x].size()) {
                 int y = *adj[x].begin();
