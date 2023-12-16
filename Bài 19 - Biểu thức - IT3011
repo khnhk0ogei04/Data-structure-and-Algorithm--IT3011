@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+    int A[5],O[4],temp;
+    int cal( int a, int b, int i ){
+        if ( i == 1 ) return a + b;
+        if ( i == 2 ) return a - b;
+        if ( i == 3 ) return a*b;
+    }
+    void backtrack( int i ){
+        if ( i == 5 ){
+            int temp1 = cal(A[1],A[2],O[1]);
+            int temp2 = cal(temp1, A[3], O[2]);
+            int temp3 = cal(temp2, A[4], O[3]);
+            int key = cal(temp3, A[5], O[4]);
+            if ( key == 23 ) {
+                temp = 1;
+            }
+            return;
+        }
+            if (temp) return;
+            for ( int j = 1 ; j <= 3 ; j++ ){
+                O[i] = j;
+                backtrack(i+1);
+            }
+        }
+    
+    void solve(){
+        for ( int i = 1 ; i <= 5 ; i++ ){
+            std::cin>>A[i];
+        }
+        temp = 0;
+        do{
+        backtrack(1);
+        if (temp) break;
+
+        } while (next_permutation(A+1,A+5));
+        
+        if (temp) std::cout<<"YES";
+        else std::cout<<"NO";
+        std::cout<<std::endl;
+    }
+    
+    
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+        }
+        return 0;
+    }
