@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    int n,sum,ok,res,A[MAXN];
+    bool used[MAXN];
+    void backtrack( int temp, int cnt ){
+        if ( temp == sum ){
+            res = cnt;
+            ok = 1;
+        }
+        if (ok) return;
+        for ( int i = 1 ; i <= n ; i++ ){
+            if (!used[i]) {
+                used[i] = true;
+                backtrack(temp + A[i], cnt + 1);
+                used[i] = false;
+            }
+        }
+    }
+    bool cmp( int a, int b ){
+        return a > b;
+    }
+    void solve(){
+        std::cin>>n>>sum;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+        }
+        std::sort(A+1,A+n+1,cmp);
+        ok = 0;
+        backtrack(0,0);
+        if (ok)
+        std::cout<<res<<std::endl;
+        else std::cout<<"-1"<<std::endl;
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+            std::memset(used,0,sizeof(used));
+        }
+        return 0;
+    }
