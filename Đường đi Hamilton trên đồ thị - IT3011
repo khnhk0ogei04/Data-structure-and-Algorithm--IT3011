@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    int n,m, ok;
+    vector<int>adj[MAXN];
+    bool visited[MAXN];
+    void dfs ( int u, int cnt ){
+   //     std::cout<<u<<" "<<cnt<<"\n";
+        visited[u] = true;
+        if ( cnt == n ){
+            ok = 1;
+            return;
+        }
+        for ( int v: adj[u] ){
+            if (!visited[v])
+            dfs(v, cnt + 1);
+        }
+        visited[u] = false;
+    }
+    void solve(){
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= m ; i++ ){
+            int u,v;
+            std::cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        for ( int i = 1 ; i <= n ; i++ ){
+            dfs(i,1);
+            if (ok) break;
+        }
+        if (ok) std::cout<<"YES";
+        else std::cout<<"NO";
+    }
+    
+        
+    
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--) {
+            ok = 0;
+            solve();
+            std::cout<<std::endl;
+            memset(visited,0,sizeof(visited));
+            for ( int i = 0 ; i < MAXN ; i++ ){
+                adj[i].clear();
+            }
+        }
+        return 0;
+    }
