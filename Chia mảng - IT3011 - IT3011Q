@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    int n,k,A[MAXN],sum,sum1,ok;
+    bool used[MAXN];
+    void backtrack ( int a, int cnt, int temp ){
+    	std::cout<<a<<" "<<cnt<<" "<<temp<<"\n";
+        if ( cnt == a ){
+            ok = 1;
+            return;
+        }
+        if (ok) return;
+        else {
+            for ( int i = 1 ; i <= n ; i++ ){
+                if (!used[i]) {
+                    if ( temp == sum1 )
+                    backtrack(a, cnt + 1, 0);
+                    else if ( temp < sum1 ) {
+                        used[i] = true;
+                        backtrack(a, cnt, temp + A[i]);
+                        
+                    }
+                    used[i] = false;
+                }
+            }
+        } 
+        }
+    void solve(){
+        std::cin>>n>>k;
+        sum = 0;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+            sum += A[i];
+        }
+        sum1 = sum/k;
+        if ( sum % k ) {
+            ok = 0;
+        }
+        else {
+            backtrack(k,0,sum1);
+        }
+        if (ok) std::cout<<"YES";
+        else std::cout<<"NO";
+        std::cout<<std::endl;
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+            memset(used,false,sizeof(used));
+        }
+        return 0;
+    }
+    
