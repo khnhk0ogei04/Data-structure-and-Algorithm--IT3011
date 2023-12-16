@@ -1,0 +1,22 @@
+#include<bits/stdc++.h>
+using namespace std;
+    int main(){
+        int n;
+        std::cin>>n;
+        std::map<std::string,int>mp;
+        std::cin.ignore();
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cout<<i<<" ";
+            std::string s;
+            std::getline(std::cin,s);
+
+            mp[s]++;
+            if (mp[s] > 1) {
+                std::cout<<s<<mp[s]-1;
+                std::cout<<std::endl;
+            }
+            else std::cout<<s<<std::endl;
+            
+        }
+        return 0;
+    }
