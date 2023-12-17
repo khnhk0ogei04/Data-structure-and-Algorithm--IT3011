@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    void solve(){
+        int res[MAXN],s,k;
+        std::cin>>s>>k;
+        s = s - 1;
+        for ( int i = k - 1 ; i >= 0 ; i-- ){
+            if ( s > 9 ){
+                res[i] = 9;
+                s -= 9;
+            }
+            else {
+                res[i] = s;
+                s = 0;
+            }
+        }
+        res[0] += 1;
+        for ( int i = 0 ; i <= k - 1 ; i++ ){
+            std::cout<<res[i];
+        }
+        
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+        }
+        return 0;
+    }
