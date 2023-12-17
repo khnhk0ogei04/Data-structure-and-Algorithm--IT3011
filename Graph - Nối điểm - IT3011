@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+#define fi first
+#define se second
+const int MAXN = 1e3 + 1;
+using namespace std;
+    int parent[MAXN],sz[MAXN];
+    
+    int Find ( int u ){
+        if ( u == parent[u] ) return u;
+        else return parent[u] = Find(parent[u]);
+    }
+    
+    bool Union( int u, int v ){
+        u = Find(u);
+        v = Find(v);
+        if ( u == v ) return false;
+        else {
+            if (sz[u] <sz[v]) swap(u,v);
+            sz[u] += sz[v];
+            parent[v] = u;
+            return true;
+        }
+    }
+    
+    double distance( double x1, double y1, double x2, double y2 ){
+        return sqrt(pow(x2-x1,2)+pow(y2-y1,2));
+    }
+    void solve(){
+        int n;
+        std::cin>>n;
+        double cost = 0;
+        vector<pair<double,double>>v(n);
+        for ( int i = 1 ; i <= n ; i++ ){
+            parent[i] = i;
+            sz[i] = 1;
+        }
+        for ( int i = 0 ; i < n ; i++ ){
+            std::cin>>v[i].fi>>v[i].se;
+        }
+        vector<pair<double,pair<int,int>>>edge;
+        for ( int i = 0 ; i < n - 1 ; i++ ){
+            for (int j = i + 1 ; j < n ; j++ ){
+                double q = distance(v[i].fi,v[i].se,v[j].fi,v[j].se);
+                edge.push_back(make_pair(q,make_pair(i+1,j+1)));
+            }
+        }
+        sort(edge.begin(),edge.end());
+
+        for ( int i = 0 ; i < edge.size() ; i++ ){
+            int u = edge[i].se.fi;
+            int v = edge[i].se.se;
+            
+            if (Union(u,v)) {
+                cost += edge[i].fi;
+        }
+        }
+        std::cout<<fixed<<setprecision(6)<<cost<<std::endl;
+        
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--) {
+            solve();
+        }
+        return 0;
+    }
