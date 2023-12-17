@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+
+    void solve(){
+        int n,A[MAXN],L[MAXN];
+        std::cin>>n;
+        std::stack<int>st;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+        }
+            for ( int i = n ; i >= 1 ; i-- ){
+
+            while (!st.empty() && A[i] >= A[st.top()]){
+                L[st.top()] = i;
+                st.pop();
+            }
+            st.push(i);
+        }
+        while (!st.empty()){
+            L[st.top()] = 0;
+            st.pop();
+        }
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cout<<i-L[i]<<" ";
+        }
+    }
+    int main(){
+        solve();
+        return 0;
+    }
