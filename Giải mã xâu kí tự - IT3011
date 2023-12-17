@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+// using namespace std;
+    void solve(){
+        std::string s;
+        std::cin>>s;
+        std::stack<char>st;
+        std::string key;
+        for ( int i = 0 ; i < s.length() ; i++ ){
+            if ( (s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'z') || s[i] == '[' ) {
+                st.push(s[i]);
+            }
+            if ( s[i] == ']' ){
+                while (!st.empty() && st.top() != '['){
+                    key += st.top();
+                    st.pop();
+                }
+                st.pop();
+            if ( (st.top() >= '0' && st.top() <= '9') ){
+                    int k = st.top() - '0';
+                    std::string tmp = key;
+                    while (--k){
+                        key += tmp;
+                    }
+                    st.pop();
+                } 
+            }
+        }
+        std::reverse(key.begin(), key.end());
+        std::cout<<key<<std::endl;
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+            
+        }
+        return 0;
+    }
