@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+
+    int x[MAXN],A[MAXN],B[MAXN],fopt,fk,bk,b,Xopt[MAXN];
+    int n;
+    void Try( int i ){
+        int t;
+        if ( bk >= B[i] ) t = 1;
+        else t = 0;
+        for ( int j = t ; j >= 0 ; j-- ){
+            x[i] = j;
+            bk = bk - B[i]*x[i];
+            fk = fk + A[i]*x[i];
+            if ( i == n ){
+                if ( fk > fopt ){
+                    fopt = fk;
+                    for ( int k = 1 ; k <= n ; k++ ){
+                        Xopt[k] = x[k];
+                    }
+                }
+            }
+            else Try(i+1);
+            bk = bk + B[i]*x[i];
+            fk = fk - A[i]*x[i];
+        }
+    }
+    int main(){
+        std::cin>>n>>b;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+        }
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>B[i];
+        }
+        fopt = 0, fk = 0, bk = b; 
+        Try(1);
+        std::cout<<fopt<<std::endl;
+        for ( int i = 1 ; i <= n ; i++ ){
+            if (Xopt[i]) std::cout<<i<<" ";
+        }
+        return 0;
+    }
