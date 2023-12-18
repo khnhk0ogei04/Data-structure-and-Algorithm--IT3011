@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e5 + 1;
+// using namespace std;
+    void solve(){
+        std::string s;
+        std::cin>>s;
+        std::stack<std::string>st;
+        for ( int i = s.length() - 1 ; i >= 0 ; i-- ){
+        if ( s[i] >= 'A' && s[i] <= 'Z' ){
+            st.push(std::string(1,s[i]));
+        }
+        else {
+            std::string s1 = st.top(); st.pop();
+            std::string s2 = st.top(); st.pop();
+            st.push('('+s1+s[i]+s2+')');
+        }
+        }
+        while (!st.empty()){
+            std::cout<<st.top();
+            st.pop();
+        }
+    }
+    int main(){
+    	int t;
+    	std::cin>>t;
+    	while (t--){
+    		solve();
+    		std::cout<<std::endl;
+    	}
+    	return 0;
+    }
+    
