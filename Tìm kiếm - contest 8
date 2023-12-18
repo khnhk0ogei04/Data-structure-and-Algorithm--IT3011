@@ -1,0 +1,18 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e5 + 1;
+using namespace std;
+    int main(){
+        int n,A[MAXN],res = 0;
+        std::cin>>n;
+        map<int,int>mp;
+        for ( int i = 1 ; i <= n ; i++ ){
+            int x;
+            std::cin>>x;
+            mp[x]++;
+        }
+        for ( auto x: mp ){
+            res += x.second*(x.second-1)/2;
+        }
+        std::cout<<res;
+        return 0;
+    }
