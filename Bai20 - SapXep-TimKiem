@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e5 + 1;
+#define fi first
+#define se second
+ using namespace std;
+    vector<pair<int,int>>v;
+    bool cmp( pair<int,int>a, pair<int,int>b ){
+        if ( a.fi == b.fi ) return a.se < b.se;
+        return a.fi < b.fi;
+    }
+   int main(){
+       int n;
+       std::cin>>n;
+       for ( int i = 1 ; i <= n ; i++ ) {
+           int x,y;
+           std::cin>>x>>y;
+           pair<int,int>p = make_pair(x,y);
+           v.push_back(p);
+       }
+       std::sort(v.begin(),v.end(),cmp);
+       int cnt = 0;
+       for ( int i = 0 ; i <= n - 2 ; i++ ){
+           int tmp = 1;
+           for ( int j = i + 1 ; j <= n - 1 ; j++ ){
+               if (v[i].se < v[j].fi){
+                   tmp++;
+                   i = j;
+               }
+               cnt = max(cnt,tmp);
+           }
+       }
+       std::cout<<cnt;
+       return 0;
+   }
+/*
+bool cmp(pi a, pi b){
+    return a.se<b.se;
+}
+ 
+int main(){
+    int n;cin>>n;
+    vii v(n);
+    FOR(i,0,n){
+        cin>>v[i].fi>>v[i].se;
+    }
+    sort(all(v),cmp);
+    int ans =1;
+    int tmp=v[0].se;
+    FOR(i,1,n){
+        if(v[i].fi>tmp){
+            ans++;
+            tmp=v[i].se;
+        }
+    }
+    cout<<ans<<endl;
+}
+*/
