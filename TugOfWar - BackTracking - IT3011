@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+// xac dinh cong thuc do phuc tap O(2^n)
+const int MAXN = 21;
+using namespace std;
+    int A[MAXN],sum,n;
+    int X[MAXN],dem[MAXN];
+    int key = 1e5;
+    std::vector<int>v; std::vector<std::vector<int>>v1;
+    void backtrack( int i, int included, int sum1 ){
+        if ( i == n + 1 ){
+            if (abs(sum - 2*sum1) < key && included == n/2 ){
+            	key = abs(sum - 2*sum1);
+            	for ( int j = 1 ; j <= n ; j++ ){
+            	   if (X[j]) v.push_back(j);
+            	}
+            	v1.push_back(v);
+            	v.clear();
+            }
+            return;
+        }
+            for ( int j = 0 ; j <= 1 ; j++ ){
+                X[i] = j;
+                if (X[i]) backtrack(i + 1, included + 1, sum1 + A[i] );
+                else backtrack(i + 1, included, sum1 );
+            }
+            
+        }
+    
+    int main(){
+        std::cin>>n;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+            sum += A[i];
+        }
+        std::memset(X,0,sizeof(X));
+        backtrack(1,0,0);
+        std::cout<<key<<" "<<std::endl;
+        for ( auto x: v1[v1.size()-1] ){
+        	std::cout<<A[x]<<" ";
+        	dem[x] = 1;
+        }
+        std::cout<<std::endl;
+        for ( int i = 1 ; i <= n ; i++ ){
+            if (!dem[i]) std::cout<<A[i]<<" ";
+        }
+        return 0;
+    }
