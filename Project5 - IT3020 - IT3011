@@ -1,0 +1,101 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e2 + 1;
+const int inf = 1e9 + 7;
+    std::vector<std::pair<int,int>>adj[MAXN];
+    int dist[MAXN][MAXN];
+    std::vector<int>ke[MAXN];
+    std::pair<int,int> parent[MAXN][MAXN];
+    int n,m,a,b,c,d,r;
+    void inp(){
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= m ; i++){
+            int u,v,w;
+            std::cin>>u>>v>>w;
+            adj[u].push_back({v,w});
+            adj[v].push_back({u,w});
+            ke[u].push_back(v);
+            ke[v].push_back(u);
+        }
+        std::cin>>a>>b>>c>>d>>r;
+    }
+    void dijikstra( int s ){
+        std::vector<int>d(n+1,inf);
+        d[s] = 0;
+        std::priority_queue<std::pair<int,int>, std::vector<std::pair<int,int>>, std::greater<std::pair<int,int>>>pq;
+        pq.push({0,s});
+        while (!pq.empty()){
+            std::pair<int,int>top = pq.top(); 
+            pq.pop();
+            int u = top.second;
+            int kc = top.first;
+            if ( kc > d[u] ) continue;
+            for ( auto v: adj[u] ){
+                int p = v.first;
+                int q = v.second;
+                if ( d[u] + q < d[p] ){
+                    d[p] = d[u] + q;
+                    pq.push({d[p],p});
+                }
+            }
+        }
+        for ( int i = 0 ; i < n ; i++ ){
+            dist[s][i] = d[i];
+        }
+    }
+    int ok = 0;
+    bool visited[MAXN][MAXN];
+    std::queue<std::pair<int,int>>q;
+
+    void bfs(int u, int v) {
+    visited[u][v] = true;
+    q.push({u, v});
+    while (!q.empty()) {
+        std::pair<int, int> p = q.front();
+        q.pop();
+        int k1 = p.first;
+        int k2 = p.second;
+        std::vector<std::pair<int,int>>path;
+        if (k1 == c && k2 == d) {
+            ok = 1;
+            int tmp1 = k1; int tmp2 = k2;
+            while ( tmp1 != a || tmp2 != b ){
+                path.push_back({tmp1,tmp2});
+                int u = parent[tmp1][tmp2].first;
+                int v = parent[tmp1][tmp2].second;
+                tmp1 = u; tmp2 = v;
+            }
+            path.push_back({a,b});
+            std::reverse(path.begin(),path.end());
+            for ( auto x : path ){
+                std::cout<<x.first<<" "<<x.second<<" "<<dist[x.first][x.second];
+                std::cout<<std::endl;
+            }
+        }
+        for (int k3 : ke[k1]) {
+            if (!visited[k3][k2] && dist[k3][k2] > r) {
+                parent[k3][k2] = {k1,k2};
+                visited[k3][k2] = true;
+                q.push({k3, k2});
+            }
+        }
+
+        for (int k4 : ke[k2]) {
+            if (!visited[k1][k4] && dist[k1][k4] > r) {
+                parent[k1][k4] = {k1,k2};
+                visited[k1][k4] = true;
+                q.push({k1, k4});
+            }
+        }
+    }
+}
+    
+    int main(){
+        inp();
+        for( int i = 0; i < n ; i++ ){
+            dijikstra(i);
+        }
+        bfs(a,b);
+        if (!ok) std::cout<<"Khong the";
+        return 0;
+    }
+    
