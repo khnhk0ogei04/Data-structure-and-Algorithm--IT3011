@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+    int n,A[1001], ok = 1, cnt;
+    void inp(){
+        A[1] = n;
+        cnt = 1;
+    }
+    void sinh(){
+        int i = cnt;
+        while ( i >= 1 && A[i] == 1 ) i--;
+        if ( i == 0 ) ok = 0;
+        else {
+            A[i]--;
+            int d = cnt - i + 1;
+            cnt = i;
+            int q = d/A[i];
+            int r = d % A[i];
+            if (q){
+                for ( int j = 1 ; j <= q ; j++ ){
+                    cnt++;
+                    A[cnt] = A[i];
+                }
+            }
+            if (r){
+                cnt++;
+                A[cnt] = r;
+            }
+        }
+    }
+    int main(){
+        std::cin>>n;
+        inp();
+        while(ok){
+            for ( int i = 1 ; i <= cnt ; i++ ){
+                std::cout<<A[i]<<" ";
+            }
+            std::cout<<std::endl;
+            sinh();
+        }
+        return 0;
+    }
