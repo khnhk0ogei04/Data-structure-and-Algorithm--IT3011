@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e5 + 1;
+
+	void solve(){
+		int n,A[MAXN];
+		std::cin>>n;
+		for ( int i = 1 ; i <= n ; i++ ){
+			std::cin>>A[i];
+		}
+		int dem = 0;
+		for ( int i = 1 ; i <= n - 1 ; i++ ){
+			int index = i;
+			for ( int j = i + 1 ; j <= n ; j++ ){
+				if (A[j] < A[index]) {
+					index = j;
+				}
+			}
+			std::swap(A[i],A[index]);
+			std::cout<<"BUOC "<<++dem<<":";
+				for ( int k = 1; k <= n ; k++ ){
+					std::cout<<A[k]<<" ";
+				}
+				std::cout<<std::endl;
+		}
+	}
+	int main(){
+		solve();
+		return 0;
+	}
