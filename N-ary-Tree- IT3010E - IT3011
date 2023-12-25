@@ -1,0 +1,362 @@
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <queue>
+#include <stack>
+#include <set>
+
+using namespace std;
+
+struct TreeNode {
+    char info;
+    TreeNode* firstChild;
+    TreeNode* nextSibling;
+    TreeNode( char data ){
+        info = data;
+        firstChild = NULL;
+        nextSibling = NULL;
+    }
+};
+
+TreeNode* makeNewNode(char data) {
+    return new TreeNode(data);
+}
+
+void addNodeIntoTree(TreeNode* root, char data) {
+    TreeNode* newNode = makeNewNode(data);
+
+    if (root->firstChild == nullptr) {
+        root->firstChild = newNode;
+    } else {
+        TreeNode* curNode = root->firstChild;
+        while (curNode->nextSibling != nullptr) {
+            curNode = curNode->nextSibling;
+        }
+        curNode->nextSibling = newNode;
+    }
+}
+
+TreeNode* findKey(TreeNode* root, char key) {
+    if (root == NULL) {
+        return NULL;
+    }
+
+    if (root->info == key) {
+        return root;
+    }
+
+    TreeNode* result = findKey(root->firstChild, key);
+    if (result == NULL) {
+        result = findKey(root->nextSibling, key);
+    }
+
+    return result;
+}
+
+TreeNode* loadTreeFromInputData() {
+    TreeNode* root = NULL, *pParent;
+    char nextLine[255], nextNodeLabel, parentLabel;
+
+    while (true) {
+        cin.getline(nextLine, sizeof(nextLine));
+        if (strcmp(nextLine, "$") == 0) break;
+
+        if (nextLine[0] == '$') {
+            nextNodeLabel = nextLine[2];
+            root = makeNewNode(nextNodeLabel);
+        } else {
+            parentLabel = nextLine[0];
+            pParent = findKey(root, parentLabel);
+
+            if (pParent == nullptr) {
+                continue;
+            }
+
+            unsigned int nextIdx = 2;
+            while (nextIdx < strlen(nextLine)) {
+                nextNodeLabel = nextLine[nextIdx];
+                addNodeIntoTree(pParent, nextNodeLabel);
+                nextIdx = nextIdx + 2;
+            }
+        }
+    }
+
+    return root;
+}
+
+void addANewChildForNode(TreeNode* root, char parentLabel, char newChildLabel) {
+    if (root == nullptr) {
+        return;
+    }
+
+    TreeNode* parentNode = findKey(root, parentLabel);
+    if (parentNode != nullptr) {
+        TreeNode* newChildNode = makeNewNode(newChildLabel);
+
+        if (parentNode->firstChild == nullptr) {
+            parentNode->firstChild = newChildNode;
+        } else {
+            TreeNode* preNode = parentNode->firstChild;
+            while (preNode->nextSibling != nullptr) {
+                preNode = preNode->nextSibling;
+            }
+            preNode->nextSibling = newChildNode;
+        }
+    }
+}
+
+void addNewNodeIntoTree(TreeNode* root) {
+    char nextLine[255], nextNodeLabel, parentLabel;
+
+    while (true) {
+        cin.getline(nextLine, sizeof(nextLine));
+        if (strcmp(nextLine, "$") == 0) break;
+
+        parentLabel = nextLine[0];
+
+        unsigned int nextIdx = 2;
+        while (nextIdx < strlen(nextLine)) {
+            nextNodeLabel = nextLine[nextIdx];
+            addANewChildForNode(root, parentLabel, nextNodeLabel);
+            nextIdx = nextIdx + 2;
+        }
+    }
+}
+
+void deleteTree(TreeNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+
+    deleteTree(root->firstChild);
+    deleteTree(root->nextSibling);
+
+    delete root;
+    root = nullptr;
+}
+
+TreeNode* findParent(TreeNode* root, char branchRootLabel) {
+    if (root == nullptr) return nullptr;
+    TreeNode* q = root->firstChild;
+    while (q != nullptr) {
+        if (q->info == branchRootLabel) return root;
+        TreeNode* pp = findParent(q, branchRootLabel);
+        if (pp != nullptr) return pp;
+        q = q->nextSibling;
+    }
+    return nullptr;
+}
+
+void deleteABranch(TreeNode* root, char branchRootLabel)
+{
+	if (root == nullptr) {
+		return;
+	}
+
+	TreeNode* parent = findParent(root, branchRootLabel);
+
+	if (parent != nullptr) {
+		TreeNode* branchRoot = findKey(root, branchRootLabel);
+
+		if (branchRoot != nullptr) {
+		
+			deleteTree(branchRoot->firstChild);
+			if (parent->firstChild == branchRoot) {
+				parent->firstChild = branchRoot->nextSibling;
+			} else {
+				TreeNode* preNode = parent->firstChild;
+				while (preNode->nextSibling != branchRoot) {
+					preNode = preNode->nextSibling;
+				}
+				preNode->nextSibling = branchRoot->nextSibling;
+			}
+
+			delete branchRoot;
+		}
+	}
+}
+
+void deleteBranches(TreeNode* root) {
+    char nextLine[255], branchRootLabel;
+
+    while (true) {
+        cin.getline(nextLine, sizeof(nextLine));
+        if (strcmp(nextLine, "$") == 0) break;
+
+        branchRootLabel = nextLine[0];
+        deleteABranch(root, branchRootLabel);
+    }
+}
+
+void levelTraversal(TreeNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+
+    queue<TreeNode*> myQueue;
+    myQueue.push(root);
+
+    TreeNode* currNode, *currChild;
+
+    while (!myQueue.empty()) {
+        currNode = myQueue.front();
+        myQueue.pop();
+        cout << currNode->info << " ";
+
+        currChild = currNode->firstChild;
+        while (currChild != nullptr) {
+            myQueue.push(currChild);
+            currChild = currChild->nextSibling;
+        }
+    }
+    cout << endl;
+}
+
+void preOrderTraversal(TreeNode* root) {
+    if (root == nullptr) return;
+    cout << root->info << " ";
+
+    TreeNode* currChild = root->firstChild;
+
+    while (currChild != nullptr) {
+        preOrderTraversal(currChild);
+        currChild = currChild->nextSibling;
+    }
+}
+
+void postOrderTraversal(TreeNode* root) {
+    if (root == nullptr) return;
+    stack<TreeNode*> myStack;
+    stack<TreeNode*> tempStack;
+    set<TreeNode*> processedNode;
+    myStack.push(root);
+
+    TreeNode* currNode, *currChild;
+
+    while (!myStack.empty()) {
+        currNode = myStack.top();
+
+        if (currNode->firstChild == nullptr) {
+            myStack.pop();
+            cout << currNode->info << " ";
+        } else {
+            auto it = processedNode.find(currNode);
+
+            if (it != processedNode.end()) {
+                myStack.pop();
+                cout << currNode->info << " ";
+            } else {
+                processedNode.insert(currNode);
+                currChild = currNode->firstChild;
+
+                while (currChild != nullptr) {
+                    tempStack.push(currChild);
+                    currChild = currChild->nextSibling;
+                }
+
+                while (!tempStack.empty()) {
+                    myStack.push(tempStack.top());
+                    tempStack.pop();
+                }
+            }
+        }
+    }
+    cout << endl;
+}
+
+int countTotalNodes(TreeNode* root) {
+    if (root == nullptr) {
+        return 0;
+    }
+
+    int count = 1;
+
+    count += countTotalNodes(root->firstChild);
+    count += countTotalNodes(root->nextSibling);
+
+    return count;
+}
+
+int countTotalLeaves(TreeNode* root) {
+    if (root == nullptr) {
+        return 0;
+    }
+
+    if (root->firstChild == nullptr) {
+        return 1;
+    }
+
+    int count = 0;
+
+    TreeNode* currChild = root->firstChild;
+    while (currChild != nullptr) {
+        count += countTotalLeaves(currChild);
+        currChild = currChild->nextSibling;
+    }
+
+    return count;
+}
+
+int findHeight(TreeNode* root) {
+    if (root == nullptr) {
+        return -1;
+    }
+
+    if (root->firstChild == nullptr) {
+        return 0;
+    }
+
+    int maxChildHeight = -10, currChildHeight;
+    TreeNode* currChild = root->firstChild;
+
+    while (currChild != nullptr) {
+        currChildHeight = findHeight(currChild);
+        if (currChildHeight > maxChildHeight) {
+            maxChildHeight = currChildHeight;
+        }
+        currChild = currChild->nextSibling;
+    }
+
+    return 1 + maxChildHeight;
+}
+
+int main() {
+    TreeNode* root = nullptr;
+    char nextCommand[100];
+
+    while (true) {
+        cin.getline(nextCommand, sizeof(nextCommand));
+        if (strlen(nextCommand) == 0) continue;
+        if (nextCommand[0] != '?') break;
+
+        if (strcmp(&nextCommand[2], "readTree") == 0) {
+            root = loadTreeFromInputData();
+        } else if (strcmp(&nextCommand[2], "preOrderTraversal") == 0) {
+            cout << "Duyet theo thu tu truoc: ";
+            preOrderTraversal(root);
+            cout << endl;
+        } else if (strcmp(&nextCommand[2], "postOrderTraversal") == 0) {
+            cout << "Duyet theo thu tu sau: ";
+            postOrderTraversal(root);
+            cout << endl;
+        } else if (strcmp(&nextCommand[2], "levelOrderTraversal") == 0) {
+            cout << "Duyet theo muc: ";
+            levelTraversal(root);
+            cout << endl;
+        } else if (strcmp(&nextCommand[2], "getHeight") == 0) {
+            cout << "Chieu cao cua cay: " << findHeight(root) << endl;
+        } else if (strcmp(&nextCommand[2], "getTotalNodes") == 0) {
+            cout << "Tong so nut: " << countTotalNodes(root) << endl;
+        } else if (strcmp(&nextCommand[2], "getTotalLeaves") == 0) {
+            cout << "Tong so nut la: " << countTotalLeaves(root) << endl;
+        } else if (strcmp(&nextCommand[2], "addNewNode") == 0) {
+            addNewNodeIntoTree(root);
+        } else if (strcmp(&nextCommand[2], "deleteNode") == 0) {
+            deleteBranches(root);
+        }
+    }
+
+    deleteTree(root);
+
+    return 0;
+}
