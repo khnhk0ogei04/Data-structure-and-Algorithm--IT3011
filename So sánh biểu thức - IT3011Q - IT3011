@@ -1,0 +1,70 @@
+#include<bits/stdc++.h>
+//using namespace std;
+    void solve(){
+        std::string a,b,c,d;
+        std::cin>>a>>b;
+        std::stack<int>st1;
+        std::stack<int>st2;
+            for ( int i = 0 ; i < a.length(); i++ ){
+                if (a[i] == '(') st1.push(i);
+                else if (a[i] == ')'){
+                    if (!st1.empty()) {
+                        int top = st1.top(); st1.pop();
+                        if (top == 0) continue;
+                        if (a[top-1] == '+') continue;
+                        if (a[top-1] == '-'){
+                            for ( int j = top ; j <= i ; j++ ){
+                                if (a[j] == '+') a[j] = '-';
+                                else if (a[j] == '-') a[j] = '+';
+                            }
+                        }
+                    }
+                }
+            }
+            for ( int i = 0 ; i < a.length(); i++ ){
+                if (a[i] != '(' && a[i] != ')')
+                c += a[i];
+            }
+            for ( int i = 0 ; i < b.length(); i++ ){
+                if (b[i] == '(') st2.push(i);
+                else if (b[i] == ')'){
+                    if (!st2.empty()) {
+                        int top = st2.top(); st2.pop();
+                        if (top == 0) continue;
+                        if (b[top-1] == '+') continue;
+                        if (b[top-1] == '-'){
+                            for ( int j = top ; j <= i ; j++ ){
+                                if (b[j] == '+') b[j] = '-';
+                                else if (b[j] == '-') b[j] = '+';
+                            }
+                        }
+                    }
+                }
+            }
+            for ( int i = 0 ; i < b.length(); i++ ){
+                if (b[i] != '(' && b[i] != ')')
+                d += b[i];
+            }
+            std::cout<<c<<" "<<d<<" ";
+            if(!strcmp(&c[0],&d[0])) std::cout<<"YES";
+            else std::cout<<"NO";
+  /*          int dem = 0;
+            for ( int i = 0 ; i < c.length() ; i++ ){
+                if ( c[i] != d[i] ) {
+                    std::cout<<"NO";
+                    break;
+                }
+                dem++;
+            }
+            if (dem == c.length()) std::cout<<"YES"; */
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--) {
+            solve();
+            std::cout<<std::endl;
+        }
+        return 0;
+    }
+            
