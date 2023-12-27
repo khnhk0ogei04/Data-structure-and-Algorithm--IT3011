@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+//using namespace std;
+    const int MAXN = 1005;
+    int n,k,C[MAXN],D[MAXN],ans[MAXN];
+    std::vector<int>adj[MAXN];
+    int dist[MAXN][MAXN];
+        void bfs ( int source, int dist[] ){
+            std::queue<int>q;
+            q.push(source);
+            for ( int i = 1 ; i <= n ; i++ ){
+                dist[i] = INT_MAX;
+            }
+            dist[source] = 0;
+            while(!q.empty()){
+                int u = q.front(); q.pop();
+                for ( int v: adj[u] ){
+                    if (dist[v] > dist[u] + 1){
+                        dist[v] = dist[u] + 1;
+                        q.push(v);
+                    }
+                }
+            }
+        }
+        void timkc(){
+            for ( int u = 1 ; u <= n ; u++ ){
+                bfs(u,dist[u]);
+            }
+        }
+        bool visited[MAXN];
+        void dijikstra(){
+            for ( int i = 0 ; i <= n ; i++ ){
+                ans[i] = INT_MAX;
+                visited[i] = false;
+            }
+            ans[1] = 0;
+            int step = n;
+            while (step--) {
+                int u = 0;
+                for ( int i = 1 ; i <= n ; i++ ){
+                    if (!visited[i] && ans[u] > ans[i])
+                    u = i;
+                }
+                if ( u == 0 ) break;
+                visited[u] = true;
+                for ( int v = 1 ; v <= n ; v++ ){
+                    if (dist[u][v] <= D[u])
+                    ans[v] = std::min(ans[v], ans[u] + C[u]);
+                }
+            }
+            std::cout<<ans[n];
+        }
+        int main(){
+            std::cin>>n>>k;
+            for ( int i = 1 ; i <= n ; i++ ){
+                std::cin>>C[i]>>D[i];
+            }
+            for ( int i = 1 ; i <= k ; i++ ){
+                int u,v;
+                std::cin>>u>>v;
+                adj[u].push_back(v);
+                adj[v].push_back(u);
+            }
+            timkc();
+            dijikstra();
+            return 0;
+        }
