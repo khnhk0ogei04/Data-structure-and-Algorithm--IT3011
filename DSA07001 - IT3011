@@ -1,0 +1,22 @@
+#include<bits/stdc++.h>
+using namespace std;
+    int main(){
+        std::vector<int>v;
+        std::string s;
+        while (std::cin>>s){
+        if (s == "push"){
+            int u;
+            std::cin>>u;
+            v.push_back(u);
+        }
+        if (s == "show"){
+            for ( int i = 0 ; i < v.size() ; i++ ){
+                std::cout<<v[i]<<" ";
+            }
+            std::cout<<std::endl;
+        }
+        if ( s == "pop" ){
+            v.pop_back();
+        }
+    }
+    }
