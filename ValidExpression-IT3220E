@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+using namespace std;
+    bool check( char s1, char s2 ){
+        if ( s1 == '(' && s2 == ')' ) return true;
+        if ( s1 == '[' && s2 == ']' ) return true;
+        if ( s1 == '{' && s2 == '}' ) return true;
+        return false;
+    }
+    void solve(){
+        std::string s;
+        std::cin>>s;
+        std::stack<char>st;
+        for ( int i = 0 ; i < s.length() ; i++ ){
+            if (s[i] == '(' || s[i] == '[' || s[i] == '{'){
+                st.push(s[i]);
+            }
+            else {
+                if (!st.empty()) {
+                    if (check(st.top(),s[i]) == true) st.pop();
+                    else st.push(s[i]);
+                }
+            }
+        }
+        if (!st.empty()) std::cout<<"NO";
+        else std::cout<<"YES";
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+            std::cout<<std::endl;
+        }
+    }
