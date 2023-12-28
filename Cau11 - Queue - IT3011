@@ -1,0 +1,90 @@
+#include<bits/stdc++.h>
+const int MAXN = 10001;
+using namespace std;
+    bool check[MAXN];
+    vector<int>v;
+    vector<int>adj[MAXN];
+    int parent[MAXN], ok = 0;
+    void Era(){
+        for ( int i = 2 ; i <= MAXN ; i++){
+            if (!check[i]){
+                for ( int j = 2 * i ; j <= MAXN ; j += i ){
+                    check[j] = true;
+                }
+            }
+        }
+        for ( int i = 1000 ; i <= MAXN ; i++ ){
+            if (!check[i]) v.push_back(i);
+        } 
+    }
+    bool connect( int a, int b ){
+        string s1 = to_string(a);
+        string s2 = to_string(b);
+        int cnt = 0;
+        for ( int i = 0 ; i < s1.length() ; i++ ){
+            if (s1[i] == s2[i]) cnt++;
+        }
+        return cnt == 3;
+    }
+    void bfs( int u, int v ){
+        if ( u == v ) {
+            std::cout<<"0";
+            return;
+        }
+        queue<int>q;
+        q.push(u);
+        bool visited[MAXN];
+        visited[u] = true;
+        while (!q.empty() && ok == 0){
+            int k = q.front(); q.pop();
+            for ( int k1: adj[k] ){
+                if (!visited[k1]){
+                    q.push(k1);
+                    visited[k1] = true;
+  //                  std::cout<<k1<<" ";
+                    parent[k1] = k;
+                    if (k1 == v){
+                        ok = 1;
+                        break;
+                    }
+                }
+            }
+        }
+        if (ok){
+            int cnt = 0;
+            vector<int>tmp;
+            while (v != u){
+                cnt++;
+                tmp.push_back(v);
+                v = parent[v];
+            }
+            tmp.push_back(u);
+            for ( int x: tmp ) std::cout<<x<<" ";
+            std::cout<<std::endl;
+            std::cout<<cnt;
+        } 
+    }
+    void solve(){
+        int s,t;
+        std::cin>>s>>t;
+        Era();
+        for ( int i = 0 ; i < v.size() - 1 ; i++ ){
+            for ( int j = i + 1 ; j < v.size() ; j++ ){
+                if (connect(v[i],v[j])){
+                    adj[v[i]].push_back(v[j]);
+                    adj[v[j]].push_back(v[i]);
+                }
+            }
+        }
+        bfs(s,t);
+      
+    }
+    
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--) {
+        solve();
+        }
+        return 0;
+    }
