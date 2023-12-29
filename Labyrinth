@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+typedef std::vector<int> vi;
+typedef std::vector<std::pair<int,int>> vii;
+const int MAXN = 1e3 + 1;
+
+    int n,m,a,b,c,d,trace[MAXN],tmp[MAXN],ok = 0,res = 1e9;
+    int dx[] = {-1,0,0,1};
+    int dy[] = {0,-1,1,0};
+    char A[MAXN][MAXN];
+    void inp(){
+        std::cin>>n>>m;
+        for ( int i = 0 ; i < n ; i++ ){
+            for ( int j = 0 ; j < m ; j++ ){
+                std::cin>>A[i][j];
+                if (A[i][j] == 'A') {
+                    a = i;
+                    b = j;
+                }
+                if (A[i][j] == 'B'){
+                    c = i;
+                    d = j;
+                }
+            }
+        }
+    }
+    void loang( int i, int j, int s, int t, int cnt ){
+   //     std::cout<<i<<" "<<j<<" "<<s<<" "<<t<<" "<<cnt<<std::endl;
+        A[i][j] = '#';
+        if ( i == s && j == t ){
+            ok = 1;
+            if ( cnt < res ){
+            res = cnt;
+            for ( int i = 0 ; i < cnt ; i++ ){
+                trace[i] = tmp[i];
+            }
+        }
+            A[i][j] = '.';
+            return;
+        }
+        for ( int k = 0 ; k <= 3 ; k++ ){
+            int i1 = i + dy[k];
+            int j1 = j + dx[k];
+            if ( i1 >= 0 && i1 < n && j1 >= 0 && j1 < m && A[i1][j1] != '#'){
+                tmp[cnt] = k;
+                loang(i1,j1,s,t,cnt + 1);
+                A[i][j] = '.';
+            }
+        }
+    }
+    void solve(){
+        inp();
+        loang(a,b,c,d,0);
+        std::cout<<res<<std::endl;
+        for ( int i = 0 ; i < res ; i++ ){
+            if (trace[i] == 0) std::cout<<"L";
+             if (trace[i] == 1) std::cout<<"U";
+              if (trace[i] == 2) std::cout<<"D";
+               if (trace[i] == 3) std::cout<<"R"; 
+        }
+    }
+    int main(){
+        solve();
+        return 0;
+    }
