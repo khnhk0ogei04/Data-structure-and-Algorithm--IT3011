@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 1;
+using namespace std;
+    int n,m,dist[MAXN][MAXN];
+    bool visited[MAXN];
+    std::vector<int>adj[MAXN];
+    void bfs ( int u, int dist[] ){
+        std::queue<int>q;
+        q.push(u);
+        for ( int i = 1 ; i <= n ; i++ ){
+            dist[i] = INT_MAX;
+        }
+        dist[u] = 0;
+        while (!q.empty()){
+            int k = q.front(); q.pop();
+            for ( int v : adj[k] ){
+                if (!visited[v]){
+                    if (dist[v] > dist[k] + 1) {
+                        dist[v] = dist[k] + 1;
+                        q.push(v);
+                    }
+                }
+            }
+        }
+    }
+    void finddist(){
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::memset(visited,false,sizeof(visited));
+            bfs(i,dist[i]);
+        }
+    }
+    void inp(){
+        std::cin>>n>>m;
+        for ( int i = 1 ; i <= m ; i++ ){
+            int a,b;
+            std::cin>>a>>b;
+            adj[a].push_back(b);
+        }
+        finddist();
+    }
+    void solve(){
+        inp();
+        int cnt = 0, sum = 0;
+        for ( int i = 1 ; i <= n ; i++ ){
+            for ( int j = 1 ; j <= n ; j++ ){
+                if (dist[i][j] != INT_MAX) {
+                    std::cout<<dist[i][j]<<" ";
+                    cnt++;
+                    sum += dist[i][j];
+                }
+            }
+        }
+        std::cout<<sum<<" "<<cnt;
+        std::cout<<std::fixed<<std::setprecision(2)<<sum*(1.0)/cnt;
+    }
+    int main(){
+        solve();
+        return 0;
+    }
+    
