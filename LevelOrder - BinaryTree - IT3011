@@ -1,0 +1,89 @@
+#include<bits/stdc++.h>
+using namespace std;
+    struct TreeNode{
+        int data;
+        TreeNode *left;
+        TreeNode *right;
+    };
+    TreeNode *tmp;
+    std::vector<std::pair<int,int>>res;
+    void findnode(TreeNode* a, int x) {
+    if ( a != NULL ){
+        if (a->data == x)  {
+            tmp = a;
+            return;
+        }
+        else {
+             findnode(a->left, x);
+             findnode(a->right, x);
+    }
+    }
+}
+    
+    TreeNode *insert( TreeNode *t, int x, int y, char s ){
+            TreeNode *q = t;
+            findnode(q,x);
+            TreeNode *temp = new TreeNode;
+            temp->data = y;
+            temp->left = temp->right = NULL;
+            if ( s == 'L' ) tmp->left = temp;
+            else tmp->right = temp;
+        return t;
+    }
+    void PreOrder( TreeNode *t ){
+        if ( t != NULL ){
+            std::cout<<t->data<<" ";
+            PreOrder(t->left);
+            PreOrder(t->right);
+        }
+    }
+    void LevelOrder ( TreeNode *t, int cnt ){
+        if ( t != NULL ){
+            res.push_back({t->data,cnt});
+            LevelOrder(t->left,cnt+1);
+            LevelOrder(t->right,cnt+1);
+        }
+    }
+    bool cmp( std::pair<int,int>a, std::pair<int,int>b ){
+        return a.second < b.second;
+    }
+    int main(){
+        int n;
+        std::cin>>n;
+        int u,v;
+        char w;
+        std::cin>>u>>v>>w;
+        TreeNode *t = new TreeNode;
+        t->data = u;
+        if ( w == 'L' ){
+            TreeNode *temp = new TreeNode;
+            temp->data = v;
+            temp->left = temp->right = NULL;
+            t->left = temp;
+            t->right = NULL;
+        }
+        else if ( w == 'R' ){
+            TreeNode *temp = new TreeNode;
+            temp->data = v;
+            temp->left = temp->right = NULL;
+            t->left = NULL;
+            t->right = temp;
+        }
+        for ( int i = 2 ; i <= n ; i++ ){
+            int x,y;
+            char s;
+            std::cin>>x>>y>>s;
+            t = insert(t,x,y,s);
+        }
+        LevelOrder(t,0);
+        std::sort(res.begin(),res.end(),cmp);
+        for ( int i = 0 ; i < res.size() ; i++ ){
+            std::cout<<res[i].first<<" ";
+        }
+        return 0;
+    }
+/*
+6
+20 8 L 20 22 R 8 4 L 8 12 R 12 10 L 12 14 R
+20 8 22 4 12 10 14 
+*/
