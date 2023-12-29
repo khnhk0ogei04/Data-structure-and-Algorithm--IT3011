@@ -1,0 +1,89 @@
+#include<bits/stdc++.h>
+using namespace std;
+    struct TreeNode{
+        int data;
+        TreeNode *left;
+        TreeNode *right;
+    };
+    TreeNode *tmp;
+    std::set<int>se;
+    std::vector<std::pair<int,int>>res;
+    void findnode(TreeNode* a, int x) {
+    if ( a != NULL ){
+        if (a->data == x)  {
+            tmp = a;
+            return;
+        }
+        else {
+             findnode(a->left, x);
+             findnode(a->right, x);
+    }
+    }
+}
+
+    TreeNode *insert( TreeNode *t, int x, int y, char s ){
+            TreeNode *q = t;
+            findnode(q,x);
+            TreeNode *temp = new TreeNode;
+            temp->data = y;
+            temp->left = temp->right = NULL;
+            if ( s == 'L' ) tmp->left = temp;
+            else tmp->right = temp;
+        return t;
+    }
+    void PreOrder( TreeNode *t ){
+        if ( t != NULL ){
+            std::cout<<t->data<<" ";
+            PreOrder(t->left);
+            PreOrder(t->right);
+        }
+    }
+    bool IsLeafNode ( TreeNode *t ){
+        return ( t->left == NULL && t->right == NULL );
+    }
+    void LevelOrder ( TreeNode *t, int cnt ){
+        if ( t != NULL ){
+            if (IsLeafNode(t)) res.push_back({t->data,cnt});
+            LevelOrder(t->left,cnt+1);
+            LevelOrder(t->right,cnt+1);
+        }
+    }
+    bool cmp( std::pair<int,int>a, std::pair<int,int>b ){
+        return a.second < b.second;
+    }
+    int main(){
+        int n;
+        std::cin>>n;
+        int u,v;
+        char w;
+        std::cin>>u>>v>>w;
+        TreeNode *t = new TreeNode;
+        t->data = u;
+        if ( w == 'L' ){
+            TreeNode *temp = new TreeNode;
+            temp->data = v;
+            temp->left = temp->right = NULL;
+            t->left = temp;
+            t->right = NULL;
+        }
+        else if ( w == 'R' ){
+            TreeNode *temp = new TreeNode;
+            temp->data = v;
+            temp->left = temp->right = NULL;
+            t->left = NULL;
+            t->right = temp;
+        }
+        for ( int i = 2 ; i <= n ; i++ ){
+            int x,y;
+            char s;
+            std::cin>>x>>y>>s;
+            t = insert(t,x,y,s);
+        }
+        LevelOrder(t,0);
+        for ( int i = 0 ; i < res.size() ; i++ ){
+            se.insert(res[i].second);
+        }
+        if (se.size() == 1) std::cout<<"YES";
+        else std::cout<<"NO";
+        return 0;
+    }
