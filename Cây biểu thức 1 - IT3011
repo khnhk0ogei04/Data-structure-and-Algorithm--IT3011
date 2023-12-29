@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+using namespace std;
+    void solve(){
+        std::string s;
+        std::cin>>s;
+        std::stack<string>st;
+        for ( int i = 0 ; i < s.length() ; i++ ){
+            if (s[i] >= 'a' && s[i] <= 'z'){
+                st.push(std::string(1,s[i]));
+            }
+            else {
+                string o1 = st.top(); st.pop();
+                string o2 = st.top(); st.pop();
+                st.push('('+o2+s[i]+o1+')');
+            }
+        }
+        std::cout<<st.top();
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+        }
+        return 0;
+    }
