@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+//using namespace std;
+    bool cmp( std::pair<int,int>a, std::pair<int,int>b ){
+        return a.second < b.second;
+    }
+    int main(){
+        std::stack<int>st;
+        std::string s;
+        std::cin>>s;
+        std::vector<std::pair<int,int>>v;
+        int n = s.length();
+        s = 'a' + s;
+        for ( int i = 1 ; i <= n ; i++ ){
+            if ( s[i] == '(' ) st.push(i);
+            else if ( s[i] == ')'){
+                v.push_back({st.top(),i});
+                st.pop();
+            }
+        }
+        std::sort(v.begin(),v.end(),cmp);
+        for ( int i = 0 ; i < v.size() ; i++ ){
+            std::cout<<v[i].first<<" "<<v[i].second;
+            std::cout<<std::endl;
+    }
+        return 0;
+    }
