@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+using namespace std;
+    int p[] = {2,3,5,7,11,13,17,19,23,29};
+    int n,res,temp;
+    // i: vi tri cua thua so nguyen to, ali: so luong uoc, temp: so tao thanh tu cac uoc o ali 
+    void Try( int i, int ali, int temp ){
+        std::cout<<i<<" "<<ali<<" "<<temp<<std::endl;
+        if ( ali > n ) return;
+        if ( ali == n ){
+            res = min(res,temp);
+        }
+        for ( int j = 1 ; ; j++ ){
+            if (temp*p[i] > res) break;
+            temp *= p[i];
+            Try(i+1, ali*(j+1), temp);
+        }
+    }
+        int main(){
+            std::cin>>n;
+            res = 1e9 + 7;
+            Try(0,1,1);
+            std::cout<<res;
+            return 0;
+        }
