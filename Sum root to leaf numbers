@@ -1,13 +1,17 @@
 #include<bits/stdc++.h>
+const int MAXN = 1005;
 using namespace std;
     struct node{
+        int id;
         int data;
         node *left;
         node *right;
     };
     node *tmp;
+    int parent[MAXN];
     void findnode ( node *t, int x ){
-        if ( t->data == x ) {
+        if ( t != NULL ){
+        if ( t->id == x ) {
             tmp = t;
             return;
         }
@@ -15,10 +19,13 @@ using namespace std;
             findnode(t->left,x);
             findnode(t->right,x);
         }
+        }
     }
-    node *insert ( node *t,int u, int key, int x ){
+    int dulieu[MAXN];
+    node *insert ( node *t,int u, int code,int i, int x ){
         if ( t == NULL ){
             node *temp = new node;
+            temp->id = i;
             temp->data = x;
             temp->left = NULL;
             temp->right = NULL;
@@ -26,19 +33,28 @@ using namespace std;
         }
         else {
             node *q = t;
-            findnode(q,key);
+            findnode(q,code);
             node *temp = new node;
+            temp->id = i;
             temp->data = x;
             temp->left = temp->right = NULL;
             if (u) tmp->right = temp;
             else tmp->left = temp;
+            parent[i] = code;
         }
         return t;
     }
-   
+    std::vector<int>res;
+    bool IsLeafNode ( node *t ){
+        return ((t->left == NULL) && (t->right == NULL));
+        
+    }
     void PreOrder( node *t ){
         if ( t != NULL ){
-            std::cout<<t->data<<" ";
+        //    std::cout<<t->data<<" ";
+            if (IsLeafNode(t)){
+                res.push_back(t->id);
+            } 
             PreOrder(t->left);
             PreOrder(t->right);
         }
@@ -57,20 +73,36 @@ using namespace std;
             std::cout<<t->data<<" ";
         }
     }
+    
     int main(){
         int n;
         std::cin>>n;
         int A[1001];
-        for ( int i = 1 ; i <= n ; i++ ){
-            std::cin>>A[i];
-        }
+        std::cin>>A[1];
         node *t = new node;
         t->data = A[1];
+        t->id = 1;
+        dulieu[1] = A[1];
         t->left = t->right = NULL;
         for ( int i = 2 ; i <= n ; i++ ){
-            t = insert(t, i % 2, A[i/2], A[i]);
+            std::cin>>A[i];
+            dulieu[i] = A[i];
+            t = insert(t, i % 2, i/2, i , A[i]);
         }
-        InOrder(t);
+        PreOrder(t);
+        int sum = 0;
+
+        for ( int i = 0 ; i < res.size() ; i++ ){
+            string s;
+            while ( res[i] != 1 ){
+                s = std::to_string(dulieu[res[i]]) + s;
+                res[i] = parent[res[i]];
+            }
+            s = to_string(A[1]) + s;
+            sum += std::stoi(s);
+
+        }
+        std::cout<<sum;
         return 0;
     }
     
