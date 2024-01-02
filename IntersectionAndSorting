@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+const int MAXN = 101;
+using namespace std;
+    void solve(){
+        int n,m,A[MAXN],B[MAXN];
+        std::cin>>n>>m;
+        set<int>se;
+        map<int,int>mp;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+            se.insert(A[i]);
+            mp[A[i]]++;
+        }
+        for ( int i = 1 ; i <= m ; i++ ){
+            std::cin>>B[i];
+            se.insert(B[i]);
+            mp[B[i]]++;
+        }
+        
+        for ( auto x : se ){
+		cout<< x << " ";
+	}
+	    std::cout<<std::endl;
+	    for ( auto it : mp ){
+	        if ( mp[it.first] == 2 ) std::cout<<it.first<<" ";
+	    }
+        }
+    
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+        }
+        return 0;
+    }
