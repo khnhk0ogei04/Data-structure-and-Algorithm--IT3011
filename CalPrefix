@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+    int cal ( int a, int b, char s ){
+        if ( s == '+' ) return a + b;
+        if ( s == '-' ) return a - b;
+        if ( s == '*' ) return a * b;
+        if ( s == '/' ) {
+            if (b) return a / b;
+    }
+    }
+    void solve(){
+        std::string s;
+        std::cin>>s;
+        std::stack<int>st;
+        for ( int i = s.length() - 1 ; i >= 0 ; i-- ){
+            if ( s[i] >= '0' && s[i] <= '9' ){
+                st.push(s[i]-'0');
+            }
+            else {
+                int o1 = st.top(); st.pop();
+                int o2 = st.top(); st.pop();
+                st.push(cal(o1,o2,s[i]));
+                
+            }
+        }
+        std::cout<<st.top()<<std::endl;
+        st.pop();
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+        }
+        return 0;
+    }
