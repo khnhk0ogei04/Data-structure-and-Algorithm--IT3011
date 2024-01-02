@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int MAXN = 5e4 + 5;
+    std::vector<int>adj[MAXN];
+    int cnt[MAXN];
+    int len[MAXN];
+    std::map<pair<int,int>,bool>mp;
+    int n,m,s;
+    void solve(){
+        std::cin>>n>>m>>s;
+        for ( int i = 1 ; i <= m ; i++ ){
+            int u,v;
+            std::cin>>u>>v;
+            if (mp[{u,v}]) continue;
+            mp[{u,v}] = true;
+            adj[u].push_back(v);
+        }
+    cnt[s] = 1;
+    len[s] = 0;
+    std::queue<int>q;
+    q.push(s);
+    while (!q.empty()){
+        int u = q.front(); q.pop();
+        for ( int v : adj[u] ){
+            if (cnt[v] == 0){
+                len[v] = len[u] + 1;
+                cnt[v] = cnt[u];
+                q.push(v);
+            }
+            else {
+            if  (len[v] == len[u] + 1) {
+                if (cnt[v] == 1 ) cnt[v] = 2;
+            }
+                
+            }
+        }
+    }
+    int res = 0;
+    for ( int i = 1 ; i <= n ; i++ ){
+        if (cnt[i] == 2) res++;
+    }
+    std::cout<<res;
+    }
+    int main(){
+        solve();
+        return 0;
+    }
+    /* 6 11 1
+1 5
+1 5
+5 6
+1 2
+5 4
+2 4
+4 3
+5 4
+5 2
+3 2
+6 5 */
