@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+    void solve(){
+        std::string s;
+        std::cin>>s;
+        s = ' ' + s;
+        std::stack<int>st;
+        for ( int i = 1 ; i <= s.length() ; i++ ){
+            if ( s[i] == 'D' ) st.push(i);
+            else {
+                std::cout<<i;
+                while (!st.empty()){
+                    std::cout<<st.top();
+                    st.pop();
+                }
+            }
+        }
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+        }
+        return 0;
+    }
