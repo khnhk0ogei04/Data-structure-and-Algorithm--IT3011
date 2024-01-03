@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 5;
+const int inf = 1e9 + 7;
+using namespace std;
+    void solve(){
+        int s,t;
+        std::cin>>s>>t;
+        std::queue<int>q;
+        q.push(s);
+        int d[MAXN] = {0};
+        std::fill(d,d+MAXN,inf); 
+        d[s] = 0;
+        while (d[t] == inf){
+            int temp = q.front();
+            q.pop();
+       //     std::cout<<d[t]<<" ";
+            if ( temp - 1 > 0 && d[temp-1] == inf ){
+                d[temp-1] = d[temp] + 1;
+                q.push(temp-1);
+            }
+            if ( temp * 2 < 20000 && d[temp*2] == inf ){
+                d[temp*2] = d[temp] + 1;
+                q.push(temp*2);
+            }
+        }
+        std::cout<<d[t]<<std::endl;
+    }
+    int main(){
+        int k;
+        std::cin>>k;
+        while (k--) {
+            solve();
+        }
+        return 0;
+    }
