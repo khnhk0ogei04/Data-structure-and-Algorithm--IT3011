@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+#define ll long long
+// using namespace std;
+
+    void solve(){
+    	int n;
+    	std::cin>>n;
+        std::string s;
+        std::cin>>s;
+        int dem[27];
+        std::memset(dem,0,sizeof(dem));
+        for ( int i = 0 ; i < s.length() ; i++ ){
+            dem[s[i]-'A']++;
+        }
+        std::priority_queue<int, std::vector<int>, std::less<int>>pq;
+        for ( int i = 0 ; i < 27 ; i++ ){
+            if (dem[i]) pq.push(dem[i]);
+        }
+        int sum = 0;
+        while (!pq.empty()){
+            int u = pq.top();
+            if (n){
+                pq.pop();
+                pq.push(u-1);
+                n--;
+            }
+            else {
+                sum += pq.top()*pq.top();
+                pq.pop();
+            }
+        }
+        std::cout<<sum<<std::endl;  
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+        }
+        return 0;
+    }
