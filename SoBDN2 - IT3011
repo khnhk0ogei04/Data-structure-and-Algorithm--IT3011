@@ -1,0 +1,25 @@
+#include<bits/stdc++.h>
+using namespace std;
+    void solve(){
+        int n;
+        std::cin>>n;
+        std::queue<int>q;
+        q.push(1);
+        while (!q.empty()){
+            int u = q.front() ; q.pop();
+            if ( u % n == 0 ) {
+                std::cout<<u<<std::endl;
+                break;
+            }
+            q.push(u*10);
+            q.push(u*10+1);
+        }
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+        }
+        return 0;
+    }
