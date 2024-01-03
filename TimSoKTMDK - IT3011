@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+const int MAXN = 1e3 + 5;
+const int inf = 1e9 + 7;
+using namespace std;
+    bool check ( int n ){
+        std::vector<int>v;
+        while (n){
+            int temp = n % 10;
+            n /= 10;
+            if (temp > 5) return false;
+            v.push_back(temp);
+        }
+        std::sort(v.begin(),v.end());
+        for ( int i = 0 ; i < v[v.size() - 1] ; i++ ){
+            if ( v[i] == v[i+1] ) return false;
+        }
+        return true;
+
+    
+    }
+    void solve(){
+        int a,b;
+        std::cin>>a>>b;
+        int res = 0;
+        for ( int i = a ; i <= b ; i++ ){
+            if (check(i)) 
+                res++;
+        }
+        std::cout<<res;
+    }
+    int main(){
+        int k;
+        std::cin>>k;
+        while (k--) {
+            solve();
+            std::cout<<std::endl;
+        }
+        return 0;
+    }
