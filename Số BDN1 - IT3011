@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+
+    void solve(){
+        ll n;
+        std::cin>>n;
+        std::queue<int>q;
+        q.push(1);
+        int res = 0;
+            while (!q.empty()){
+                int u = q.front(); q.pop();
+                if ( u <= n ) {
+                    res++;
+                }
+                else break;
+                q.push(u*10);
+                q.push(u*10+1);
+            }
+            std::cout<<res;
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+            std::cout<<std::endl;
+        }
+        return 0;
+    }
