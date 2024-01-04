@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+using namespace std;
+int n;
+    string p;
+    struct node{
+        char data;
+        node *left;
+        node *right;
+    };
+    bool isOp( char s ){
+        if ( s == '+' || s == '-' || s == '*' || s == '/' )
+        return true;
+        else return false;
+    }
+    node *newNode ( char s ){
+        node *temp = new node;
+        temp->data = s;
+        temp->left = NULL;
+        temp->right = NULL;
+        return temp;
+    }
+    void InOrder(node *t){
+        if (t != NULL){
+            InOrder(t->left);
+            std::cout<<t->data<<" ";
+            InOrder(t->right);
+        }
+    }
+    void solve(){
+        std::cin>>p;
+        std::stack<node*>st;
+        node *t,*t1,*t2;
+        for ( int i = 0 ; i < p.length() ; i++ ){
+            if (!isOp(p[i])){
+                t = newNode(p[i]);
+                st.push(t);
+            }
+            else {
+                t = newNode(p[i]);
+                if (!st.empty()){
+                    t1 = st.top();
+                    st.pop();
+                }
+                if (!st.empty()){
+                    t2 = st.top();
+                    st.pop();
+                }
+                t->left = t2;
+                t->right = t1;
+                st.push(t);
+            }
+        }
+        node *temp = st.top();
+        st.pop();
+        InOrder(temp);
+    }
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+            solve();
+            std::cout<<std::endl;
+            
+        }
+        return 0;
+    }
+    
