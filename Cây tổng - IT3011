@@ -1,0 +1,97 @@
+#include<bits/stdc++.h>
+using namespace std;
+    int n;
+    struct node{
+        int data;
+        node *left;
+        node *right;
+    };
+    node *a;
+    void findnode ( node *t , int val ){
+        if ( t != NULL ){
+            if ( t->data == val ) a  =  t;
+        
+        else {
+            findnode(t->left,val);
+            findnode(t->right,val);
+        }
+    }
+    }
+    node *insert ( node *t, int x, int y, char s ){
+        if ( t != NULL ){
+            node *temp = new node;
+            temp->data = y;
+            temp->left = temp->right = NULL;
+            findnode(t,x);
+            if ( s == 'L' ) a->left = temp;
+            else a->right = temp;
+        }
+        return t;
+    }
+    bool IsLeafNode ( node *t ){
+        return (t->left == NULL && t->right == NULL);
+    }
+    int sumofchildnode( node *t ){
+        if ( t == NULL ) return 0;
+        if (!IsLeafNode(t)){
+        if ( t->left == NULL || t->right == NULL ) return 0;
+        return t->left->data + sumofchildnode(t->left) + t->right->data + sumofchildnode(t->right);
+    }
+    }
+    bool check ( node *t ){
+        if ( t->data != sumofchildnode(t) ) return false;
+        return true;
+    }
+    int ok = 1;
+    void PreOrder( node *t ){
+        if (t != NULL) {
+        //    std::cout<<t->data<<" ";
+            if(!check(t) && !IsLeafNode(t)) ok = 0;
+            PreOrder(t->left);
+            PreOrder(t->right);
+        }
+    }
+    void InOrder( node *t ){
+        if (t != NULL) {
+            InOrder(t->left);
+            std::cout<<t->data<<" ";
+            InOrder(t->right);
+        }
+    }
+    void PostOrder( node *t ){
+        if (t != NULL) {
+            PostOrder(t->left);
+            PostOrder(t->right);
+            std::cout<<t->data<<" ";
+        }
+    }
+
+    vector<int>res;
+    int main(){
+        
+            std::cin>>n;
+            int x,y;
+            char s;
+            std::cin>>x>>y>>s;
+            node *t = new node;
+            node *temp = new node;
+            t->data = x;
+            t->left = t->right = NULL;
+            temp->data = y;
+            temp->left = temp->right = NULL;
+            if ( s == 'L' ) t->left = temp;
+            else if ( s == 'R' ) t->right = temp;
+            for ( int i = 2 ; i <= n ; i++ ){
+                int u,v;
+                char w;
+                std::cin>>u>>v>>w;
+                t = insert(t,u,v,w);
+            }
+            PreOrder(t);
+    //        std::cout<<sumofchildnode(t);
+            if (ok) std::cout<<"1";
+            else std::cout<<"0";
+        
+            return 0;
+    }
+    
