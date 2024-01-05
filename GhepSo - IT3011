@@ -1,0 +1,28 @@
+#include<bits/stdc++.h>
+//using namespace std;
+
+    bool cmp( std::string a, std::string b ){
+        std::string u = a + b;
+        std::string v = b + a;
+        return u > v;
+    }
+    
+    int main(){
+        int t;
+        std::cin>>t;
+        while (t--){
+        std::string s;
+        int n;
+        std::string A[1001];
+        std::cin>>n;
+        for ( int i = 1 ; i <= n ; i++ ){
+            std::cin>>A[i];
+        }
+        std::sort(A+1,A+n+1,cmp);
+        for ( int i = 1 ; i <= n ; i++ ){
+            s += A[i];
+        }
+        std::cout<<s<<std::endl;
+        }
+        return 0;
+    }
