@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+const int MAXN = 1005;
+using namespace std;
+    int n,m,s;
+    std::vector<int>adj[MAXN];
+    bool visited[MAXN];
+    std::vector<int>save;
+    void inp(){
+        std::cin>>n>>m>>s;
+        for ( int i = 1 ; i <= m ; i++ ){
+            int u,v;
+            std::cin>>u>>v;
+            adj[u].push_back(v);
+        }
+    }
+    int cnt;
+    void dfs( int u, int v ){
+        visited[u] = true;
+        if ( u == v ){
+            cnt++;
+            if ( cnt == 2 ) save.push_back(v);
+            return;
+        }
+  //      std::cout<<u<<" "<<v<<" "<<cnt<<std::endl;
+        for ( int j : adj[u] ){
+            if (!visited[j]){
+                dfs(j,v);
+                visited[j] = false;
+            }
+        }
+    }
+    int main(){
+        inp();
+        int res = 0;
+        for ( int i = 1 ; i <= n ; i++ ){
+            if ( i != s ){
+            cnt = 0;
+            std::memset(visited,false,sizeof(visited));
+            dfs(s,i);
+            if (cnt >= 2) res++;
+        }
+    }
+    if (!save.size()) std::cout<<"0";
+    else{
+    for ( auto x : save ) std::cout<<x<<" ";
+    }
+    return 0;
+    }
