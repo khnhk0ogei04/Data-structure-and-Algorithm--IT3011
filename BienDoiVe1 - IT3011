@@ -1,0 +1,37 @@
+#include<bits/stdc++.h> 
+const int MAXN = 1005;
+using namespace std;
+    int X[MAXN],n;
+    bool used[MAXN];
+    int bfs(){
+        std::cin>>n;
+        std::memset(used,false,sizeof(used));
+        std::queue<std::pair<int,int>>q;
+        q.push({n,0});
+        used[n] = true;
+        while (!q.empty()){
+            auto it = q.front(); q.pop();
+            int u = it.first, cnt = it.second;
+            if ( u == 1 ) return cnt;
+            if ( u - 1 >= 1 && used[u-1] == false ){
+                q.push({u-1,cnt + 1});
+          //      used[u-1] = true;
+            }
+            for ( int i = 2 ; i <= sqrt(u) ; i++ ){
+                if ( u % i == 0 && !used[u/i] ){
+                    q.push({u/i, cnt + 1});
+           //         used[u/i] = true;
+                }
+            }
+        }
+        return -1;
+    }
+    int main(){
+    	int t;
+    	std::cin>>t;
+    	while (t--){
+        std::cout<<bfs();
+        std::cout<<std::endl;
+    	}
+        return 0;
+    }
