@@ -1,0 +1,41 @@
+#include<bits/stdc++.h> 
+const int MAXN = 1005;
+using namespace std;
+    int X[MAXN],n;
+    bool used[MAXN];
+    int cnt;
+    void Try ( int i ){
+        for ( int j = 0 ; j <= 9 ; j++ ){
+            if ( i == 1 || i == 3 ){
+                if (j == 0) continue;
+            }
+            if ( i == 8 ){
+                if (1000*X[1] + 100*X[2] + 10010*X[3] + 2*X[4] + 1000*X[5] + 100*X[6] + 10*X[7] == n ){
+                    cnt++;
+                }
+                return;
+                }
+            if (!used[j]){
+                used[j] = 1;
+                X[i] = j;
+                Try(i+1);
+                used[j] = 0;
+            }
+        }
+    }
+    void solve(){
+        cnt = 0;
+        std::cin>>n;
+        memset(used,false,sizeof(used));
+        Try(1);
+        std::cout<<cnt;
+    }
+    int main(){
+    	int t;
+    	std::cin>>t;
+    	while (t--){
+        solve();
+        std::cout<<std::endl;
+    	}
+        return 0;
+    }
