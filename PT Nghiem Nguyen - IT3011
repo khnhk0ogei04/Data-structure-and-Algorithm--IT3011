@@ -1,0 +1,22 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+    int X[5],cnt = 0;
+    void Try ( int i ){
+        for ( int j = 1 ; j <= 24 ; j++ ){
+            X[i] = j;
+        if ( i == 4 ){
+            if ( 1 <= X[1] && X[1] <= 5 && 2*X[1] + 3*X[2] + 5*X[3] == 48 ) {
+                cnt++;
+                printf("%d %d %d\n",X[1],X[2],X[3]);
+            }
+            return;
+        }
+        else Try(i+1);
+        }
+    }
+    int main(){
+        Try(1);
+        printf("%d ",cnt);
+        return 0;
+    }
